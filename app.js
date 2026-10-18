@@ -24,7 +24,7 @@ const PLANS = {
   office: { name: 'Office plan', price: 555, reps: 30 }
 };
 const IND = [
-  { id: 'fiber', label: 'Fiber and telecom', tag: 'Door to door', img: './assets/door.webp', alt: 'Door to door sales rep walking up a driveway at sunset', word: 'door',
+  { id: 'fiber', val: 150, one: 'sale', place: 'street', label: 'Fiber and telecom', tag: 'Door to door', img: './assets/door.webp', alt: 'Door to door sales rep walking up a driveway at sunset', word: 'door',
     title: 'Door to door fiber, internet and wireless',
     lede: 'Built first for fiber door to door teams, where every rep is fighting the same three objections on every street.',
     st: [['D', 'Decision maker reached', 'Reached'], ['P', 'Pitch given', 'Pitched'], ['C', 'Close asked', 'Asked'], ['S', 'Sale', 'Sold']],
@@ -32,7 +32,7 @@ const IND = [
     obj: 'We already have internet.',
     air: 'Acknowledge it, then isolate: "If the speed and the price were both better, is there anything else that would keep you from switching today?"',
     list: ['Speed test logging at the door', 'Callback reminders with a walking distance warning', 'Standards per campaign and offer'] },
-  { id: 'retail', label: 'Retail events and roadshows', tag: 'Retail events', img: './assets/retail.webp', alt: 'Sales rep greeting a shopper at a promotional table in a warehouse store', word: 'table',
+  { id: 'retail', val: 100, one: 'sign up', place: 'table', label: 'Retail events and roadshows', tag: 'Retail events', img: './assets/retail.webp', alt: 'Sales rep greeting a shopper at a promotional table in a warehouse store', word: 'table',
     title: 'Warehouse clubs, kiosks and in store roadshows',
     lede: 'For booth and event teams in big box and warehouse stores, the kind of campaigns run by face to face marketing offices.',
     st: [['T', 'Table stop', 'Stopped'], ['P', 'Pitch given', 'Pitched'], ['C', 'Close asked', 'Asked'], ['S', 'Sign up', 'Signed']],
@@ -40,7 +40,7 @@ const IND = [
     obj: 'I am just shopping today.',
     air: 'Use 15 and 5 to open, then Turn and Return: "Totally fair. Before you go, are you paying more than $80 a month right now?"',
     list: ['15 and 5 engagement and Turn and Return', 'S.E.E. factors and Talk to Everyone drills', 'Shift and location reports for each event'] },
-  { id: 'solar', label: 'Solar', tag: 'Solar', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'roof',
+  { id: 'solar', val: 250, one: 'appointment', place: 'street', label: 'Solar', tag: 'Solar', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'roof',
     title: 'Residential solar setters and closers',
     lede: 'Track the setter funnel at the door and the closer funnel at the kitchen table, on one board.',
     st: [['H', 'Homeowner reached', 'Reached'], ['B', 'Bill reviewed', 'Bill seen'], ['A', 'Appointment asked', 'Asked'], ['S', 'Appointment set', 'Set']],
@@ -48,7 +48,7 @@ const IND = [
     obj: 'We are not interested in solar.',
     air: 'Acknowledge, then isolate the real worry: "Most people say that until they see the bill comparison. Is it the cost, or the roof?"',
     list: ['Setter and closer stages on one board', 'Appointment callbacks', 'Bill objection drills'] },
-  { id: 'pest', label: 'Pest control', tag: 'Pest control', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'yard',
+  { id: 'pest', val: 200, one: 'service sale', place: 'street', label: 'Pest control', tag: 'Pest control', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'yard',
     title: 'Summer pest and lawn sales teams',
     lede: 'Long days, fast doors and a lot of new reps. The board keeps rookies improving every single week.',
     st: [['H', 'Homeowner reached', 'Reached'], ['P', 'Service pitch', 'Pitched'], ['C', 'Close asked', 'Asked'], ['S', 'Service sold', 'Sold']],
@@ -56,7 +56,7 @@ const IND = [
     obj: 'We already have a guy.',
     air: 'Feel, Felt, Found: "I get it. A lot of neighbors felt the same, and what they found was a gap in what the other guy covers."',
     list: ['Rookie development tracking', 'Neighbor referral notes', 'Daily goals and income pace'] },
-  { id: 'roof', label: 'Roofing', tag: 'Roofing', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'house',
+  { id: 'roof', val: 300, one: 'inspection', place: 'street', label: 'Roofing', tag: 'Roofing', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'house',
     title: 'Storm and retail roofing canvassers',
     lede: 'Turn canvass days into inspections, and inspections into signed jobs, with every step on the record.',
     st: [['H', 'Homeowner reached', 'Reached'], ['D', 'Damage pointed out', 'Damage'], ['I', 'Inspection asked', 'Asked'], ['S', 'Inspection set', 'Set']],
@@ -64,7 +64,7 @@ const IND = [
     obj: 'My roof is fine.',
     air: 'Acknowledge, then isolate: "Most roofs look fine from the ground. Would a free photo check of yours be worth ten minutes?"',
     list: ['Inspection callbacks', 'Storm area notes', 'Canvass to close reporting'] },
-  { id: 'security', label: 'Home security', tag: 'Home security', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'street',
+  { id: 'security', val: 250, one: 'install', place: 'street', label: 'Home security', tag: 'Home security', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'street',
     title: 'Home security and smart home teams',
     lede: 'Coaching built for a trust sale, where the first ten seconds decide everything.',
     st: [['H', 'Homeowner reached', 'Reached'], ['P', 'Safety pitch', 'Pitched'], ['C', 'Close asked', 'Asked'], ['I', 'Install booked', 'Booked']],
@@ -206,7 +206,7 @@ showInd('fiber', true);
 const demoSel = $('#demoInd');
 demoSel.innerHTML = IND.map(x => `<option value="${x.id}">${x.label}</option>`).join('');
 function setIndustry(id, from) {
-  const x = IND.find(i => i.id === id); if (!x) return; CUR = x;
+  const x = IND.find(i => i.id === id); if (!x) return; CUR = x; queueMicrotask(paintWhy);
   buildPhone(hc, hf, x.st); paint(hc, hf, hv);
   buildPhone(dc, dfun, x.st, (i) => { bump(dv, i); $$('[data-pat]').forEach(b => b.setAttribute('aria-pressed', 'false')); demoUpdate(i); });
   demoUpdate();
@@ -385,4 +385,20 @@ function drawChart(daily) {
 $('#oRefresh').addEventListener('click', () => PASS && loadOwner());
 $('#oClose').addEventListener('click', e => { e.preventDefault(); history.pushState('', '', location.pathname); route(); });
 addEventListener('hashchange', route); route();
+/* why it pays, follows the chosen industry */
+function paintWhy() {
+  const x = CUR, cost = 333, reps = 10, need = Math.ceil(cost / x.val), gain = reps * x.val;
+  const t = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  t('whyBreak', need); t('whyNeed', need); t('whyVal', money(x.val)); t('whyGain', money(gain));
+  t('whyNot', `Not ${need} per rep. ${need} total, across everyone.`); t('whyX', (gain / cost).toFixed(1) + 'x'); t('whyPlace', x.place);
+  t('whyInd', `Example: ${x.label.toLowerCase()} office, 10 reps`);
+  t('whyUnit1', x.one); t('whyUnitH', need === 1 ? x.one : x.unit); t('whyUnit3', x.one); t('whyUnit2', need === 1 ? x.one : x.unit);
+  $$('.whyNext').forEach(e => e.textContent = x.next);
+  const bc = $('#whyBarCost'), bg = $('#whyBarGain');
+  if (bc && whySeen) { bc.style.width = (cost / gain * 100) + '%'; bg.style.width = (100 - cost / gain * 100) + '%'; }
+}
+let whySeen = false;
+new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { whySeen = true; paintWhy(); o.disconnect(); } }), { threshold: .3 }).observe($('.why-math'));
+paintWhy();
+
 })();
