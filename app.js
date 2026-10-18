@@ -20,8 +20,8 @@ const track = (kind, extra = {}) => rpc('growth_track', { p_kind: kind, p_indust
 
 /* ---------- data ---------- */
 const PLANS = {
-  crew: { name: 'Crew plan', price: 333, reps: 10 },
-  office: { name: 'Office plan', price: 755, reps: 30 }
+  crew: { name: 'Crew plan', price: 299, reps: 10 },
+  office: { name: 'Office plan', price: 699, reps: 30 }
 };
 const IND = [
   { id: 'fiber', val: 150, one: 'sale', place: 'street', label: 'Fiber and telecom', tag: 'Door to door', img: './assets/door.webp', alt: 'Door to door sales rep walking up a driveway at sunset', word: 'door',
@@ -206,7 +206,7 @@ showInd('fiber', true);
 const demoSel = $('#demoInd');
 demoSel.innerHTML = IND.map(x => `<option value="${x.id}">${x.label}</option>`).join('');
 function setIndustry(id, from) {
-  const x = IND.find(i => i.id === id); if (!x) return; CUR = x; queueMicrotask(paintWhy);
+  const x = IND.find(i => i.id === id); if (!x) return; CUR = x; queueMicrotask(() => { paintWhy(); if (typeof lvRefresh === 'function') lvRefresh(); });
   buildPhone(hc, hf, x.st); paint(hc, hf, hv);
   buildPhone(dc, dfun, x.st, (i) => { bump(dv, i); $$('[data-pat]').forEach(b => b.setAttribute('aria-pressed', 'false')); demoUpdate(i); });
   demoUpdate();
@@ -255,7 +255,7 @@ function roi() {
   const reps = +$('#rReps').value, lift = +$('#rLift').value, val = +$('#rVal').value;
   $('#oReps').textContent = reps; $('#oLift').textContent = lift; $('#oVal').textContent = money(val);
   const gain = reps * lift * val;
-  const plan = reps <= 10 ? ['Crew', 333] : reps <= 30 ? ['Office', 755] : ['Network', null];
+  const plan = reps <= 10 ? ['Crew', 299] : reps <= 30 ? ['Office', 699] : ['Network', null];
   $('#roiBig').textContent = money(gain);
   $('#roiPlan').textContent = plan[0];
   $('#roiCost').textContent = plan[1] ? money(plan[1]) : 'Custom';
@@ -387,7 +387,7 @@ $('#oClose').addEventListener('click', e => { e.preventDefault(); history.pushSt
 addEventListener('hashchange', route); route();
 /* why it pays, follows the chosen industry */
 function paintWhy() {
-  const x = CUR, cost = 333, reps = 10, need = Math.ceil(cost / x.val), gain = reps * x.val;
+  const x = CUR, cost = 299, reps = 10, need = Math.ceil(cost / x.val), gain = reps * x.val;
   const t = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
   t('whyBreak', need); t('whyNeed', need); t('whyVal', money(x.val)); t('whyGain', money(gain));
   t('whyNot', `Not ${need} per rep. ${need} total, across everyone.`); t('whyX', (gain / cost).toFixed(1) + 'x'); t('whyPlace', x.place);
@@ -401,5 +401,54 @@ function paintWhy() {
 let whySeen = false;
 new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { whySeen = true; paintWhy(); o.disconnect(); } }), { threshold: .3 }).observe($('.why-math'));
 paintWhy();
+
+
+/* live example: one rep's week, owner's month */
+const LV_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+const LV = [[40, 12, 8, 1], [38, 21, 9, 1], [41, 22, 15, 2], [39, 23, 15, 2], [42, 24, 16, 3]];
+const lvText = (d, x) => [
+  `Pace. She is losing people before the pitch: 12 pitches from 40 stops. Slow the first ten seconds and lead with why she is ${x.where}.`,
+  `Pitches nearly doubled, 12 to 21. New leak: she is not asking. After every pitch, ${x.ask} once, then stop talking.`,
+  `She is asking every time now. Next: when they say "${x.obj.replace(/\.$/, '')}," use A.I.R. before asking again.`,
+  'Same pace. Her funnel is healthy at every step. Keep logging callbacks.',
+  `Strong week. 9 ${x.unit} against 5 last week, with the same hours.`][d];
+const EXTRA_DAYS = [3, 6, 9, 12, 15, 17, 20, 23, 26, 29];
+let lvTimers = [];
+function lvClear() { lvTimers.forEach(clearTimeout); lvTimers = []; }
+function lvShowDay(d) {
+  const x = CUR, v = LV[d];
+  $('#lvDays').innerHTML = LV_DAYS.map((n, i) => `<button type="button" role="tab" aria-selected="${i === d}" data-d="${i}">${n}</button>`).join('');
+  $$('#lvDays button').forEach(b => b.addEventListener('click', () => { lvClear(); lvShowDay(+b.dataset.d); }));
+  $('#lvDay').textContent = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'][d];
+  $('#lvCtr').innerHTML = x.st.map((s, i) => `<div><b>${s[0]}</b><strong>${v[i]}</strong><small>${s[2]}</small></div>`).join('');
+  if (!$('#lvFun').children.length || $('#lvFun').dataset.ind !== x.id) { $('#lvFun').innerHTML = x.st.map(s => `<div class="frow"><span>${s[2]}</span><div class="fbar"><i></i></div><em>0</em></div>`).join(''); $('#lvFun').dataset.ind = x.id; }
+  requestAnimationFrame(() => $$('#lvFun .frow').forEach((r, i) => { $('i', r).style.width = (v[i] / 42 * 100) + '%'; $('em', r).textContent = v[i]; }));
+  const c = $('#lvCoach'); c.style.opacity = 0; setTimeout(() => { c.textContent = lvText(d, x); c.style.opacity = 1; }, 150);
+  $('#lvSales').textContent = LV.slice(0, d + 1).reduce((a, r) => a + r[3], 0);
+}
+function lvOwner(day) {
+  const x = CUR, cost = 699, n = EXTRA_DAYS.filter(e => e <= day).length, total = EXTRA_DAYS.length * x.val, max = Math.max(total, cost) * 1.1;
+  if (!$('#lvBars').children.length) $('#lvBars').innerHTML = Array.from({ length: 30 }, () => '<i></i>').join('');
+  $('#lvCostLine').style.bottom = (6 + (cost / max) * 134) + 'px';
+  const need = Math.ceil(cost / x.val), paidDay = EXTRA_DAYS[need - 1];
+  $$('#lvBars i').forEach((b, i) => { const dd = i + 1; if (dd > day) { b.style.height = '0'; b.className = ''; return; }
+    const cum = EXTRA_DAYS.filter(e => e <= dd).length * x.val; b.style.height = Math.max(2, cum / max * 100) + '%'; b.className = paidDay && dd >= paidDay ? 'paid' : 'on'; });
+  $('#lvDate').textContent = 'Day ' + day;
+  $('#lvMoney').textContent = money(n * x.val);
+  $('#lvExtra').textContent = `${n} extra ${n === 1 ? x.one : x.unit} so far, at ${money(x.val)} each`;
+  const p = $('#lvPaid');
+  if (paidDay && day >= paidDay) { p.textContent = `Plan paid for on day ${paidDay}. Everything after that is profit.`; p.classList.add('hit'); }
+  else { p.textContent = 'Watching for the day it pays for itself...'; p.classList.remove('hit'); }
+}
+function lvPlay() {
+  lvClear();
+  if (reduce) { lvShowDay(4); lvOwner(30); return; }
+  LV.forEach((_, d) => lvTimers.push(setTimeout(() => lvShowDay(d), d * 2600)));
+  for (let day = 1; day <= 30; day++) lvTimers.push(setTimeout(() => lvOwner(day), day * 430));
+}
+$('#liveReplay').addEventListener('click', lvPlay);
+var lvRefresh = () => { const d = LV_DAYS.indexOf(($('#lvDays button[aria-selected=true]') || {}).textContent); lvShowDay(d < 0 ? 0 : d); lvOwner(+($('#lvDate').textContent.replace(/\D/g, '')) || 0); };
+lvShowDay(0); lvOwner(0);
+new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { lvPlay(); o.disconnect(); } }), { threshold: .35 }).observe($('.lvx'));
 
 })();

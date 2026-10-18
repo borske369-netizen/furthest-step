@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./base.css">
-<link rel="stylesheet" href="./style.css?v=9">
+<link rel="stylesheet" href="./style.css?v=13">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317150F'/%3E%3Cpath d='M9 8v16M14 8v16M19 8v16' stroke='%23F3EFE6' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M6 21L25 11' stroke='%23F26A1B' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -19,7 +19,7 @@
     <nav class="nav" aria-label="Main">
       <a href="#how">How it works</a>
       <a href="#industries">Industries</a>
-      <a href="#coaching">Coaching</a>
+      <a href="#versus">Why us</a>
       <a href="#why">Why it pays</a>
       <a href="#pricing">Pricing</a>
       <a href="#questions">Questions</a>
@@ -265,22 +265,45 @@
     <div class="sec-head">
       <p class="eyebrow rv">Why it makes sense</p>
       <h2 class="rv d1">It costs about <span id="whyBreak">3</span> <span id="whyUnitH">sales</span> a month. For your whole team.</h2>
-      <p class="lede rv d2"><span id="whyNot">Not three sales per rep. Three total, across everyone.</span> Everything after that is profit you were already leaving on the <span id="whyPlace">street</span>.</p>
+      <p class="lede rv d2"><span id="whyNot">Not two sales per rep. Two total, across everyone.</span> Everything after that is profit you were already leaving on the <span id="whyPlace">street</span>.</p>
     </div>
     <div class="why-math rv">
       <div class="wm-head"><span class="eyebrow" id="whyInd">Example: fiber office, 10 reps</span><span class="wm-note">Example numbers. Put in your own in the calculator below.</span></div>
       <div class="wm-row">
-        <div class="wm"><small>Crew plan</small><b>$333</b><span>per month</span></div>
+        <div class="wm"><small>Crew plan</small><b>$299</b><span>per month</span></div>
         <div class="wm op">&divide;</div>
         <div class="wm"><small>What one <span id="whyUnit1">sale</span> is worth</small><b id="whyVal">$150</b><span>to the office</span></div>
         <div class="wm op">=</div>
         <div class="wm hl"><small>To break even</small><b id="whyNeed">3</b><span><span id="whyUnit2">sales</span> a month, team wide</span></div>
       </div>
       <div class="wm-bar" aria-hidden="true"><i id="whyBarCost"></i><i id="whyBarGain"></i></div>
-      <p class="wm-foot">If each rep gets just <b>one</b> more <span id="whyUnit3">sale</span> a month, that is <b id="whyGain">$1,500</b> back for <b>$333</b>. That is <b id="whyX">4.5x</b>.</p>
+      <p class="wm-foot">If each rep gets just <b>one</b> more <span id="whyUnit3">sale</span> a month, that is <b id="whyGain">$1,500</b> back for <b>$299</b>. That is <b id="whyX">4.5x</b>.</p>
+    </div>
+    <div class="lvx rv">
+      <div class="live-head">
+        <div><p class="eyebrow">See it play out</p><h3>One rep's week, and the owner's month.</h3></div>
+        <button type="button" class="btn btn-ghost" id="liveReplay">Replay</button>
+      </div>
+      <div class="live-grid">
+        <div class="lv-rep">
+          <div class="lv-top"><b>Jada, second week</b><span id="lvDay">Monday</span></div>
+          <div class="lv-days" id="lvDays" role="tablist" aria-label="Days of the week"></div>
+          <div class="lv-ctr" id="lvCtr"></div>
+          <div class="lv-fun" id="lvFun"></div>
+          <div class="lv-coach"><small>The app tells her</small><p id="lvCoach"></p></div>
+          <div class="lv-week"><span>Sales this week</span><b><span id="lvSales">0</span> <em>vs 5 last week</em></b></div>
+        </div>
+        <div class="lv-own">
+          <div class="lv-top"><b>Owner view, 30 rep office</b><span id="lvDate">Day 1</span></div>
+          <div class="lv-money"><small>Extra money this month</small><b id="lvMoney">$0</b><span id="lvExtra">0 extra sales so far</span></div>
+          <div class="lv-chart" aria-hidden="true"><div class="lv-cost" id="lvCostLine"><span>Office plan $699</span></div><div class="lv-bars" id="lvBars"></div></div>
+          <p class="lv-paid" id="lvPaid">Watching for the day it pays for itself...</p>
+          <p class="lv-note">Example: only 2 or 3 extra sales a week across the whole office. Your numbers will differ.</p>
+        </div>
+      </div>
     </div>
     <div class="why-grid">
-      <article class="wg rv"><span class="wg-n">$1.11</span><h3>Per rep, per day</h3><p>On Crew with a full team, that is about the price of a gas station coffee. On Office it drops to about 84 cents.</p></article>
+      <article class="wg rv"><span class="wg-n">About $1</span><h3>Per rep, per day</h3><p>On Crew with a full team, that is about the price of a gas station coffee. On Office it drops to about 78 cents.</p></article>
       <article class="wg rv d1"><span class="wg-n">10 sec</span><h3>Per conversation</h3><p>One tap. Reps do not fill out forms, and nobody has to type up tally sheets at night.</p></article>
       <article class="wg rv d2"><span class="wg-n">Day 2</span><h3>Not day 20</h3><p>See which rookie is stuck while you can still save them. Rookies who quit take your recruiting time and training hours with them.</p></article>
       <article class="wg rv d1"><span class="wg-n">0</span><h3>Roll call texts</h3><p>No more chasing every rep for numbers at the end of the day. The board is already filled in, live.</p></article>
@@ -310,6 +333,57 @@
   </div>
 </section>
 
+<!-- VERSUS -->
+<section id="versus">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">Why this, not the others</p>
+      <h2 class="rv d1">Other apps track where your reps went. Furthest Step fixes what they say when they get there.</h2>
+      <p class="lede rv d2">Maps, pins and lead lists are useful. But a rep does not lose a sale on the map. They lose it in the first ten seconds, at the pitch or at the ask. That is the part nobody else coaches.</p>
+    </div>
+    <div class="vs-wrap rv">
+      <table class="vs">
+        <thead><tr><th scope="col"><span class="sr-only">Feature</span></th><th scope="col">Tally sheet</th><th scope="col">Typical canvassing app</th><th scope="col" class="us">Furthest Step</th></tr></thead>
+        <tbody><tr><th scope="row">Shows exactly which step each rep is losing</th><td>No</td><td>Not the focus</td><td class="y" aria-label="Yes">&#10003;</td></tr><tr><th scope="row">Tells the rep the one thing to fix on the next conversation</th><td>No</td><td>Not the focus</td><td class="y" aria-label="Yes">&#10003;</td></tr><tr><th scope="row">Training from top closers built in: A.I.R., Feel Felt Found, 15 and 5</th><td>No</td><td>Not the focus</td><td class="y" aria-label="Yes">&#10003;</td></tr><tr><th scope="row">One tap per conversation, about ten seconds</th><td>Paper</td><td>Forms and pins</td><td class="y" aria-label="Yes">&#10003;</td></tr><tr><th scope="row">Works at tables, booths and events, not only doors</th><td>Yes</td><td>Mostly doors</td><td class="y" aria-label="Yes">&#10003;</td></tr><tr><th scope="row">Priced per team, not per rep</th><td>Free</td><td>Usually per rep</td><td class="y" aria-label="Yes">&#10003;</td></tr><tr><th scope="row">No app store download, any phone</th><td>Yes</td><td>Usually an app</td><td class="y" aria-label="Yes">&#10003;</td></tr><tr><th scope="row">Set up for you with your steps and scripts</th><td>No</td><td>Usually you</td><td class="y" aria-label="Yes">&#10003;</td></tr></tbody>
+      </table>
+    </div>
+    <div class="angle rv">
+      <div><b>Built by a rep</b><span>Made in Charlotte by a field sales rep, for field sales teams. It uses the words your reps actually say.</span></div>
+      <div><b>A coach, not a tracker</b><span>Reps open it because it helps them earn, so managers get real numbers.</span></div>
+      <div><b>Already running with a team</b><span>Live today with a fiber door to door team in Charlotte, not a slide deck.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADOPTION -->
+<section id="adoption" style="background:var(--color-surface-2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">Getting every rep on board</p>
+      <h2 class="rv d1">An app only works if reps use it. Here is how owners make that happen in a week.</h2>
+      <p class="lede rv d2">Every new office gets this launch playbook. These are the same moves that get any new habit to stick on a sales floor.</p>
+    </div>
+    <div class="plays">
+      <article class="play rv"><b>1</b><h3>Make it the morning meeting</h3><p>Open every huddle on yesterday's board. When reps know the board is the meeting, they log every conversation.</p></article>
+      <article class="play rv d1"><b>2</b><h3>Sell it to reps as theirs</h3><p>It is their coach, their goals and their income pace, not the boss watching. Reps use what helps them earn.</p></article>
+      <article class="play rv d2"><b>3</b><h3>Tap together on day one</h3><p>Managers ride along and tap next to each rookie for the first shift. After twenty taps, it is a habit.</p></article>
+      <article class="play rv d1"><b>4</b><h3>Reward logging first</h3><p>Week one, the contest is most conversations logged, not most sales. Lunch, a spiff or first pick of territory.</p></article>
+      <article class="play rv d2"><b>5</b><h3>No log, no lead</h3><p>Callback lists, best turf and warm leads go to reps who log. Logging becomes the price of the good stuff.</p></article>
+      <article class="play rv d3"><b>6</b><h3>Celebrate the fix</h3><p>Every Friday, shout out the rep whose weakest step improved most. Reps chase what gets recognized.</p></article>
+    </div>
+    <div class="launch rv">
+      <h3>Your first two weeks</h3>
+      <ol class="launch-steps">
+        <li><b>Day 1</b><span>10 minute kickoff. Everyone opens the team code on their phone and taps a practice conversation.</span></li>
+        <li><b>Days 2 and 3</b><span>Managers check the board at midday and text anyone who has not logged.</span></li>
+        <li><b>Day 5</b><span>First logging contest winner announced in the huddle.</span></li>
+        <li><b>Day 7</b><span>One on ones using each rep's board: one strength, one fix.</span></li>
+        <li><b>Day 14</b><span>Compare closing rates to the weeks before. Decide with your own numbers.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
 <!-- ROI -->
 <section id="value">
   <div class="wrap">
@@ -329,7 +403,7 @@
         <div class="big" id="roiBig">$4,500</div>
         <div class="roi-lines">
           <div><span>Recommended plan</span><b id="roiPlan">Office</b></div>
-          <div><span>Plan cost</span><b id="roiCost">$755</b></div>
+          <div><span>Plan cost</span><b id="roiCost">$699</b></div>
           <div><span>Return on every dollar</span><b id="roiX">6.4x</b></div>
         </div>
         <p class="fine">Estimates only. Results depend on your reps, your offer and your market.</p>
@@ -350,7 +424,7 @@
       <div class="plan rv">
         <h3>Crew</h3>
         <p class="who">For a single team getting serious about numbers.</p>
-        <div><div class="price"><b>$333</b><span>/ month</span></div><p class="per">Up to 10 reps</p><p class="be" data-cost="333"></p></div>
+        <div><div class="price"><b>$299</b><span>/ month</span></div><p class="per">Up to 10 reps</p><p class="be" data-cost="299"></p></div>
         <ul>
           <li>Rep tracking and one fix coaching</li>
           <li>Full objection and methods board</li>
@@ -364,7 +438,7 @@
         <span class="badge">Most offices</span>
         <h3>Office</h3>
         <p class="who">For an office running multiple crews or campaigns.</p>
-        <div><div class="price"><b>$755</b><span>/ month</span></div><p class="per">Up to 30 reps</p><p class="be" data-cost="755"></p></div>
+        <div><div class="price"><b>$699</b><span>/ month</span></div><p class="per">Up to 30 reps</p><p class="be" data-cost="699"></p></div>
         <ul>
           <li>Everything in Crew</li>
           <li>Standards and attention flags per crew</li>
@@ -407,7 +481,7 @@
     <div class="rv d1">
       <details><summary>My reps will not use another app. Why would this be different?</summary><p>Because it asks for one tap, not a form. It takes about ten seconds after a conversation, and reps get something back right away: their own one fix. Managers also see who is logging, so it becomes part of the day fast.</p></details>
       <details><summary>We already use a CRM or a door knocking app. Do we need this?</summary><p>Most of those track addresses and leads. Furthest Step tracks how each conversation went and coaches the rep on it. Many teams run both: the CRM for the lead, Furthest Step for the rep.</p></details>
-      <details><summary>Is $333 a month a lot for a small office?</summary><p>It is about three sales a month for the whole team at a $150 sale. If the coaching helps each rep close just one more a month, it has paid for itself several times over. And you get 14 days to see it with your own numbers first.</p></details>
+      <details><summary>Is $299 a month a lot for a small office?</summary><p>It is about two sales a month for the whole team at a $150 sale. If the coaching helps each rep close just one more a month, it has paid for itself several times over. And you get 14 days to see it with your own numbers first.</p></details>
       <details><summary>How fast can my team start?</summary><p>Most teams are live the same day. You get a team code, your reps open a link on their phone, and they are tapping on the next door. We load your industry steps and training during setup.</p></details>
       <details><summary>Do reps need to download an app?</summary><p>No. It runs in the phone's browser and can be saved to the home screen like an app. iPhone and Android both work.</p></details>
       <details><summary>What if there is no signal in the field?</summary><p>Taps are saved on the phone and sync automatically when the signal comes back. Nothing gets lost.</p></details>
@@ -463,7 +537,7 @@
   <div class="modal-box">
     <button class="modal-x" type="button" aria-label="Close" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <h3 id="buyTitle">Start your 14 days free</h3>
-    <div class="sum"><span id="buyPlan">Office plan</span><span id="buyPrice">$755 / month after trial</span></div>
+    <div class="sum"><span id="buyPlan">Office plan</span><span id="buyPrice">$699 / month after trial</span></div>
     <form id="buyForm" novalidate>
       <div class="row">
         <label>Your name<input name="name" autocomplete="name" required></label>
@@ -490,7 +564,7 @@
   <div class="wrap" id="oBody"></div>
 </div>
 
-<script src="./config.js?v=9"></script>
-<script src="./app.js?v=9"></script>
+<script src="./config.js?v=13"></script>
+<script src="./app.js?v=13"></script>
 </body>
 </html>
