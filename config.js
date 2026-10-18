@@ -4,8 +4,8 @@ window.SITE_CONFIG = {
   supabaseKey: "sb_publishable_EPEejv5LdPRnSIAXeQd0pA_JCsn0T_K",
   // Stripe Payment Links (with a 14 day trial). Leave empty until Stripe is set up.
   checkout: {
-    crew: "https://buy.stripe.com/bJe7sM2wU1a10CH7VC4ZG00?prefilled_promo_code=CREWINTRO",
-    office: "https://buy.stripe.com/eVqdRa9Zm05Xbhlgs84ZG01?prefilled_promo_code=OFFICEINTRO"
+    crew: "https://buy.stripe.com/bJe7sM2wU1a10CH7VC4ZG00",
+    office: "https://buy.stripe.com/eVqdRa9Zm05Xbhlgs84ZG01"
   },
   // Contact options shown in the Questions section. Leave empty to hide.
   email: "furtheststep@gmail.com",          // e.g. "hello@yourbusiness.com"

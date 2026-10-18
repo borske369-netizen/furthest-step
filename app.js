@@ -30,8 +30,8 @@ const trackBoard = () => { if (!boardTracked) { boardTracked = true; track('demo
 
 /* ---------- data ---------- */
 const PLANS = {
-  crew: { name: 'Crew plan', short: 'Crew', price: 299, intro: 199, reps: 10 },
-  office: { name: 'Office plan', short: 'Office', price: 699, intro: 499, reps: 30 }
+  crew: { name: 'Crew plan', short: 'Crew', price: 299, reps: 10 },
+  office: { name: 'Office plan', short: 'Office', price: 699, reps: 30 }
 };
 const planFor = reps => (reps <= 10 ? 'crew' : 'office');
 // The app records the same four steps everywhere. Only the meaning of each step changes by trade.
@@ -113,7 +113,7 @@ $$('#nav a, #nav button').forEach(a => a.addEventListener('click', () => setMenu
 addEventListener('keydown', e => { if (e.key === 'Escape' && hdr.classList.contains('menu-open')) { setMenu(false); menuBtn.focus(); } });
 addEventListener('resize', () => { if (innerWidth > 900) setMenu(false); });
 function syncMob() { mob.classList.toggle('show', !document.querySelector('.modal.open')); }
-function paintMob() { const off = enteredReps > 10; $('#mobPrice').innerHTML = off ? 'Office from <b>$499</b> a month' : 'Crew from <b>$199</b> a month'; }
+function paintMob() { const off = enteredReps > 10; $('#mobPrice').innerHTML = off ? 'Office <b>$699</b> a month' : 'Crew <b>$299</b> a month'; }
 const noteReps = raw => { const n = parseReps(raw); if (Number.isFinite(n)) { enteredReps = n; paintMob(); } };
 addEventListener('scroll', () => {
   const y = scrollY;
@@ -402,8 +402,8 @@ function calc() {
   else { const u = fmtPts(used); $('#cGain').innerHTML = `Example math: ${u} more ${ptsWord(u)} at ${STEP_NAMES[k].toLowerCase()}, with every other step held the same, is about <b>${m1} more sales a month</b> across the team, worth about <b>${money(worth)}</b> to the office.${capped ? ` The lift is capped at ${u} ${ptsWord(u)} because that step cannot go past 100%.` : ''}`; }
   const pk = planFor(reps), P = PLANS[pk];
   if (val > 0) {
-    const n = Math.ceil(P.intro / val), n2 = Math.ceil(P.price / val);
-    $('#cBe').textContent = `Example only. At these numbers, ${P.short} at ${money(P.intro)} needs ${n} extra ${n === 1 ? 'sale' : 'sales'} a month across the whole team, not per rep. After month 3 the same math uses ${money(P.price)}, which is ${n2} extra ${n2 === 1 ? 'sale' : 'sales'} a month.`;
+    const n = Math.ceil(P.price / val);
+    $('#cBe').textContent = `Example only. At these numbers, ${P.short} at ${money(P.price)} needs ${n} extra ${n === 1 ? 'sale' : 'sales'} a month across the whole team, not per rep.`;
   } else $('#cBe').textContent = 'Example only. Add what one sale is worth to see how many extra sales would cover the plan.';
   if (reps > 30) $('#cBe').textContent += ' More than 30 reps needs a custom Office setup. Text David.';
   calcCta.textContent = `Start 14 days free with ${P.short}`;
@@ -446,7 +446,7 @@ const planForReps = reps => (Number.isFinite(reps) && reps > 10 ? 'office' : (re
 function paintPlan() {
   const P = PLANS[curPlan], reps = parseReps($('#buyForm [name=team_size]')?.value);
   $('#buyPlan').textContent = `${P.name}, up to ${P.reps} reps`;
-  $('#buyPrice').textContent = `${money(P.intro)} a month for 3 months, then ${money(P.price)}`;
+  $('#buyPrice').textContent = `${money(P.price)} a month after 14 days free`;
   $('#buyBtn').textContent = hasLink(curPlan) ? 'Continue to checkout' : 'Start my 14 days free';
   let note = '';
   if (reps > 30) note = 'More than 30 reps? Send this and David will set up a plan for your office.';
