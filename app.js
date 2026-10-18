@@ -21,7 +21,7 @@ const track = (kind, extra = {}) => rpc('growth_track', { p_kind: kind, p_indust
 /* ---------- data ---------- */
 const PLANS = {
   crew: { name: 'Crew plan', price: 333, reps: 10 },
-  office: { name: 'Office plan', price: 555, reps: 30 }
+  office: { name: 'Office plan', price: 755, reps: 30 }
 };
 const IND = [
   { id: 'fiber', val: 150, one: 'sale', place: 'street', label: 'Fiber and telecom', tag: 'Door to door', img: './assets/door.webp', alt: 'Door to door sales rep walking up a driveway at sunset', word: 'door',
@@ -255,7 +255,7 @@ function roi() {
   const reps = +$('#rReps').value, lift = +$('#rLift').value, val = +$('#rVal').value;
   $('#oReps').textContent = reps; $('#oLift').textContent = lift; $('#oVal').textContent = money(val);
   const gain = reps * lift * val;
-  const plan = reps <= 10 ? ['Crew', 333] : reps <= 30 ? ['Office', 555] : ['Network', null];
+  const plan = reps <= 10 ? ['Crew', 333] : reps <= 30 ? ['Office', 755] : ['Network', null];
   $('#roiBig').textContent = money(gain);
   $('#roiPlan').textContent = plan[0];
   $('#roiCost').textContent = plan[1] ? money(plan[1]) : 'Custom';
