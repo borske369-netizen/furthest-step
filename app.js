@@ -341,6 +341,8 @@ async function loadOwner() {
   let d; try { d = await rpc('growth_metrics', { p_pass: PASS }); } catch { d = null; }
   if (!d?.ok) { if (PASS && owner.classList.contains('open') && !$('#oLogin')) loginView(); return false; }
   const s = d.site, l = d.leads, o = d.outreach, r = d.revenue;
+  const STG = { new: 'Found', emailed_1: 'Email 1 sent', emailed_2: 'Email 2 sent', text_due: 'Text them now', texted: 'Texted', emailed_final: 'Final email sent', replied: 'Replied', interested: 'Interested', trial: 'On trial', customer: 'Customer', not_interested: 'Not interested', unsubscribed: 'Unsubscribed', bounced: 'Bad email', cold: 'Cold, retry later', skip: 'Skipped' }, stg = v => esc(STG[v] || v);
+  let pv = null; try { pv = await rpc('growth_prospects_view', { p_pass: PASS }); } catch { pv = null; }
   const trs = (rows, cols, empty) => rows.length ? `<table class="otable"><thead><tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr></thead><tbody>${rows.map(x => `<tr>${cols.map(c => `<td>${c[1](x)}</td>`).join('')}</tr>`).join('')}</tbody></table>` : `<p class="empty">${empty}</p>`;
   oBody.innerHTML = `
   <div class="ogrid">
@@ -358,6 +360,7 @@ async function loadOwner() {
     <div class="opanel"><h3>What visitors look at</h3>${trs(s.industries, [['Industry', x => esc(x.industry)], ['Views', x => x.n]], 'No industry views yet.')}${trs(s.plans, [['Plan', x => esc(x.plan)], ['Clicks', x => x.n]], 'No plan clicks yet.')}</div>
   </div>
   <div class="opanel" style="margin-bottom:1rem"><h3>Leads and checkouts</h3>${trs(l.recent, [['When', x => dt(x.created_at)], ['Name', x => esc(x.name)], ['Company', x => esc(x.company)], ['Contact', x => esc(x.email) + '<br>' + esc(x.phone)], ['Industry', x => esc(x.industry)], ['Size', x => esc(x.team_size)], ['Note', x => esc(x.message)], ['Status', x => esc(x.status)]], 'No leads yet. They show up here the moment someone asks a question or starts checkout.')}</div>
+  <div class="opanel" style="margin-bottom:1rem"><h3>Prospects</h3>${(pv?.by_status||[]).length ? '<p style="font-size:var(--text-sm);margin-bottom:.5rem">' + pv.by_status.map(x => stg(x.status) + ': ' + x.n).join(' &middot; ') + '</p>' : ''}${trs(pv?.list || [], [['Company', x => esc(x.company)], ['Contact', x => esc(x.contact_name) + '<br>' + esc(x.title || '')], ['Phone', x => x.phone ? `<a href="sms:${esc(x.phone)}">${esc(x.phone)}</a>` : ''], ['Industry', x => esc(x.industry)], ['Where', x => esc([x.city, x.state].filter(Boolean).join(', '))], ['Stage', x => stg(x.status)], ['Touches', x => x.touches], ['Last touch', x => x.last_touch_at ? dt(x.last_touch_at) : ''], ['Next step', x => x.next_action_at ? dt(x.next_action_at) : '']], 'No prospects yet. The lead team adds them here as it finds and contacts them.')}</div>
   <div class="opanels">
     <div class="opanel"><h3>Outreach log</h3>${trs(o.recent, [['When', x => dt(x.created_at)], ['Channel', x => esc(x.channel)], ['Who', x => esc(x.target)], ['Status', x => esc(x.status)], ['Note', x => esc(x.note)]], 'No outreach logged yet.')}
       <h3 style="margin-top:1rem">Which messages work</h3>${trs(o.by_variant, [['Message', x => esc(x.variant || 'unnamed')], ['Sent', x => x.sent], ['Replies or better', x => x.wins]], 'Appears once outreach is logged.')}</div>
