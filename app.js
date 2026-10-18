@@ -28,42 +28,42 @@ const IND = [
     title: 'Door to door fiber, internet and wireless',
     lede: 'Built first for fiber door to door teams, where every rep is fighting the same three objections on every street.',
     st: [['D', 'Decision maker reached'], ['P', 'Pitch given'], ['C', 'Close asked'], ['S', 'Sale']],
-    obj: '"We already have internet."',
+    obj: 'We already have internet.',
     air: 'Acknowledge it, then isolate: "If the speed and the price were both better, is there anything else that would keep you from switching today?"',
     list: ['Speed test logging at the door', 'Callback reminders with a walking distance warning', 'Standards per campaign and offer'] },
   { id: 'retail', label: 'Retail events and roadshows', tag: 'Retail events', img: './assets/retail.webp', alt: 'Sales rep greeting a shopper at a promotional table in a warehouse store', word: 'table',
     title: 'Warehouse clubs, kiosks and in store roadshows',
     lede: 'For booth and event teams in big box and warehouse stores, the kind of campaigns run by face to face marketing offices.',
     st: [['T', 'Table stop'], ['P', 'Pitch given'], ['C', 'Close asked'], ['S', 'Sale']],
-    obj: '"I am just shopping today."',
-    air: 'Use 15 and 5 to open, then Turn and Return: "Totally fair. Before you go, are you paying more than 80 a month right now?"',
+    obj: 'I am just shopping today.',
+    air: 'Use 15 and 5 to open, then Turn and Return: "Totally fair. Before you go, are you paying more than $80 a month right now?"',
     list: ['15 and 5 engagement and Turn and Return', 'S.E.E. factors and Talk to Everyone drills', 'Shift and location reports for each event'] },
   { id: 'solar', label: 'Solar', tag: 'Solar', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'roof',
     title: 'Residential solar setters and closers',
     lede: 'Track the setter funnel at the door and the closer funnel at the kitchen table, on one board.',
     st: [['D', 'Homeowner reached'], ['P', 'Savings pitch'], ['C', 'Appointment asked'], ['S', 'Appointment set']],
-    obj: '"We are not interested in solar."',
+    obj: 'We are not interested in solar.',
     air: 'Acknowledge, then isolate the real worry: "Most people say that until they see the bill comparison. Is it the cost, or the roof?"',
     list: ['Setter and closer stages on one board', 'Appointment callbacks', 'Bill objection drills'] },
   { id: 'pest', label: 'Pest control', tag: 'Pest control', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'yard',
     title: 'Summer pest and lawn sales teams',
     lede: 'Long days, fast doors and a lot of new reps. The board keeps rookies improving every single week.',
     st: [['D', 'Homeowner reached'], ['P', 'Service pitch'], ['C', 'Close asked'], ['S', 'Service sold']],
-    obj: '"We already have a guy."',
+    obj: 'We already have a guy.',
     air: 'Feel, Felt, Found: "I get it. A lot of neighbors felt the same, and what they found was a gap in what the other guy covers."',
     list: ['Rookie development tracking', 'Neighbor referral notes', 'Daily goals and income pace'] },
   { id: 'roof', label: 'Roofing', tag: 'Roofing', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'house',
     title: 'Storm and retail roofing canvassers',
     lede: 'Turn canvass days into inspections, and inspections into signed jobs, with every step on the record.',
     st: [['D', 'Homeowner reached'], ['P', 'Inspection pitch'], ['C', 'Inspection asked'], ['S', 'Inspection set']],
-    obj: '"My roof is fine."',
+    obj: 'My roof is fine.',
     air: 'Acknowledge, then isolate: "Most roofs look fine from the ground. Would a free photo check of yours be worth ten minutes?"',
     list: ['Inspection callbacks', 'Storm area notes', 'Canvass to close reporting'] },
   { id: 'security', label: 'Home security', tag: 'Home security', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'street',
     title: 'Home security and smart home teams',
     lede: 'Coaching built for a trust sale, where the first ten seconds decide everything.',
     st: [['D', 'Homeowner reached'], ['P', 'Safety pitch'], ['C', 'Close asked'], ['S', 'System sold']],
-    obj: '"We have a dog. We are fine."',
+    obj: 'We have a dog. We are fine.',
     air: 'Acknowledge, then respond: "Dogs are great at noise. The system is for the times nobody is home, including the dog."',
     list: ['Trust focused opening drills', 'Install appointment callbacks', 'Standards per offer'] }
 ];
@@ -80,7 +80,8 @@ addEventListener('scroll', () => {
   hdr.classList.toggle('solid', y > 40);
   hdr.classList.toggle('hide', y > 500 && y > lastY + 4);
   if (y < lastY - 4) hdr.classList.remove('hide');
-  mob.classList.toggle('show', y > innerHeight * .9 && y < document.body.scrollHeight - innerHeight * 1.6);
+  const near = ['#pricing', '#questions'].some(s => { const r = $(s).getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; });
+  mob.classList.toggle('show', y > innerHeight * .9 && !near && !document.getElementById('buy').classList.contains('open'));
   lastY = y;
   const b = $('#bandImg'); if (b && !reduce) { const r = b.parentElement.getBoundingClientRect(); b.style.transform = `translateY(${(r.top / innerHeight) * -40}px)`; }
 }, { passive: true });
@@ -120,11 +121,13 @@ let hv = [0, 0, 0, 0];
 const script = [0, 0, 1, 0, 2, 0, 0, 1, 3, 0, 1, 0, 0, 2, 0, 1, 0, 0, 3, 1];
 let si = 0;
 function heroStep() {
-  if (si >= script.length) { hv = [0, 0, 0, 0]; si = 0; $('#heroCoach').classList.remove('on'); paint(hc, hf, hv); return setTimeout(heroStep, 900); }
+  if (si >= script.length) { hv = [0, 0, 0, 0]; si = 0; $('#heroCoach').classList.remove('on'); paint(hc, hf, hv); $('#heroGoal').textContent = 7; $('#heroGoalBar').style.width = (7 / 12 * 100) + '%'; return setTimeout(heroStep, 900); }
   const i = script[si++]; bump(hv, i); paint(hc, hf, hv, i);
+  $('#heroGoal').textContent = 7 + hv[3]; $('#heroGoalBar').style.width = ((7 + hv[3]) / 12 * 100) + '%';
   if (hv[0] >= 5) { $('#heroCoachText').textContent = coachFor(hv); $('#heroCoach').classList.add('on'); }
   setTimeout(heroStep, si === script.length ? 3800 : 750);
 }
+$('#heroGoal').textContent = 7; $('#heroGoalBar').style.width = (7 / 12 * 100) + '%';
 if (reduce) { hv = [14, 9, 6, 2]; paint(hc, hf, hv); $('#heroCoachText').textContent = coachFor(hv); $('#heroCoach').classList.add('on'); }
 else setTimeout(heroStep, 1200);
 
@@ -230,7 +233,8 @@ $$('#value input[type=range]').forEach(r => r.addEventListener('input', roi)); r
 
 /* contact ways */
 const ways = [];
-if (C.textNumber) ways.push(`<a class="way" href="sms:${C.textNumber}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span><b>Text us</b><small>Fastest answer</small></span></a>`);
+const fmtPhone = n => { const d = String(n).replace(/\D/g, '').slice(-10); return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : n; };
+if (C.textNumber) ways.push(`<a class="way" href="sms:${C.textNumber}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span><b>Text us</b><small>${fmtPhone(C.textNumber)}, fastest answer</small></span></a>`, `<a class="way" href="tel:${C.textNumber}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.7a2 2 0 01-.5 2.1L8 9.8a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.7.7a2 2 0 011.7 2z"/></svg><span><b>Call</b><small>${fmtPhone(C.textNumber)}</small></span></a>`);
 if (C.email) ways.push(`<a class="way" href="mailto:${C.email}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg><span><b>Email</b><small>${C.email}</small></span></a>`);
 if (C.bookingUrl) ways.push(`<a class="way" href="${C.bookingUrl}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><b>Book a 15 minute call</b><small>Pick a time that works</small></span></a>`);
 $('#ways').innerHTML = ways.join('');
