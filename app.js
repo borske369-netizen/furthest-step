@@ -311,7 +311,7 @@ function renderScrub() {
   const m = +$('#scrub').value * 10, frac = m / 600;
   const mo = MOMENTS.filter(x => x[0] <= m).pop();
   $('#scrubTime').textContent = fmtTime(m);
-  $('#scrubMsg').textContent = typeof mo[1] === 'function' ? mo[1]() : mo[1];
+  $('#scrubMsg').textContent = (t => t.charAt(0).toUpperCase() + t.slice(1))((typeof mo[1] === 'function' ? mo[1]() : mo[1]).replace(/^\d{1,2}:\d{2} [AP]M: /, ''));
   $('#scrub').setAttribute('aria-valuetext', fmtTime(m));
   const live = CREW.map(n => Math.round(n * Math.min(1, frac * 1.05)));
   $('#scrubTot').innerHTML = `<span>Crew so far</span>` + ST.map((s, i) => `<b><i>${s[0]}</i>${live[i]}</b>`).join('');
