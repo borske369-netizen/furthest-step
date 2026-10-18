@@ -394,6 +394,7 @@ function paintWhy() {
   t('whyInd', `Example: ${x.label.toLowerCase()} office, 10 reps`);
   t('whyUnit1', x.one); t('whyUnitH', need === 1 ? x.one : x.unit); t('whyUnit3', x.one); t('whyUnit2', need === 1 ? x.one : x.unit);
   $$('.whyNext').forEach(e => e.textContent = x.next);
+  $$('.be').forEach(e => { const n = Math.ceil(+e.dataset.cost / x.val); e.textContent = `Pays for itself at about ${n} ${n === 1 ? x.one : x.unit} a month, team wide`; });
   const bc = $('#whyBarCost'), bg = $('#whyBarGain');
   if (bc && whySeen) { bc.style.width = (cost / gain * 100) + '%'; bg.style.width = (100 - cost / gain * 100) + '%'; }
 }
