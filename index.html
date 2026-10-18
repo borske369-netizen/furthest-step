@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./base.css">
-<link rel="stylesheet" href="./style.css?v=3">
+<link rel="stylesheet" href="./style.css?v=6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317150F'/%3E%3Cpath d='M9 8v16M14 8v16M19 8v16' stroke='%23F3EFE6' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M6 21L25 11' stroke='%23F26A1B' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -32,7 +32,7 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg" aria-hidden="true"><img src="./assets/door.webp" alt="" fetchpriority="high"></div>
+  <div class="hero-bg" aria-hidden="true"><img id="heroBg" src="./assets/door.webp" alt="" fetchpriority="high"></div>
   <div class="wrap">
     <div>
       <p class="eyebrow rv">Tracking and coaching for field sales teams</p>
@@ -55,7 +55,7 @@
           <div class="counters" id="heroCtr"></div>
           <div class="funnel" id="heroFunnel"></div>
           <div class="coach" id="heroCoach"><small>Your one fix</small><p id="heroCoachText"></p></div>
-          <div class="goal"><div><small>Weekly goal</small><b><span id="heroGoal">0</span> of 12 sales</b></div><div class="gbar"><i id="heroGoalBar"></i></div><div class="cb"><span>Callback</span><b>6:00 PM, 1418 Elm</b></div></div>
+          <div class="goal"><div><small>Weekly goal</small><b><span id="heroGoal">0</span> of 12 <span id="heroUnit">sales</span></b></div><div class="gbar"><i id="heroGoalBar"></i></div><div class="cb"><span>Callback</span><b id="heroCb">6:00 PM, 1418 Elm</b></div></div>
           <div class="scr-foot"><span>Works offline</span><span id="heroClock">4:12 PM</span></div>
         </div>
       </div>
@@ -114,7 +114,7 @@
       <p class="eyebrow rv">How it works</p>
       <h2 class="rv d1">Tap. Read. Fix. Repeat all day.</h2>
       <div class="demo-steps">
-        <div class="step rv d1"><b>1</b><div><h3>Tap the furthest step reached</h3><p>One tap after each conversation. Reached a decision maker, pitched, asked for the close, or sold. Ten seconds, even with a dead signal.</p></div></div>
+        <div class="step rv d1"><b>1</b><div><h3>Tap the furthest step reached</h3><p>One tap after each conversation. <span id="step1">Reached a decision maker, pitched, asked for the close, or sold.</span> Ten seconds, even with a dead signal.</p></div></div>
         <div class="step rv d2"><b>2</b><div><h3>The app reads the pattern</h3><p>It compares each step to the next and finds exactly where the conversation is breaking, against the standards you set for your team.</p></div></div>
         <div class="step rv d3"><b>3</b><div><h3>One fix, not a lecture</h3><p>The rep gets one specific thing to change on the very next door. Pace, pitch or attitude, pulled from the same methods top closers use.</p></div></div>
       </div>
@@ -131,6 +131,7 @@
       </div>
       <div class="demo-side">
         <h3>Try it right now</h3>
+        <label class="demo-ind">Show it for<select id="demoInd" aria-label="Industry for the demo"></select></label>
         <p>Tap the boxes on the phone like you just finished a conversation, or load a real shift pattern below. Watch the coaching change as the numbers move.</p>
         <div class="demo-btns" role="group" aria-label="Load a shift pattern">
           <button class="chip" type="button" data-pat="open">Losing them at hello</button>
@@ -277,7 +278,7 @@
         <div class="big" id="roiBig">$4,500</div>
         <div class="roi-lines">
           <div><span>Recommended plan</span><b id="roiPlan">Office</b></div>
-          <div><span>Plan cost</span><b id="roiCost">$699</b></div>
+          <div><span>Plan cost</span><b id="roiCost">$555</b></div>
           <div><span>Return on every dollar</span><b id="roiX">6.4x</b></div>
         </div>
         <p class="fine">Estimates only. Results depend on your reps, your offer and your market.</p>
@@ -298,7 +299,7 @@
       <div class="plan rv">
         <h3>Crew</h3>
         <p class="who">For a single team getting serious about numbers.</p>
-        <div><div class="price"><b>$299</b><span>/ month</span></div><p class="per">Up to 10 reps</p></div>
+        <div><div class="price"><b>$333</b><span>/ month</span></div><p class="per">Up to 10 reps</p></div>
         <ul>
           <li>Rep tracking and one fix coaching</li>
           <li>Full objection and methods board</li>
@@ -312,7 +313,7 @@
         <span class="badge">Most offices</span>
         <h3>Office</h3>
         <p class="who">For an office running multiple crews or campaigns.</p>
-        <div><div class="price"><b>$699</b><span>/ month</span></div><p class="per">Up to 30 reps</p></div>
+        <div><div class="price"><b>$555</b><span>/ month</span></div><p class="per">Up to 30 reps</p></div>
         <ul>
           <li>Everything in Crew</li>
           <li>Standards and attention flags per crew</li>
@@ -408,7 +409,7 @@
   <div class="modal-box">
     <button class="modal-x" type="button" aria-label="Close" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <h3 id="buyTitle">Start your 14 days free</h3>
-    <div class="sum"><span id="buyPlan">Office plan</span><span id="buyPrice">$699 / month after trial</span></div>
+    <div class="sum"><span id="buyPlan">Office plan</span><span id="buyPrice">$555 / month after trial</span></div>
     <form id="buyForm" novalidate>
       <div class="row">
         <label>Your name<input name="name" autocomplete="name" required></label>
@@ -435,7 +436,7 @@
   <div class="wrap" id="oBody"></div>
 </div>
 
-<script src="./config.js?v=3"></script>
-<script src="./app.js?v=3"></script>
+<script src="./config.js?v=6"></script>
+<script src="./app.js?v=6"></script>
 </body>
 </html>

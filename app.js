@@ -20,49 +20,55 @@ const track = (kind, extra = {}) => rpc('growth_track', { p_kind: kind, p_indust
 
 /* ---------- data ---------- */
 const PLANS = {
-  crew: { name: 'Crew plan', price: 299, reps: 10 },
-  office: { name: 'Office plan', price: 699, reps: 30 }
+  crew: { name: 'Crew plan', price: 333, reps: 10 },
+  office: { name: 'Office plan', price: 555, reps: 30 }
 };
 const IND = [
   { id: 'fiber', label: 'Fiber and telecom', tag: 'Door to door', img: './assets/door.webp', alt: 'Door to door sales rep walking up a driveway at sunset', word: 'door',
     title: 'Door to door fiber, internet and wireless',
     lede: 'Built first for fiber door to door teams, where every rep is fighting the same three objections on every street.',
-    st: [['D', 'Decision maker reached'], ['P', 'Pitch given'], ['C', 'Close asked'], ['S', 'Sale']],
+    st: [['D', 'Decision maker reached', 'Reached'], ['P', 'Pitch given', 'Pitched'], ['C', 'Close asked', 'Asked'], ['S', 'Sale', 'Sold']],
+    unit: 'sales', cb: '6:00 PM, 1418 Elm', where: 'on their street today', ask: 'ask for the switch', before: 'the pitch', steps: 'Reached a decision maker, pitched, asked for the switch, or sold.', next: 'door',
     obj: 'We already have internet.',
     air: 'Acknowledge it, then isolate: "If the speed and the price were both better, is there anything else that would keep you from switching today?"',
     list: ['Speed test logging at the door', 'Callback reminders with a walking distance warning', 'Standards per campaign and offer'] },
   { id: 'retail', label: 'Retail events and roadshows', tag: 'Retail events', img: './assets/retail.webp', alt: 'Sales rep greeting a shopper at a promotional table in a warehouse store', word: 'table',
     title: 'Warehouse clubs, kiosks and in store roadshows',
     lede: 'For booth and event teams in big box and warehouse stores, the kind of campaigns run by face to face marketing offices.',
-    st: [['T', 'Table stop'], ['P', 'Pitch given'], ['C', 'Close asked'], ['S', 'Sale']],
+    st: [['T', 'Table stop', 'Stopped'], ['P', 'Pitch given', 'Pitched'], ['C', 'Close asked', 'Asked'], ['S', 'Sign up', 'Signed']],
+    unit: 'sign ups', cb: 'Sat 11 AM, return shopper', where: 'at the table today', ask: 'ask for the sign up', before: 'the pitch', steps: 'Stopped a shopper at the table, pitched, asked for the sign up, or signed them up.', next: 'shopper',
     obj: 'I am just shopping today.',
     air: 'Use 15 and 5 to open, then Turn and Return: "Totally fair. Before you go, are you paying more than $80 a month right now?"',
     list: ['15 and 5 engagement and Turn and Return', 'S.E.E. factors and Talk to Everyone drills', 'Shift and location reports for each event'] },
   { id: 'solar', label: 'Solar', tag: 'Solar', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'roof',
     title: 'Residential solar setters and closers',
     lede: 'Track the setter funnel at the door and the closer funnel at the kitchen table, on one board.',
-    st: [['D', 'Homeowner reached'], ['P', 'Savings pitch'], ['C', 'Appointment asked'], ['S', 'Appointment set']],
+    st: [['H', 'Homeowner reached', 'Reached'], ['B', 'Bill reviewed', 'Bill seen'], ['A', 'Appointment asked', 'Asked'], ['S', 'Appointment set', 'Set']],
+    unit: 'appointments', cb: 'Thu 7 PM, kitchen table sit', where: 'in the neighborhood today', ask: 'ask for the appointment', before: 'you see their bill', steps: 'Reached the homeowner, reviewed their bill, asked for the appointment, or set it.', next: 'door',
     obj: 'We are not interested in solar.',
     air: 'Acknowledge, then isolate the real worry: "Most people say that until they see the bill comparison. Is it the cost, or the roof?"',
     list: ['Setter and closer stages on one board', 'Appointment callbacks', 'Bill objection drills'] },
   { id: 'pest', label: 'Pest control', tag: 'Pest control', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'yard',
     title: 'Summer pest and lawn sales teams',
     lede: 'Long days, fast doors and a lot of new reps. The board keeps rookies improving every single week.',
-    st: [['D', 'Homeowner reached'], ['P', 'Service pitch'], ['C', 'Close asked'], ['S', 'Service sold']],
+    st: [['H', 'Homeowner reached', 'Reached'], ['P', 'Service pitch', 'Pitched'], ['C', 'Close asked', 'Asked'], ['S', 'Service sold', 'Sold']],
+    unit: 'services', cb: '5:30 PM, 22 Oak, spouse home', where: 'treating homes on their street', ask: 'ask to start service today', before: 'the pitch', steps: 'Reached the homeowner, pitched the service, asked to start, or sold it.', next: 'door',
     obj: 'We already have a guy.',
     air: 'Feel, Felt, Found: "I get it. A lot of neighbors felt the same, and what they found was a gap in what the other guy covers."',
     list: ['Rookie development tracking', 'Neighbor referral notes', 'Daily goals and income pace'] },
   { id: 'roof', label: 'Roofing', tag: 'Roofing', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'house',
     title: 'Storm and retail roofing canvassers',
     lede: 'Turn canvass days into inspections, and inspections into signed jobs, with every step on the record.',
-    st: [['D', 'Homeowner reached'], ['P', 'Inspection pitch'], ['C', 'Inspection asked'], ['S', 'Inspection set']],
+    st: [['H', 'Homeowner reached', 'Reached'], ['D', 'Damage pointed out', 'Damage'], ['I', 'Inspection asked', 'Asked'], ['S', 'Inspection set', 'Set']],
+    unit: 'inspections', cb: '4:00 PM, 9 Birch, ladder check', where: 'after the storm in their area', ask: 'ask to get on the roof', before: 'you point out the damage', steps: 'Reached the homeowner, pointed out damage, asked for the inspection, or set it.', next: 'door',
     obj: 'My roof is fine.',
     air: 'Acknowledge, then isolate: "Most roofs look fine from the ground. Would a free photo check of yours be worth ten minutes?"',
     list: ['Inspection callbacks', 'Storm area notes', 'Canvass to close reporting'] },
   { id: 'security', label: 'Home security', tag: 'Home security', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'street',
     title: 'Home security and smart home teams',
     lede: 'Coaching built for a trust sale, where the first ten seconds decide everything.',
-    st: [['D', 'Homeowner reached'], ['P', 'Safety pitch'], ['C', 'Close asked'], ['S', 'System sold']],
+    st: [['H', 'Homeowner reached', 'Reached'], ['P', 'Safety pitch', 'Pitched'], ['C', 'Close asked', 'Asked'], ['I', 'Install booked', 'Booked']],
+    unit: 'installs', cb: '6:30 PM, 310 Pine, both owners', where: 'helping neighbors on their street', ask: 'ask for the install date', before: 'the pitch', steps: 'Reached the homeowner, gave the safety pitch, asked for the close, or booked the install.', next: 'door',
     obj: 'We have a dog. We are fine.',
     air: 'Acknowledge, then respond: "Dogs are great at noise. The system is for the times nobody is home, including the dog."',
     list: ['Trust focused opening drills', 'Install appointment callbacks', 'Standards per offer'] }
@@ -89,20 +95,22 @@ addEventListener('scroll', () => {
 /* ---------- hero word swap ---------- */
 const words = ['door', 'table', 'roof', 'yard', 'booth', 'street'];
 let wi = 0;
-if (!reduce) setInterval(() => { wi = (wi + 1) % words.length; $('#swap').innerHTML = `<span>${words[wi]}</span>`; }, 2200);
+const URL_IND = IND.find(x => x.id === new URLSearchParams(location.search).get('ind'));
+if (!reduce && !URL_IND) setInterval(() => { wi = (wi + 1) % words.length; $('#swap').innerHTML = `<span>${words[wi]}</span>`; }, 2200);
 
 /* ---------- phone engine ---------- */
+let CUR = IND[0];
 function coachFor(v) {
-  const [d, p, c, s] = v;
+  const [d, p, c, s] = v, x = CUR;
   if (d < 3) return 'Get to five conversations, then the app reads your pattern. Keep tapping the furthest step you reach.';
-  if (p / d < 0.5) return 'Pace. You are reaching people but losing them before the pitch. Slow your first ten seconds and lead with why you are on their street today.';
-  if (c / Math.max(p, 1) < 0.5) return 'Attitude. Your pitch is landing but you are not asking. After every pitch, ask for the sale once, then stop talking.';
-  if (s / Math.max(c, 1) < 0.3) return 'Pitch. You are asking, but they are saying no. Use A.I.R. on the first objection before you ask again.';
-  return 'Strong day. Your funnel is healthy at every step. Same pace for the next hour and log every callback.';
+  if (p / d < 0.5) return `Pace. You are reaching people but losing them before ${x.before}. Slow your first ten seconds and lead with why you are ${x.where}.`;
+  if (c / Math.max(p, 1) < 0.5) return `Attitude. Your pitch is landing but you are not asking. After every pitch, ${x.ask} once, then stop talking.`;
+  if (s / Math.max(c, 1) < 0.3) return `Pitch. You are asking, but they are saying no. When you hear "${x.obj.replace(/\.$/, '')}," use A.I.R. before you ask again.`;
+  return `Strong shift. Your funnel is healthy at every step. Same pace on the next ${x.next} and log every callback.`;
 }
 function buildPhone(ctrEl, funEl, stages, onTap) {
-  ctrEl.innerHTML = stages.map((s, i) => `<button type="button" class="ctr${i === 3 ? ' s' : ''}" data-i="${i}" aria-label="${s[1]}"><div class="k">${s[0]}</div><div class="n">0</div><div class="l">${s[1]}</div></button>`).join('');
-  funEl.innerHTML = stages.map(s => `<div class="frow"><span>${s[1].split(' ')[0]}</span><div class="fbar"><i></i></div><em>0</em></div>`).join('');
+  ctrEl.innerHTML = stages.map((s, i) => `<button type="button" class="ctr${i === 3 ? ' s' : ''}" data-i="${i}" aria-label="${s[1]}"><div class="k">${s[0]}</div><div class="n">0</div><div class="l">${s[2]}</div></button>`).join('');
+  funEl.innerHTML = stages.map(s => `<div class="frow"><span>${s[2]}</span><div class="fbar"><i></i></div><em>0</em></div>`).join('');
   if (onTap) $$('.ctr', ctrEl).forEach(b => b.addEventListener('click', () => onTap(+b.dataset.i, b)));
 }
 function paint(ctrEl, funEl, v, flash) {
@@ -194,6 +202,30 @@ tabs.addEventListener('keydown', e => {
 });
 showInd('fiber', true);
 
+/* one industry choice flows through the whole page */
+const demoSel = $('#demoInd');
+demoSel.innerHTML = IND.map(x => `<option value="${x.id}">${x.label}</option>`).join('');
+function setIndustry(id, from) {
+  const x = IND.find(i => i.id === id); if (!x) return; CUR = x;
+  buildPhone(hc, hf, x.st); paint(hc, hf, hv);
+  buildPhone(dc, dfun, x.st, (i) => { bump(dv, i); $$('[data-pat]').forEach(b => b.setAttribute('aria-pressed', 'false')); demoUpdate(i); });
+  demoUpdate();
+  if ($('#heroCoach').classList.contains('on')) $('#heroCoachText').textContent = coachFor(hv);
+  $('#heroUnit').textContent = x.unit; $('#heroCb').textContent = x.cb;
+  $('#step1').textContent = x.steps;
+  demoSel.value = id;
+  if (from !== 'tab') showInd(id, from === 'url');
+  $('#qInd').value = id; $('#bInd').value = id;
+}
+demoSel.addEventListener('change', () => { setIndustry(demoSel.value, 'demo'); track('industry', { industry: demoSel.value }); });
+$$('.tab', tabs).forEach(t => t.addEventListener('click', () => setIndustry(t.dataset.id, 'tab')));
+tabs.addEventListener('keydown', e => { if (['ArrowRight', 'ArrowLeft'].includes(e.key)) setTimeout(() => setIndustry($('.tab[aria-selected="true"]', tabs).dataset.id, 'tab'), 0); });
+if (URL_IND) {
+  $('#swap').innerHTML = `<span>${URL_IND.word}</span>`;
+  if (URL_IND.img !== './assets/door.webp') $('#heroBg').src = URL_IND.img;
+  setIndustry(URL_IND.id, 'url');
+}
+
 /* manager report */
 const REPS = {
   today: [['Marcus', [14, 9, 6, 2], 'ok'], ['Jada', [11, 4, 2, 0], 'watch'], ['Tyler', [16, 12, 9, 3], 'ok'], ['Ana', [9, 7, 2, 0], 'watch']],
@@ -223,7 +255,7 @@ function roi() {
   const reps = +$('#rReps').value, lift = +$('#rLift').value, val = +$('#rVal').value;
   $('#oReps').textContent = reps; $('#oLift').textContent = lift; $('#oVal').textContent = money(val);
   const gain = reps * lift * val;
-  const plan = reps <= 10 ? ['Crew', 299] : reps <= 30 ? ['Office', 699] : ['Network', null];
+  const plan = reps <= 10 ? ['Crew', 333] : reps <= 30 ? ['Office', 555] : ['Network', null];
   $('#roiBig').textContent = money(gain);
   $('#roiPlan').textContent = plan[0];
   $('#roiCost').textContent = plan[1] ? money(plan[1]) : 'Custom';
