@@ -20,8 +20,8 @@ const track = (kind, extra = {}) => rpc('growth_track', { p_kind: kind, p_indust
 
 /* ---------- data ---------- */
 const PLANS = {
-  crew: { name: 'Crew plan', price: 299, reps: 10 },
-  office: { name: 'Office plan', price: 699, reps: 30 }
+  crew: { name: 'Crew plan', price: 299, intro: 199, reps: 10 },
+  office: { name: 'Office plan', price: 699, intro: 499, reps: 30 }
 };
 const IND = [
   { id: 'fiber', val: 150, one: 'sale', place: 'street', label: 'Fiber and telecom', tag: 'Door to door', img: './assets/door.webp', alt: 'Door to door sales rep walking up a driveway at sunset', word: 'door',
@@ -31,7 +31,7 @@ const IND = [
     unit: 'sales', cb: '6:00 PM, 1418 Elm', where: 'on their street today', ask: 'ask for the switch', before: 'the pitch', steps: 'Reached a decision maker, pitched, asked for the switch, or sold.', next: 'door',
     obj: 'We already have internet.',
     air: 'Acknowledge it, then isolate: "If the speed and the price were both better, is there anything else that would keep you from switching today?"',
-    list: ['Speed test logging at the door', 'Callback reminders with a walking distance warning', 'Standards per campaign and offer'] },
+    list: ['Speed test logging at the door', 'Callback alerts with a walking leave by warning', 'Team standards with attention flags'] },
   { id: 'retail', val: 100, one: 'sign up', place: 'table', label: 'Retail events and roadshows', tag: 'Retail events', img: './assets/retail.webp', alt: 'Sales rep greeting a shopper at a promotional table in a warehouse store', word: 'table',
     title: 'Warehouse clubs, kiosks and in store roadshows',
     lede: 'For booth and event teams in big box and warehouse stores, the kind of campaigns run by face to face marketing offices.',
@@ -39,7 +39,7 @@ const IND = [
     unit: 'sign ups', cb: 'Sat 11 AM, return shopper', where: 'at the table today', ask: 'ask for the sign up', before: 'the pitch', steps: 'Stopped a shopper at the table, pitched, asked for the sign up, or signed them up.', next: 'shopper',
     obj: 'I am just shopping today.',
     air: 'Use 15 and 5 to open, then Turn and Return: "Totally fair. Before you go, are you paying more than $80 a month right now?"',
-    list: ['15 and 5 engagement and Turn and Return', 'S.E.E. factors and Talk to Everyone drills', 'Shift and location reports for each event'] },
+    list: ['15 and 5 and Turn and Return coaching', 'Followup reminders for shoppers who ask for a call', 'Shift reports you can text, print or export'] },
   { id: 'solar', val: 250, one: 'appointment', place: 'street', label: 'Solar', tag: 'Solar', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'roof',
     title: 'Residential solar setters and closers',
     lede: 'Track the setter funnel at the door and the closer funnel at the kitchen table, on one board.',
@@ -47,7 +47,7 @@ const IND = [
     unit: 'appointments', cb: 'Thu 7 PM, kitchen table sit', where: 'in the neighborhood today', ask: 'ask for the appointment', before: 'you see their bill', steps: 'Reached the homeowner, reviewed their bill, asked for the appointment, or set it.', next: 'door',
     obj: 'We are not interested in solar.',
     air: 'Acknowledge, then isolate the real worry: "Most people say that until they see the bill comparison. Is it the cost, or the roof?"',
-    list: ['Setter and closer stages on one board', 'Appointment callbacks', 'Bill objection drills'] },
+    list: ['Door to appointment funnel for setters', 'Appointment callbacks with alerts', 'Bill objection answers on the training board'] },
   { id: 'pest', val: 200, one: 'service sale', place: 'street', label: 'Pest control', tag: 'Pest control', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'yard',
     title: 'Summer pest and lawn sales teams',
     lede: 'Long days, fast doors and a lot of new reps. The board keeps rookies improving every single week.',
@@ -55,7 +55,7 @@ const IND = [
     unit: 'services', cb: '5:30 PM, 22 Oak, spouse home', where: 'treating homes on their street', ask: 'ask to start service today', before: 'the pitch', steps: 'Reached the homeowner, pitched the service, asked to start, or sold it.', next: 'door',
     obj: 'We already have a guy.',
     air: 'Feel, Felt, Found: "I get it. A lot of neighbors felt the same, and what they found was a gap in what the other guy covers."',
-    list: ['Rookie development tracking', 'Neighbor referral notes', 'Daily goals and income pace'] },
+    list: ['Rookie standards with attention flags', 'Spouse home callbacks with alerts', 'Daily goals and income pace'] },
   { id: 'roof', val: 300, one: 'inspection', place: 'street', label: 'Roofing', tag: 'Roofing', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'house',
     title: 'Storm and retail roofing canvassers',
     lede: 'Turn canvass days into inspections, and inspections into signed jobs, with every step on the record.',
@@ -63,7 +63,7 @@ const IND = [
     unit: 'inspections', cb: '4:00 PM, 9 Birch, ladder check', where: 'after the storm in their area', ask: 'ask to get on the roof', before: 'you point out the damage', steps: 'Reached the homeowner, pointed out damage, asked for the inspection, or set it.', next: 'door',
     obj: 'My roof is fine.',
     air: 'Acknowledge, then isolate: "Most roofs look fine from the ground. Would a free photo check of yours be worth ten minutes?"',
-    list: ['Inspection callbacks', 'Storm area notes', 'Canvass to close reporting'] },
+    list: ['Inspection callbacks with leave by warnings', 'Storm talk tracks on the training board', 'Door to inspection reports by rep'] },
   { id: 'security', val: 250, one: 'install', place: 'street', label: 'Home security', tag: 'Home security', img: './assets/door.webp', alt: 'Field rep approaching a home', word: 'street',
     title: 'Home security and smart home teams',
     lede: 'Coaching built for a trust sale, where the first ten seconds decide everything.',
@@ -71,7 +71,15 @@ const IND = [
     unit: 'installs', cb: '6:30 PM, 310 Pine, both owners', where: 'helping neighbors on their street', ask: 'ask for the install date', before: 'the pitch', steps: 'Reached the homeowner, gave the safety pitch, asked for the close, or booked the install.', next: 'door',
     obj: 'We have a dog. We are fine.',
     air: 'Acknowledge, then respond: "Dogs are great at noise. The system is for the times nobody is home, including the dog."',
-    list: ['Trust focused opening drills', 'Install appointment callbacks', 'Standards per offer'] }
+    list: ['Trust focused opening answers on the board', 'Install date followups', 'Team standards with attention flags'] },
+  { id: 'auto', val: 300, one: 'car sold', place: 'lot', label: 'Car sales', tag: 'Car sales', img: './assets/huddle.webp', alt: 'Sales team meeting before the floor opens', word: 'up',
+    title: 'Dealership floor and lot sales',
+    lede: 'Every up is a conversation. See which salesperson loses them at the greeting, the test drive or the write up.',
+    st: [['U', 'Up greeted', 'Greeted'], ['D', 'Demo drive', 'Drove'], ['W', 'Write up shown', 'Wrote'], ['S', 'Sold', 'Sold']],
+    unit: 'cars sold', cb: 'Sat 10 AM, be back with spouse', where: 'helping them find the right car today', ask: 'ask for the sale on the write up', before: 'the test drive', steps: 'Greeted the up, took the demo drive, showed the write up, or sold the car.', next: 'up',
+    obj: 'I am just looking today.',
+    air: 'Acknowledge, then isolate: "Totally fine, most people start that way. If we found the right one at the right number, would you want to drive it home today?"',
+    list: ['Be back followups by call or text', 'Up to sold funnel per salesperson', 'Daily goals and income pace'] }
 ];
 
 /* ---------- reveal ---------- */
@@ -93,7 +101,7 @@ addEventListener('scroll', () => {
 }, { passive: true });
 
 /* ---------- hero word swap ---------- */
-const words = ['door', 'table', 'roof', 'yard', 'booth', 'street'];
+const words = ['door', 'table', 'roof', 'yard', 'up', 'booth', 'street'];
 let wi = 0;
 const URL_IND = IND.find(x => x.id === new URLSearchParams(location.search).get('ind'));
 if (!reduce && !URL_IND) setInterval(() => { wi = (wi + 1) % words.length; $('#swap').innerHTML = `<span>${words[wi]}</span>`; }, 2200);
@@ -188,7 +196,7 @@ function showInd(id, first) {
     $('#indList').innerHTML = x.list.map(l => `<li>${l}</li>`).join('');
     body.classList.remove('swapping');
   };
-  if (first) return fill();
+  if (first) { img.src = x.img; img.alt = x.alt || img.alt; return fill(); }
   body.classList.add('swapping');
   if (img.getAttribute('src') !== x.img) { img.classList.add('fade'); setTimeout(() => { img.src = x.img; img.alt = x.alt; img.classList.remove('fade'); }, 280); }
   setTimeout(fill, 260);
@@ -290,7 +298,7 @@ const modal = $('#buy'); let curPlan = 'office', lastFocus = null;
 function openBuy(plan) {
   curPlan = plan; lastFocus = document.activeElement;
   $('#buyPlan').textContent = PLANS[plan].name + ', up to ' + PLANS[plan].reps + ' reps';
-  $('#buyPrice').textContent = money(PLANS[plan].price) + ' / month after trial';
+  $('#buyPrice').textContent = money(PLANS[plan].intro) + ' / month for 3 months after trial, then ' + money(PLANS[plan].price);
   $('#buyMsg').textContent = ''; modal.classList.add('open'); document.body.style.overflow = 'hidden';
   setTimeout(() => modal.querySelector('input').focus(), 50);
   track('plan_click', { plan });
