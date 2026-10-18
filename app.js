@@ -543,7 +543,7 @@ if (C.demoVideo) {
   const vb = $('#videoBtn'); vb.hidden = false;
   vb.addEventListener('click', () => {
     lastFocus = vb;
-    $('#vidSlot').innerHTML = `<video controls autoplay playsinline preload="metadata" ${C.demoPoster ? `poster="${esc(C.demoPoster)}"` : ''} src="${esc(C.demoVideo)}"></video>`;
+    $('#vidSlot').innerHTML = `<video controls autoplay playsinline preload="metadata" ${C.demoPoster && !(C.demoVideoVertical && matchMedia('(max-width: 700px)').matches) ? `poster="${esc(C.demoPoster)}"` : ''} src="${esc(C.demoVideoVertical && matchMedia('(max-width: 700px)').matches ? C.demoVideoVertical : C.demoVideo)}"></video>`;
     openDialog($('#vid'));
     setTimeout(() => $('#vid [data-close]')?.focus(), 50);
     track('demo_view');
