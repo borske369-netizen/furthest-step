@@ -10,8 +10,8 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./base.css?v=17">
-<link rel="stylesheet" href="./style.css?v=17">
+<link rel="stylesheet" href="./base.css?v=18">
+<link rel="stylesheet" href="./style.css?v=18">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317150F'/%3E%3Cpath d='M9 8v16M14 8v16M19 8v16' stroke='%23F3EFE6' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M6 21L25 11' stroke='%23F26A1B' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -42,7 +42,7 @@
     <div>
       <p class="eyebrow rv">For owners and managers of field sales teams</p>
       <h1 class="rv d1">See the step that is losing the sale. <em>While the shift is still on.</em></h1>
-      <p class="lede rv d2">Reps tap the furthest step after each conversation. You see every rep live, and each rep gets one fix for the next door. No app store. Works offline.</p>
+      <p class="lede rv d2">Reps tap the furthest step after each conversation. You see every rep live, and each rep gets one fix for the next <span data-nextword>door</span>. No app store. Works offline.</p>
       <div class="hero-ctas rv d3">
         <button class="btn btn-primary" type="button" data-start data-track="hero_start">Start 14 days free
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -58,7 +58,7 @@
     <div class="hero-phone-wrap rv d2">
       <div class="phone" aria-label="Animated preview of the rep screen">
         <div class="screen" id="heroScreen">
-          <div class="scr-top"><b>Today</b><span class="scr-pill live">Synced</span></div>
+          <div class="scr-top"><b>Today</b><span class="scr-pill">Example</span></div>
           <div class="counters" id="heroCtr"></div>
           <div class="funnel" id="heroFunnel"></div>
           <div class="coach" id="heroCoach"><small>Your one fix</small><p id="heroCoachText"></p></div>
@@ -134,7 +134,7 @@
       <div class="demo-steps">
         <div class="step rv d1"><b>1</b><div><h3>Tap the furthest step reached</h3><p>One tap after each conversation. <span id="step1">Reached a decision maker, presented, asked for the close, or sold.</span> About ten seconds, even with no signal.</p></div></div>
         <div class="step rv d2"><b>2</b><div><h3>The app reads the pattern</h3><p>It compares each step to the next against the standards you set, and points to where the conversation stops.</p></div></div>
-        <div class="step rv d3"><b>3</b><div><h3>One fix for the next door</h3><p>The rep gets one thing to change on the very next conversation. Pace, pitch or attitude.</p></div></div>
+        <div class="step rv d3"><b>3</b><div><h3>One fix for the next <span data-nextword>door</span></h3><p>The rep gets one thing to change on the very next conversation. Pace, pitch or attitude.</p></div></div>
       </div>
     </div>
     <div class="demo-panel rv d2">
@@ -179,8 +179,8 @@
           <div class="stp"><label for="cS"><b>S</b> Sales</label><div class="stepper"><button type="button" data-step="-1" aria-label="Fewer sales">&minus;</button><input id="cS" type="number" inputmode="numeric" min="0" value="10"><button type="button" data-step="1" aria-label="More sales">+</button></div></div>
         </div>
         <div class="calc-row">
-          <label for="cVal">One sale is worth<span class="dollar"><input id="cVal" type="number" inputmode="numeric" min="0" step="5" value="150"></span></label>
-          <label for="cReps">Reps on the team<input id="cReps" type="number" inputmode="numeric" min="1" max="30" value="8"></label>
+          <label for="cVal">What one sale is worth to the office<small class="calc-help" id="cValHelp">After rep pay and chargebacks</small><span class="dollar"><input id="cVal" type="number" inputmode="numeric" min="0" max="1000000" step="5" value="150" aria-describedby="cValHelp"></span></label>
+          <label for="cReps">Reps on the team<input id="cReps" type="number" inputmode="numeric" min="1" max="500" step="1" value="8"></label>
           <label for="cLift">Lift at weakest step<span class="pts"><input id="cLift" type="number" inputmode="decimal" min="0" max="50" step="1" value="1"></span></label>
         </div>
         <details class="targets">
@@ -241,7 +241,7 @@
         <h3>A.I.R.</h3>
         <div class="air">
           <div><b>A</b><span><strong>Agree or acknowledge.</strong> Show them you heard it. Never argue with the first no.</span></div>
-          <div><b>I</b><span><strong>Immediately return.</strong> Bring it back to why you are there, then keep going.</span></div>
+          <div><b>I.R.</b><span><strong>Immediately return.</strong> Bring it back to why you are there, then keep going.</span></div>
         </div>
       </div>
       <div class="m rv d1">
@@ -252,7 +252,7 @@
       <div class="m rv d2">
         <span class="tagline">The three levers</span>
         <h3>Pace, Pitch, Attitude</h3>
-        <p>Every slump traces back to one of three. The app reads the funnel and tells the rep which one, so they stop guessing.</p>
+        <p>Most slumps start with one of three. The app reads the funnel and tells the rep which one, so they stop guessing.</p>
       </div>
     </div>
   </div>
@@ -266,9 +266,9 @@
       <h2 class="rv d1">One app for the rep, the manager and the owner.</h2>
     </div>
     <div class="roles">
-      <article class="role rv"><h3>Reps</h3><ul><li>One tap per conversation, offline</li><li>One fix for the next door</li><li>A.I.R. and Feel Felt Found prep</li><li>Callback alerts, even with the phone locked</li><li>SMART goals and income pace</li></ul></article>
+      <article class="role rv"><h3>Reps</h3><ul><li>One tap per conversation, offline</li><li>One fix for the next <span data-nextword>door</span></li><li>A.I.R. and Feel Felt Found prep</li><li>Callback alerts, even with the phone locked</li><li>SMART goals and income pace</li></ul></article>
       <article class="role rv d1"><h3>Managers</h3><ul><li>Every rep's funnel, live</li><li>Your standards, your flags</li><li>Reports for any period, text or export</li><li>See who is working on which skill</li><li>A fair record of coaching talks</li></ul></article>
-      <article class="role rv d2"><h3>Owners</h3><ul><li>A personal key for every person</li><li>Remove anyone, even on offline phones</li><li>Pause a team without losing data</li><li>See who last used the app</li></ul></article>
+      <article class="role rv d2"><h3>Owners</h3><ul><li>A personal key for every person</li><li>Remove anyone's access with one tap</li><li>Pause a team without losing data</li><li>See who last used the app</li></ul></article>
     </div>
     <div class="fx-toggle">
       <button class="btn btn-ghost" type="button" id="fxBtn" aria-expanded="false" aria-controls="fxAll">See every feature</button>
@@ -366,9 +366,9 @@
       <details><summary>My reps will not log. Why would this be different?</summary><p>It asks for one tap, not a form. About ten seconds after a conversation, and the rep gets something back right away: their own one fix. You also see who is logging, so it becomes part of the day.</p></details>
       <details><summary>We already have a CRM or a map app. Do we need this?</summary><p>Those track addresses, pins and leads. Furthest Step tracks how each conversation went and coaches the rep on it. Keep your map app for where to go, and use this for what happens at the door.</p></details>
       <details><summary>What happens in the 14 days?</summary><p>David sets up your team with your objections and standards. Your reps open one link and start logging. You watch the board for two weeks. Nothing is charged during the 14 days.</p></details>
-      <details><summary>What if there is no signal at the door?</summary><p>Taps are saved on the phone and sync on their own when the signal comes back. Nothing gets lost.</p></details>
+      <details><summary>What if there is no signal at the door?</summary><p>Taps are saved on the phone and sync on their own when the signal comes back. Saved taps sync when the connection returns.</p></details>
       <details><summary>Who sees the numbers?</summary><p>Reps see their own numbers and coaching. Managers see their teams. Owners control every key and can remove access at any time.</p></details>
-      <details><summary>What happens after 3 months?</summary><p>The intro price ends and your plan moves to its full price: $299 a month for Crew, or $699 a month for Office. That is the whole price, shown here up front. No contract.</p></details>
+      <details><summary>What happens after 3 months?</summary><p>The intro price ends and your plan moves to its full price: $299 a month for Crew, or $699 a month for Office. That is the whole price, shown here up front. No long term contract.</p></details>
       <details><summary>Can I cancel?</summary><p>Yes. Cancel during the 14 days and you pay nothing. After that, cancel any month.</p></details>
     </div>
   </div>
@@ -404,7 +404,7 @@
 </footer>
 
 <div class="mobile-cta" id="mobileCta">
-  <span>Crew from <b>$199</b> a month</span>
+  <span id="mobPrice">Crew from <b>$199</b> a month</span>
   <button class="btn btn-primary" type="button" data-start>Start free</button>
 </div>
 
@@ -449,7 +449,7 @@
   <div class="wrap" id="oBody"></div>
 </div>
 
-<script src="./config.js?v=17"></script>
-<script src="./app.js?v=17"></script>
+<script src="./config.js?v=18"></script>
+<script src="./app.js?v=18"></script>
 </body>
 </html>

@@ -7,6 +7,10 @@ const SID = Math.random().toString(36).slice(2) + Date.now().toString(36);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const money = n => '$' + Math.round(n).toLocaleString('en-US');
 const TEXT_NUM = C.textNumber || '+17048855457';
+// one validated integer parser: plain digits only, so 1e2, 10.5 and blanks are rejected
+const parseIntStrict = (raw, min, max) => { const t = String(raw ?? '').trim(); if (!/^\d+$/.test(t)) return NaN; const n = Number(t); return n >= min && n <= max ? n : NaN; };
+const parseReps = raw => parseIntStrict(raw, 1, 500);
+let boardReady = false, enteredReps = NaN;
 const smsHref = body => `sms:${TEXT_NUM}${body ? '?&body=' + encodeURIComponent(body) : ''}`;
 
 /* ---------- backend ---------- */
@@ -69,7 +73,7 @@ const IND = [
     title: 'Storm and retail roofing canvassers',
     lede: 'Turn canvass days into inspections, with every step on the record.',
     d: ['Reached the homeowner', 'Pointed out the damage', 'Asked for the inspection', 'Inspection set'],
-    unit: 'inspections', cb: '4:00 PM, 9 Birch, ladder check', where: 'after the storm in their area', ask: 'ask to get on the roof', before: 'you point out the damage', steps: 'Reached the homeowner, pointed out damage, asked for the inspection, or set it.', next: 'door',
+    unit: 'inspections', cb: '4:00 PM, 9 Birch, ladder check', where: 'checking roofs after the storm', ask: 'ask to get on the roof', before: 'you point out the damage', steps: 'Reached the homeowner, pointed out damage, asked for the inspection, or set it.', next: 'door',
     obj: 'My roof is fine.',
     air: 'A.I.R. Acknowledge: "It may well be, most roofs look fine from the ground." Immediately return: "That is why we are checking every house the storm hit. A free photo check takes ten minutes."',
     list: ['Inspection callbacks with leave by warnings', 'Storm talk tracks on the training board', 'Door to inspection reports by rep'] },
@@ -109,6 +113,8 @@ $$('#nav a, #nav button').forEach(a => a.addEventListener('click', () => setMenu
 addEventListener('keydown', e => { if (e.key === 'Escape' && hdr.classList.contains('menu-open')) { setMenu(false); menuBtn.focus(); } });
 addEventListener('resize', () => { if (innerWidth > 900) setMenu(false); });
 function syncMob() { mob.classList.toggle('show', !document.querySelector('.modal.open')); }
+function paintMob() { const off = enteredReps > 10; $('#mobPrice').innerHTML = off ? 'Office from <b>$499</b> a month' : 'Crew from <b>$199</b> a month'; }
+const noteReps = raw => { const n = parseReps(raw); if (Number.isFinite(n)) { enteredReps = n; paintMob(); } };
 addEventListener('scroll', () => {
   const y = scrollY;
   hdr.classList.toggle('solid', y > 40);
@@ -163,17 +169,19 @@ else setTimeout(heroStep, 1200);
 
 /* interactive demo */
 const dc = $('#demoCtr'), dfun = $('#demoFunnel');
-let dv = [0, 0, 0, 0];
+let dv = [0, 0, 0, 0], patRaf = 0;
+const stopPat = () => { if (patRaf) cancelAnimationFrame(patRaf); patRaf = 0; };
 const demoUpdate = (flash) => { paint(dc, dfun, dv, flash); const on = dv[0] >= 3; $('#demoCoach').classList.toggle('on', on); $('#demoCoachText').textContent = coachFor(dv); };
-buildPhone(dc, dfun, (i) => { bump(dv, i); $$('[data-pat]').forEach(x => x.setAttribute('aria-pressed', 'false')); demoUpdate(i); });
+buildPhone(dc, dfun, (i) => { stopPat(); bump(dv, i); $$('[data-pat]').forEach(x => x.setAttribute('aria-pressed', 'false')); demoUpdate(i); });
 const PATS = { open: [22, 7, 5, 2], pitch: [18, 12, 9, 1], close: [16, 12, 4, 2], good: [20, 15, 11, 5] };
 $$('[data-pat]').forEach(b => b.addEventListener('click', () => {
   $$('[data-pat]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  stopPat();
   const target = PATS[b.dataset.pat], start = [...dv], t0 = performance.now();
-  const step = (t) => { const k = Math.min(1, (t - t0) / 600); dv = start.map((s, i) => Math.round(s + (target[i] - s) * k)); demoUpdate(); if (k < 1) requestAnimationFrame(step); };
-  requestAnimationFrame(step); track('demo_view');
+  const step = (t) => { const k = Math.min(1, (t - t0) / 600); dv = start.map((s, i) => Math.round(s + (target[i] - s) * k)); demoUpdate(); patRaf = k < 1 ? requestAnimationFrame(step) : 0; };
+  patRaf = requestAnimationFrame(step); track('demo_view');
 }));
-$('#demoReset').addEventListener('click', () => { dv = [0, 0, 0, 0]; $$('[data-pat]').forEach(x => x.setAttribute('aria-pressed', 'false')); demoUpdate(); });
+$('#demoReset').addEventListener('click', () => { stopPat(); dv = [0, 0, 0, 0]; $$('[data-pat]').forEach(x => x.setAttribute('aria-pressed', 'false')); demoUpdate(); });
 demoUpdate();
 
 /* industries */
@@ -212,9 +220,11 @@ function setIndustry(id, from) {
   if ($('#heroCoach').classList.contains('on')) $('#heroCoachText').textContent = coachFor(hv);
   $('#heroUnit').textContent = x.unit; $('#heroCb').textContent = x.cb;
   $('#step1').textContent = x.steps;
+  $$('[data-nextword]').forEach(el => { el.textContent = x.next === 'door' ? 'door' : 'conversation'; });
   demoSel.value = id;
   if (from !== 'tab') showInd(id, from === 'url');
   $('#bInd').value = id;
+  if (boardReady && picked !== null) renderDetail(picked);
 }
 demoSel.addEventListener('change', () => { setIndustry(demoSel.value, 'demo'); track('industry', { industry: demoSel.value }); });
 $$('.tab', tabs).forEach(t => t.addEventListener('click', () => { setIndustry(t.dataset.id, 'tab'); showInd(t.dataset.id); }));
@@ -246,7 +256,7 @@ function fixFor(k, name) {
   return [
     { leak: v => `Losing people before the presentation. ${v[1]} presentations from ${v[0]} decision makers.`, fix: `Pace. Slow the first ten seconds and lead with why you are ${x.where}.`, text: `Hey ${name}, your board says people are leaving before the presentation. Next ${x.next}, slow your first ten seconds and lead with why you are ${x.where}. Text me after five more.` },
     { leak: v => `Presenting, but not asking. Asked for the close ${v[2]} times in ${v[1]} presentations.`, fix: `Attitude. After every presentation, ${x.ask} once, then stop talking.`, text: `Hey ${name}, your presentations are landing. Next ${x.next}, ${x.ask} once after every one, then stop talking. Let me know how the next five go.` },
-    { leak: v => `Asking, but hearing no. ${v[3]} sales from ${v[2]} closes asked.`, fix: `Pitch. When you hear "${x.obj.replace(/\.$/, '')}," use A.I.R. before you ask again.`, text: `Hey ${name}, you are asking every time, nice. When they say "${x.obj.replace(/\.$/, '')}," acknowledge it, then bring it right back to why you are there before you ask again.` }
+    { leak: v => `Asking, but hearing no. ${v[3]} sales from ${v[2]} closes asked.`, fix: `Pitch. When you hear "${x.obj.replace(/\.$/, '')}," use A.I.R. before you ask again.`, text: `Hey ${name}, you are asking for the close every time. Keep it up. When they say "${x.obj.replace(/\.$/, '')}," acknowledge it, then bring it right back to why you are there before you ask again.` }
   ][k];
 }
 function stdLabel() { return metricSel.value === 'p' ? `${stdIn.value} of 10` : `${stdIn.value} of 10`; }
@@ -267,14 +277,28 @@ function renderBoard() {
   if (scrubReady) renderScrub();
 }
 function renderDetail(i) {
-  const v = BOARD[period][i], name = TEAM[i], L = leakOf(v), f = fixFor(L.k, name), max = Math.max(v[0], 1);
+  const v = BOARD[period][i], name = TEAM[i], L = leakOf(v), max = Math.max(v[0], 1);
   const pl = { today: 'today', week: 'this week', last: 'last week' }[period];
+  // The flag, the leak and the text all follow the standard the owner picked.
+  const isP = metricSel.value === 'p', std = +stdIn.value, m = repMetric(v), need = m < std;
+  const what = isP ? 'presentation' : 'closing', sk = isP ? 0 : 2, mine = `${m.toFixed(1)} of 10 against your standard of ${std} of 10`;
+  let leak, fix, text;
+  if (need) {
+    const f = fixFor(sk, name);
+    leak = isP ? `Under your presentation standard. ${v[1]} presentations from ${v[0]} decision makers, ${mine}.` : `Under your closing standard. ${v[3]} sales from ${v[2]} closes asked, ${mine}.`;
+    fix = f.fix; text = f.text;
+  } else {
+    leak = `At or above your ${what} standard: ${mine}.`;
+    if (L.ok) { fix = `Strong shift. Same pace on the next ${CUR.next} and log every callback.`; }
+    else { fix = `Your standard is met. Next thing to try: ${fixFor(L.k, name).fix}`; }
+    text = `Hey ${name}, you are at or above my ${what} standard ${pl}. Keep the same pace and log every callback.`;
+  }
   $('#obDetail').innerHTML = `
     <div class="obd-head"><b>${name}</b><span class="ex-tag">Example rep, ${pl}</span></div>
     <div class="obd-fun">${ST.map((s, j) => `<div class="frow"><span>${s[2]}</span><div class="fbar"><i style="width:${v[j] / max * 100}%"></i></div><em>${v[j]}</em></div>`).join('')}</div>
-    <div class="obd-block"><small>The leak</small><p>${L.ok ? 'No step is under the example targets. Funnel is healthy at every step.' : esc(f.leak(v))}</p></div>
-    <div class="obd-block dark"><small>The one fix the app gives ${name}</small><p>${L.ok ? `Strong shift. Same pace on the next ${CUR.next} and log every callback.` : esc(f.fix)}</p></div>
-    <div class="obd-block"><small>Text this rep</small><p class="obd-text" id="obdText">${L.ok ? esc(`Hey ${name}, strong numbers. Keep the same pace and log every callback.`) : esc(f.text)}</p>
+    <div class="obd-block"><small>${need ? 'The leak' : 'Against your standard'}</small><p>${esc(leak)}</p></div>
+    <div class="obd-block dark"><small>The one fix the app gives ${name}</small><p>${esc(fix)}</p></div>
+    <div class="obd-block"><small>Text this rep</small><p class="obd-text" id="obdText">${esc(text)}</p>
       <button type="button" class="btn btn-ink obd-copy" id="obdCopy">Copy this text</button></div>`;
   $('#obdCopy').addEventListener('click', async () => {
     const t = $('#obdText').textContent, b = $('#obdCopy');
@@ -285,7 +309,9 @@ function renderDetail(i) {
 }
 $('#obRows').addEventListener('click', e => {
   const b = e.target.closest('.obr'); if (!b) return;
+  const hadFocus = document.activeElement === b;
   picked = +b.dataset.r; renderBoard(); trackBoard();
+  if (hadFocus) $(`#obRows .obr[data-r="${picked}"]`)?.focus({ preventScroll: true });
   if (innerWidth < 980) $('#obDetail').scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
 });
 $$('#periods button').forEach(b => b.addEventListener('click', () => { period = b.dataset.p; renderBoard(); trackBoard(); }));
@@ -317,43 +343,63 @@ function renderScrub() {
   $('#scrubTot').innerHTML = `<span>Crew so far</span>` + ST.map((s, i) => `<b><i>${s[0]}</i>${live[i]}</b>`).join('');
 }
 $('#scrub').addEventListener('input', () => { renderScrub(); trackBoard(); });
-scrubReady = true; renderBoard();
+scrubReady = true; boardReady = true; renderBoard();
 
 /* ---------- leak calculator ---------- */
 const cIds = ['cD', 'cP', 'cC', 'cS'];
 const num = id => { const v = $('#' + id).value.trim(); return v === '' ? NaN : Number(v); };
+const MAX_COUNT = 100000, MAX_VAL = 1000000;
 $$('.stepper button').forEach(b => b.addEventListener('click', () => {
-  const inp = b.parentElement.querySelector('input'); const v = Math.max(0, (Number(inp.value) || 0) + +b.dataset.step);
+  const inp = b.parentElement.querySelector('input'); const v = Math.min(MAX_COUNT, Math.max(0, Math.round(Number(inp.value) || 0) + +b.dataset.step));
   inp.value = v; inp.dispatchEvent(new Event('input', { bubbles: true }));
 }));
 const calcCta = $('#calcCta');
+function calcUnavailable(msg) {
+  $('#cLeak').innerHTML = `<b>Not available yet</b><span>${esc(msg)}</span>`;
+  $('#cRates').innerHTML = '';
+  $('#cGain').textContent = 'Fix the number above and the example math comes back.';
+  $('#cBe').textContent = '';
+  calcCta.textContent = 'Start 14 days free';
+  delete calcCta.dataset.plan;
+  $('#calcOut').classList.add('unavail');
+}
 function calc() {
-  const err = $('#calcErr'), out = $('#calcOut');
-  const v = cIds.map(num), val = num('cVal'), reps = num('cReps'), lift = num('cLift');
-  const t = ['tP', 'tC', 'tS'].map(id => num(id) / 100);
+  const err = $('#calcErr');
+  const v = cIds.map(id => parseIntStrict($('#' + id).value, 0, MAX_COUNT));
+  const val = num('cVal'), reps = parseIntStrict($('#cReps').value, 1, 500), lift = num('cLift');
+  const tRaw = ['tP', 'tC', 'tS'].map(id => parseIntStrict($('#' + id).value, 1, 100)), t = tRaw.map(x => x / 100);
   const names = ['decision makers reached', 'presentations', 'closes asked', 'sales'];
-  let msg = '';
-  if (v.some(x => !Number.isFinite(x) || x < 0 || !Number.isInteger(x))) msg = 'Use whole numbers of zero or more for each step.';
-  else if (v[0] === 0) msg = 'Add at least one decision maker reached to see the math.';
-  else for (let i = 1; i < 4; i++) if (v[i] > v[i - 1]) { msg = `Your ${names[i]} (${v[i]}) are more than your ${names[i - 1]} (${v[i - 1]}). Each step counts people who also reached the step before it, so it cannot be higher. Check that number.`; break; }
-  if (!msg && (!Number.isFinite(val) || val < 0)) msg = 'Add what one sale is worth to the office, in dollars.';
-  if (!msg && (!Number.isFinite(reps) || reps < 1)) msg = 'Add how many reps are on the team.';
-  if (!msg && (!Number.isFinite(lift) || lift < 0 || lift > 50)) msg = 'Use a lift between 0 and 50 points.';
-  if (!msg && t.some(x => !Number.isFinite(x) || x <= 0 || x > 1)) msg = 'Example targets need to be between 1 and 100 percent.';
-  cIds.forEach((id, i) => $('#' + id).setAttribute('aria-invalid', String(!!msg && i > 0 && v[i] > v[i - 1])));
-  err.textContent = msg; out.classList.toggle('stale', !!msg);
-  if (msg) return;
+  let msg = '', bad = [];
+  const badStep = v.findIndex(x => !Number.isFinite(x));
+  if (badStep >= 0) { msg = `Use a whole number from 0 to ${MAX_COUNT.toLocaleString('en-US')} for each step.`; bad = [cIds[badStep]]; }
+  else if (v[0] === 0) { msg = 'Add at least one decision maker reached to see the math.'; bad = ['cD']; }
+  else for (let i = 1; i < 4; i++) if (v[i] > v[i - 1]) { msg = `Your ${names[i]} (${v[i]}) are more than your ${names[i - 1]} (${v[i - 1]}). Each step counts people who also reached the step before it, so it cannot be higher. Check that number.`; bad = [cIds[i]]; break; }
+  if (!msg && (!Number.isFinite(val) || val < 0 || val > MAX_VAL)) { msg = `Add what one sale is worth to the office, from $0 to ${money(MAX_VAL)}.`; bad = ['cVal']; }
+  if (!msg && !Number.isFinite(reps)) { msg = 'Add how many reps are on the team, as a whole number from 1 to 500.'; bad = ['cReps']; }
+  if (!msg && (!Number.isFinite(lift) || lift < 0 || lift > 50)) { msg = 'Use a lift between 0 and 50 points.'; bad = ['cLift']; }
+  if (!msg) { const bt = tRaw.findIndex(x => !Number.isFinite(x)); if (bt >= 0) { msg = 'Example targets need to be whole numbers from 1 to 100 percent.'; bad = [['tP', 'tC', 'tS'][bt]]; } }
+  [...cIds, 'cVal', 'cReps', 'cLift', 'tP', 'tC', 'tS'].forEach(id => $('#' + id).setAttribute('aria-invalid', String(bad.includes(id))));
+  if (Number.isFinite(reps)) noteReps(reps);
+  err.textContent = msg;
+  if (msg) return calcUnavailable(msg);
   const r = [ratio(v[1], v[0]), ratio(v[2], v[1]), ratio(v[3], v[2])];
   const sc = r.map((x, i) => x / t[i]), k = sc.indexOf(Math.min(...sc));
   const pct = x => Math.round(x * 100) + '%';
+  // a lift can never push a step past 100 percent
+  const room = Math.max(0, Math.floor((1 - r[k]) * 1000) / 10), used = Math.min(lift, room), capped = used < lift;
+  const L = used / 100;
+  const weekly = k === 0 ? v[0] * L * r[1] * r[2] : k === 1 ? v[1] * L * r[2] : v[2] * L;
+  const monthly = weekly * 52 / 12, worth = monthly * val;
+  if (![weekly, monthly, worth].every(Number.isFinite)) return calcUnavailable('These numbers are too large for the example math. Try smaller numbers.');
+  $('#calcOut').classList.remove('unavail');
   $('#cLeak').innerHTML = `<b>${STEP_NAMES[k]}</b><span>${pct(r[k])} against an example target of ${pct(t[k])}${sc[k] >= 1 ? '. Every step meets the example targets, so this is just your lowest one.' : '.'}</span>`;
   $('#cRates').innerHTML = r.map((x, i) => `<div class="${i === k ? 'hit' : ''}"><small>${['D to P', 'P to C', 'C to S'][i]}</small><b>${pct(x)}</b><span>target ${pct(t[i])}</span></div>`).join('');
-  const L = lift / 100;
-  const weekly = k === 0 ? v[0] * L * r[1] * r[2] : k === 1 ? v[1] * L * r[2] : v[2] * L;
-  const monthly = weekly * 52 / 12;
-  const m1 = monthly < 10 ? monthly.toFixed(1) : Math.round(monthly);
-  if (lift === 0) $('#cGain').innerHTML = `Example math: with no lift the math adds 0 sales a month. That is a fair place to start. The 14 days are free, so you can check this against your own board.`;
-  else $('#cGain').innerHTML = `Example math: ${lift} more ${lift === 1 ? 'point' : 'points'} at ${STEP_NAMES[k].toLowerCase()}, with every other step held the same, is about <b>${m1} more sales a month</b> across the team, worth about <b>${money(monthly * val)}</b> to the office.`;
+  const m1 = monthly < 10 ? monthly.toFixed(1) : Math.round(monthly).toLocaleString('en-US');
+  const fmtPts = x => { const n = Math.floor(x * 10) / 10; return Number.isInteger(n) ? String(n) : n.toFixed(1); };
+  const ptsWord = n => (n === '1' ? 'point' : 'points');
+  if (room === 0) $('#cGain').innerHTML = `Example math: ${STEP_NAMES[k].toLowerCase()} is already at ${pct(r[k])}, so there is no room for a lift there. The 14 days are free, so you can check this against your own board.`;
+  else if (lift === 0) $('#cGain').innerHTML = `Example math: with no lift the math adds 0 sales a month. That is a fair place to start. The 14 days are free, so you can check this against your own board.`;
+  else { const u = fmtPts(used); $('#cGain').innerHTML = `Example math: ${u} more ${ptsWord(u)} at ${STEP_NAMES[k].toLowerCase()}, with every other step held the same, is about <b>${m1} more sales a month</b> across the team, worth about <b>${money(worth)}</b> to the office.${capped ? ` The lift is capped at ${u} ${ptsWord(u)} because that step cannot go past 100%.` : ''}`; }
   const pk = planFor(reps), P = PLANS[pk];
   if (val > 0) {
     const n = Math.ceil(P.intro / val), n2 = Math.ceil(P.price / val);
@@ -393,29 +439,54 @@ $('#qForm').addEventListener('submit', async e => {
 
 /* ---------- trial modal ---------- */
 const modal = $('#buy'), buyBody = $('#buyBody'), BUY_HTML = buyBody.innerHTML;
-let curPlan = 'crew', explicitPlan = false, lastFocus = null;
+let curPlan = 'crew', requestedPlan = null, lastFocus = null;
 const hasLink = p => !!((C.checkout || {})[p]);
+// more than 10 reps always needs Office; otherwise go back to the plan the visitor asked for
+const planForReps = reps => (Number.isFinite(reps) && reps > 10 ? 'office' : (requestedPlan || 'crew'));
 function paintPlan() {
-  const P = PLANS[curPlan], reps = +($('#buyForm [name=team_size]')?.value || 0);
+  const P = PLANS[curPlan], reps = parseReps($('#buyForm [name=team_size]')?.value);
   $('#buyPlan').textContent = `${P.name}, up to ${P.reps} reps`;
   $('#buyPrice').textContent = `${money(P.intro)} a month for 3 months, then ${money(P.price)}`;
   $('#buyBtn').textContent = hasLink(curPlan) ? 'Continue to checkout' : 'Start my 14 days free';
-  $('#planNote').textContent = reps > 30 ? 'More than 30 reps? Send this and David will set up a plan for your office.' : (explicitPlan ? '' : 'Plan picked from your rep count: 10 or fewer is Crew, more is Office.');
+  let note = '';
+  if (reps > 30) note = 'More than 30 reps? Send this and David will set up a plan for your office.';
+  else if (requestedPlan === 'crew' && curPlan === 'office') note = 'Crew covers up to 10 reps, so more than 10 uses Office.';
+  else if (!requestedPlan) note = 'Plan picked from your rep count: 10 or fewer is Crew, more is Office.';
+  $('#planNote').textContent = note;
 }
+/* dialogs: trap focus and make the rest of the page inert */
+const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),video[controls],[tabindex]:not([tabindex="-1"])';
+let inerted = [];
+function openDialog(m) {
+  inerted = [...document.body.children].filter(el => el !== m && !el.inert && el.tagName !== 'SCRIPT');
+  inerted.forEach(el => { el.inert = true; });
+  m.classList.add('open'); document.body.style.overflow = 'hidden'; syncMob();
+}
+function releaseInert() { inerted.forEach(el => { el.inert = false; }); inerted = []; }
+addEventListener('keydown', e => {
+  if (e.key !== 'Tab') return;
+  const m = $('.modal.open'); if (!m) return;
+  const f = $$(FOCUSABLE, m).filter(el => el.offsetParent !== null || el === document.activeElement);
+  if (!f.length) { e.preventDefault(); return; }
+  const first = f[0], last = f[f.length - 1], a = document.activeElement;
+  if (!m.contains(a)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+  else if (e.shiftKey && a === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
+});
 function openBuy(plan) {
   lastFocus = document.activeElement;
   buyBody.innerHTML = BUY_HTML; $('#bInd').value = CUR.id;
   const repsIn = $('#buyForm [name=team_size]');
-  const calcReps = num('cReps'); if (Number.isFinite(calcReps) && calcReps >= 1) repsIn.value = calcReps;
-  explicitPlan = !!plan;
-  curPlan = plan || planFor(+repsIn.value || 1);
-  if (+repsIn.value > PLANS[curPlan].reps && curPlan === 'crew') repsIn.value = 10;
+  const calcReps = parseReps($('#cReps').value); if (Number.isFinite(calcReps)) repsIn.value = calcReps;
+  requestedPlan = plan || null;
+  if (requestedPlan === 'crew' && parseReps(repsIn.value) > PLANS.crew.reps) repsIn.value = 10;
+  curPlan = planForReps(parseReps(repsIn.value));
   paintPlan();
-  modal.classList.add('open'); document.body.style.overflow = 'hidden'; syncMob();
+  openDialog(modal);
   setTimeout(() => modal.querySelector('input')?.focus(), 50);
   track('plan_click', { plan: curPlan });
 }
-function closeAny(m) { m.classList.remove('open'); document.body.style.overflow = ''; if (m.id === 'vid') $('#vidSlot').innerHTML = ''; syncMob(); lastFocus?.focus?.(); }
+function closeAny(m) { m.classList.remove('open'); releaseInert(); document.body.style.overflow = ''; if (m.id === 'vid') $('#vidSlot').innerHTML = ''; syncMob(); lastFocus?.focus?.(); }
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-start],[data-plan]');
   if (b && !b.closest('.modal')) { e.preventDefault(); openBuy(b.dataset.plan || null); }
@@ -424,20 +495,19 @@ $$('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m 
 addEventListener('keydown', e => { if (e.key === 'Escape') { const m = $('.modal.open'); if (m) closeAny(m); } });
 modal.addEventListener('input', e => {
   if (e.target.name !== 'team_size') return;
-  const reps = +e.target.value || 0;
-  if (reps > 10 && curPlan === 'crew') curPlan = 'office';
-  else if (reps >= 1 && reps <= 10 && !explicitPlan) curPlan = 'crew';
+  const reps = parseReps(e.target.value);
+  if (Number.isFinite(reps)) { curPlan = planForReps(reps); noteReps(reps); }
   paintPlan();
 });
 modal.addEventListener('submit', async e => {
   if (e.target.id !== 'buyForm') return;
   e.preventDefault(); const f = e.target, m = $('#buyMsg');
-  const name = val(f, 'name'), phone = val(f, 'phone'), company = val(f, 'company'), reps = parseInt(val(f, 'team_size'), 10), email = val(f, 'email');
+  const name = val(f, 'name'), phone = val(f, 'phone'), company = val(f, 'company'), reps = parseReps(val(f, 'team_size')), email = val(f, 'email');
   const miss = [];
   if (name.length < 2) miss.push('your name');
   if (phone.replace(/\D/g, '').length < 10) miss.push('a mobile number');
   if (!company) miss.push('your company');
-  if (!(reps >= 1)) miss.push('how many reps');
+  if (!Number.isFinite(reps)) miss.push('a whole number of reps');
   if (miss.length) { m.className = 'msg err'; m.textContent = 'Please add ' + miss.join(', ').replace(/, ([^,]*)$/, ' and $1') + '.'; return; }
   if (email && !/^\S+@\S+\.\S+$/.test(email)) { m.className = 'msg err'; m.textContent = 'That email does not look right. Fix it or leave it blank.'; return; }
   m.className = 'msg'; m.textContent = 'One moment...'; $('#buyBtn').disabled = true;
@@ -450,9 +520,9 @@ modal.addEventListener('submit', async e => {
     const body = `This is ${name} at ${company}. ${reps} reps. I want to start the 14 day trial.`;
     buyBody.innerHTML = `<div class="done">
       <h3 id="buyTitle">Got it, ${esc(first)}.</h3>
-      <p>David will text you your team setup today. Want it faster? Text him now.</p>
+      <p>David will text you within a few hours to set up your team. Want it faster? Text him now.</p>
       <a class="btn btn-primary btn-big" id="textNow" href="${esc(smsHref(body))}">Text David now</a>
-      <p class="fine">Nothing is charged during the 14 days.</p>
+      <p class="fine">Your 14 days start the day your team goes live. Nothing is charged during the trial.</p>
       <button class="btn btn-ghost" type="button" data-close>Back to the site</button></div>`;
     $('#textNow').addEventListener('click', () => track('question'));
     $('#textNow').focus();
@@ -474,7 +544,8 @@ if (C.demoVideo) {
   vb.addEventListener('click', () => {
     lastFocus = vb;
     $('#vidSlot').innerHTML = `<video controls autoplay playsinline preload="metadata" ${C.demoPoster ? `poster="${esc(C.demoPoster)}"` : ''} src="${esc(C.demoVideo)}"></video>`;
-    $('#vid').classList.add('open'); document.body.style.overflow = 'hidden'; syncMob();
+    openDialog($('#vid'));
+    setTimeout(() => $('#vid [data-close]')?.focus(), 50);
     track('demo_view');
   });
 }

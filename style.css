@@ -646,3 +646,10 @@ footer a{min-height:44px;display:inline-flex;align-items:center}
 .ob-cta{margin-top:1rem}
 .ind-body{gap:.85rem;padding:clamp(1.3rem,3vw,2.2rem)}
 .calc-in{gap:.9rem}
+
+/* QA fixes */
+.calc-row{align-items:end}
+.calc-help{display:block;font-weight:500;color:var(--color-muted);font-size:var(--text-xs);margin-top:-.2rem}
+.air div{grid-template-columns:48px 1fr}
+.air b{font-size:1.05rem;letter-spacing:-.02em}
+.calc-out.unavail .calc-leak b{color:var(--color-paper)}
