@@ -7,5 +7,8 @@ window.SITE_CONFIG = {
   // Contact options shown in the Questions section. Leave empty to hide.
   email: "furtheststep@gmail.com",          // e.g. "hello@yourbusiness.com"
   textNumber: "+17048855457",     // e.g. "+17045550123"
-  bookingUrl: ""      // e.g. a free Cal.com or Calendly link
+  bookingUrl: "",      // e.g. a free Cal.com or Calendly link
+  // Optional demo video. Set to "./assets/demo_horizontal.mp4" once that file is uploaded to show the Watch button.
+  demoVideo: "",
+  demoPoster: "./assets/huddle.webp"
 };
