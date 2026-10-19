@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Furthest Step | See the step that is losing the sale</title>
-<meta name="description" content="Reps tap the furthest step after each conversation. Owners see every rep live, and each rep gets one fix for the next door. No app store. Works offline. 14 days free.">
+<meta name="description" content="Every rep sees where their conversations break down and corrects their own approach. You see who still needs coaching, and on what. Works offline. 14 days free.">
 <meta property="og:title" content="Furthest Step | See the step that is losing the sale">
 <meta property="og:description" content="Reps tap the furthest step after each conversation. You see every rep live while the shift is still on. 14 days free.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./base.css?v=18">
-<link rel="stylesheet" href="./style.css?v=20">
+<link rel="stylesheet" href="./base.css?v=21">
+<link rel="stylesheet" href="./style.css?v=21">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317150F'/%3E%3Cpath d='M9 8v16M14 8v16M19 8v16' stroke='%23F3EFE6' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M6 21L25 11' stroke='%23F26A1B' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -20,8 +20,9 @@
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Furthest Step home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Furthest Step</a>
     <nav class="nav" id="nav" aria-label="Main">
-      <a href="#board">Owner board</a>
-      <a href="#how">How it works</a>
+      <a href="#demo">Demo</a>
+      <a href="#field">Game board</a>
+      <a href="#manager">Manager view</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">Questions</a>
       <button class="btn btn-primary nav-cta" type="button" data-start>Start 14 days free</button>
@@ -40,32 +41,182 @@
   <div class="hero-bg" aria-hidden="true"><img id="heroBg" src="./assets/door.webp" alt="" fetchpriority="high"></div>
   <div class="wrap">
     <div>
-      <p class="eyebrow rv">For owners and managers growing field sales teams</p>
-      <h1 class="rv d1">See the step that is losing the sale. <em>While the shift is still on.</em></h1>
-      <p class="lede rv d2">Reps tap the furthest step after each conversation. You see every rep live, and each rep gets one fix for the next <span data-nextword>door</span>. No app store. Works offline.</p>
-      <div class="hero-ctas rv d3">
+      <p class="eyebrow">For owners and managers of sales teams</p>
+      <h1>See the step that is losing the sale. <em>While the shift is still on.</em></h1>
+      <p class="lede">Every rep sees where their conversations break down and corrects their own approach. You see who still needs coaching, and on what. Works on any phone, even with no signal.</p>
+      <div class="hero-ctas">
         <button class="btn btn-primary" type="button" data-start data-track="hero_start">Start 14 days free
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-        <a class="btn btn-ghost" href="#board">Try the owner board</a>
+        <a class="btn btn-ghost" href="#demo" data-watch><span class="play" aria-hidden="true"></span>Watch the 2 minute demo</a>
       </div>
-      <p class="hero-price rv d3">Crew, up to 10 reps: <b>$299 a month</b>. Office, up to 30 reps: <b>$699 a month</b>. 14 days free.</p>
-      <div class="hero-trust rv d4">
+      <p class="hero-price">Crew, up to 10 reps: <b>$299 a month</b>. Office, up to 30 reps: <b>$699 a month</b>. 14 days free.</p>
+      <div class="hero-trust">
         <p>Built by David Borske, field sales trainer, Charlotte NC. In use today with a fiber door to door team.</p>
         <a class="hero-text" href="sms:+17048855457" data-sms>Text David a question</a>
-        <button class="hero-video" type="button" id="videoBtn" hidden><span aria-hidden="true"></span>Watch the 47 second demo</button>
       </div>
     </div>
-    <div class="hero-phone-wrap rv d2">
-      <div class="phone" aria-label="Animated preview of the rep screen">
-        <div class="screen" id="heroScreen">
-          <div class="scr-top"><b>Today</b><span class="scr-pill">Example</span></div>
-          <div class="counters" id="heroCtr"></div>
-          <div class="funnel" id="heroFunnel"></div>
-          <div class="coach" id="heroCoach"><small>Your one fix</small><p id="heroCoachText"></p></div>
-          <div class="goal"><div><small>Weekly goal</small><b><span id="heroGoal">0</span> of 12 <span id="heroUnit">sales</span></b></div><div class="gbar"><i id="heroGoalBar"></i></div><div class="cb"><span>Callback</span><b id="heroCb">6:00 PM, 1418 Elm</b></div></div>
-          <div class="scr-foot"><span>Works offline</span><span id="heroClock">4:12 PM</span></div>
-        </div>
-      </div>
+    <div class="hero-shots">
+      <figure class="shot shot-back"><img src="./assets/app/mgr_leaks.webp" alt="Manager screen listing where each rep is leaking, compared to the team median, with what to coach" width="720" height="1280"><figcaption>Manager</figcaption></figure>
+      <figure class="shot shot-front"><img src="./assets/app/rep_today.webp" alt="Rep screen with today's counters for made contact, presentation, close and sale" width="720" height="1280"><figcaption>Rep</figcaption></figure>
+    </div>
+  </div>
+  <p class="wrap hero-note">Real screens from the app, shown with an example team.</p>
+</section>
+
+<!-- DEMO VIDEO -->
+<section id="demo" class="demo-sec dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The real app, start to finish</p>
+      <h2>Watch a rep fix her own leak, then see what the manager sees.</h2>
+      <p class="lede">About two minutes. Every screen is the actual app, shown with an example team.</p>
+    </div>
+    <div class="demo-grid">
+      <div class="vid-frame"><video id="demoVid" controls playsinline preload="metadata" aria-label="Furthest Step demo video"></video></div>
+      <ol class="chapters">
+        <li><b>0:00</b>One tap per conversation: Door, Presentation, Close, Sale</li>
+        <li><b>0:17</b>The rep sees where today is breaking down</li>
+        <li><b>0:26</b>The game board: in bounds and out of bounds</li>
+        <li><b>0:57</b>Callbacks that alert her when to head back</li>
+        <li><b>1:07</b>Goals, pace and routine</li>
+        <li><b>1:24</b>The manager view, alerts and reports</li>
+        <li><b>1:55</b>Pricing</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- THE LOOP -->
+<section id="how">
+  <div class="wrap split">
+    <div class="split-txt">
+      <p class="eyebrow">How it works</p>
+      <h2>One tap after every conversation.</h2>
+      <p class="lede">The rep taps the furthest step the conversation reached. Every earlier step counts too. About ten seconds, even with no signal.</p>
+      <ul class="dpcs">
+        <li><b>D</b><span><strong>Door.</strong> They reached the decision maker.</span></li>
+        <li><b>P</b><span><strong>Presentation.</strong> They gave the pitch.</span></li>
+        <li class="hl"><b>C</b><span><strong>Close.</strong> They asked for the business.</span></li>
+        <li><b>S</b><span><strong>Sale.</strong> They got it.</span></li>
+      </ul>
+      <div class="callout"><b>Why the Close matters.</b> If a rep asks and does not get the sale, that is a breakdown in that part of the process. If they never ask, that is a different breakdown. The app tells the two apart, so nobody has to guess.</div>
+    </div>
+    <figure class="shot shot-solo"><img src="./assets/app/rep_today.webp" alt="Rep counters for today: 18 made contact, 11 presentations, 4 closes asked, 1 sale" width="720" height="1280" decoding="async"></figure>
+  </div>
+</section>
+
+<!-- SELF CORRECTION -->
+<section id="self" class="tint">
+  <div class="wrap split rev">
+    <figure class="shot shot-solo"><img src="./assets/app/rep_breakdown.webp" alt="Where today is breaking down: door to presentation 58 percent, presentation to ask 36 percent, ask to sale 25 percent" width="720" height="1280" decoding="async"></figure>
+    <div class="split-txt">
+      <p class="eyebrow">Where the app really shines</p>
+      <h2>Reps see where they are breaking down, and correct it themselves.</h2>
+      <p class="lede">Right on their phone, each rep sees where today is breaking down. In the example, Tasha asked on 4 of 11 presentations. The leak is the ask, and nobody had to tell her.</p>
+      <ul class="ticks">
+        <li>Each bar is the share that made it from the step before</li>
+        <li>This week so far, with ask rate, ask to sale and D per sale</li>
+        <li>Her own numbers, not a team average</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- GAME BOARD -->
+<section id="field" class="dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The game board</p>
+      <h2>Treat sales like a game. Stay in bounds.</h2>
+      <p class="lede">The board is the field. Everything on it is in the rep's control: Pace, Pitch and Attitude, each habit with a plain explanation. When a rep focuses on what they control, they stay in bounds. When they focus on what they cannot control, like the turf or the weather, they are out of bounds, and their attitude goes with it.</p>
+    </div>
+    <div class="board3">
+      <article class="bcard">
+        <figure class="shot"><img src="./assets/app/rep_board.webp" alt="Game board list of Pace habits such as Practice the Pitch Out Loud and Set Your Door Goal" width="720" height="1280" decoding="async"></figure>
+        <h3>Every item on the field</h3>
+        <p>Pace, Pitch and Attitude, with habits like Set Your Door Goal, Get Every Decision Maker in the Conversation and Assume The Sale. Each one says what to do and why it works.</p>
+      </article>
+      <article class="bcard">
+        <figure class="shot"><img src="./assets/app/rep_inbounds.webp" alt="Search result: That's an objection. It's in bounds, it's yours to handle, with A.I.R. and Feel Felt Found" width="720" height="1280" decoding="async"></figure>
+        <h3>In bounds: search it</h3>
+        <p>Same problem keeps happening? Type it. "Too expensive" is an objection, so it is in bounds. The board gives the A.I.R. and Feel, Felt, Found response, ties it to the rep's own numbers, and asks: are you closing with confidence? Yes or Not yet.</p>
+      </article>
+      <article class="bcard">
+        <figure class="shot"><img src="./assets/app/rep_oob.webp" alt="Out of bounds result: That call was not yours, with the chain focus goes, attitude drops, pace drops, and a counter of 1 thing outside your control today" width="720" height="1280" decoding="async"></figure>
+        <h3>Out of bounds: it counts</h3>
+        <p>"My manager gave me a bad turf" is out of bounds. The app shows the chain: focus goes to something you cannot move, attitude drops, pace drops, and the door that does open gets the worst version of you. It counts how many times today, then puts them right back on the board.</p>
+      </article>
+    </div>
+    <p class="fine-note">Out of bounds is a focus reminder for the rep, not a write up. The search matches what they type against the board, so the answers are the same trusted plays every time.</p>
+  </div>
+</section>
+
+<!-- CALLBACKS -->
+<section id="callbacks">
+  <div class="wrap split">
+    <div class="split-txt">
+      <p class="eyebrow">Callbacks and follow ups</p>
+      <h2>Told to come back at 6? It makes sure they do.</h2>
+      <p class="lede">For door to door teams, a callback is a sale waiting to happen. Reps pin the door, set the time and add a name in a few taps.</p>
+      <ul class="ticks">
+        <li>An alert 10 minutes before and at the time, even with the app closed</li>
+        <li>A leave by alert based on how far away they are</li>
+        <li>A warning when they are too far to make it on time</li>
+        <li>An opener ready to go: "I said I would come back, and I wanted to keep my word"</li>
+        <li>Follow ups for anything else they promised, by visit, call or text</li>
+        <li>Location stays on the rep's phone</li>
+      </ul>
+    </div>
+    <div class="pair">
+      <figure class="shot"><img src="./assets/app/rep_callback.webp" alt="Callback form with pinned spot, 6:00 PM time and name" width="720" height="1280" decoding="async"></figure>
+      <figure class="shot"><img src="./assets/app/rep_cblist.webp" alt="Callbacks and follow ups list with a 6:00 PM pinned spot and leave by alert on" width="720" height="1280" decoding="async"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- GOALS AND ROUTINE -->
+<section id="goals" class="tint">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Goals, pace and routine</p>
+      <h2>As deep as each rep wants to go.</h2>
+      <p class="lede">Some reps just tap and go. Others want to build a plan. The goals and routine pages are there for every rep who wants to grow.</p>
+    </div>
+    <div class="board3 light">
+      <article class="bcard">
+        <figure class="shot"><img src="./assets/app/rep_goals.webp" alt="30 day business goal with S M A R T letters lighting up" width="720" height="1280" decoding="async"></figure>
+        <h3>SMART goals</h3>
+        <p>A helper starts with "What do you not want anymore?" As they type a 30, 60 or 90 day goal, each SMART letter lights up when the goal gets sharper.</p>
+      </article>
+      <article class="bcard">
+        <figure class="shot"><img src="./assets/app/rep_pace.webp" alt="My pace: $5,000 a month at $100 a sale is 50 sales a month. Talk to 28 decision makers a day" width="720" height="1280" decoding="async"></figure>
+        <h3>Their pace, in plain math</h3>
+        <p>$5,000 a month at $100 a sale is 50 sales a month. From their own numbers, that is 28 decision makers a day, and it shows how improving one step cuts the work.</p>
+      </article>
+      <article class="bcard">
+        <figure class="shot"><img src="./assets/app/rep_routine.webp" alt="Does my routine support my goals? 9 of 10, Strong" width="720" height="1280" decoding="async"></figure>
+        <h3>A routine that is scored</h3>
+        <p>Type or photograph a routine and it becomes a morning and evening checklist, scored on whether it actually supports their goals, with what to add next.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MANAGER -->
+<section id="manager">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">For managers and owners</p>
+      <h2>Know exactly who to coach, and on what.</h2>
+      <p class="lede">The whole team funnel, everyone ranked, and where each person is leaking against your team median. In the example, Diego loses it after the ask, Tasha is not asking and Priya is not getting in the door.</p>
+    </div>
+    <div class="mgr-grid">
+      <figure class="mshot"><img src="./assets/app/mgr_funnel.webp" alt="Team funnel with active reps, D, P, C, S and D per sale" width="720" height="1280" decoding="async"><figcaption><b>Team funnel</b>Every step for the whole team, with D per sale.</figcaption></figure>
+      <figure class="mshot"><img src="./assets/app/mgr_leaks.webp" alt="Where each person is leaking, with what to coach" width="720" height="1280" decoding="async"><figcaption><b>Where each person is leaking</b>Their weakest step, against the team median, with what to coach.</figcaption></figure>
+      <figure class="mshot"><img src="./assets/app/mgr_asked.webp" alt="What reps asked the game board today, with topic counts" width="720" height="1280" decoding="async"><figcaption><b>What reps asked the board</b>Who looked for help today, and on what topics.</figcaption></figure>
+      <figure class="mshot"><img src="./assets/app/mgr_goals.webp" alt="Team goals: reps behind on pace at the top" width="720" height="1280" decoding="async"><figcaption><b>Goals and routines</b>Who is behind on pace, whose goals need work, who finished their routine.</figcaption></figure>
+      <figure class="mshot"><img src="./assets/app/mgr_alerts.webp" alt="Team alerts at 8:30 PM and a Sunday noon roundup, and reps ranked" width="720" height="1280" decoding="async"><figcaption><b>Alerts</b>8:30 PM when reps are under your daily standard, plus a Sunday noon roundup.</figcaption></figure>
+      <figure class="mshot"><img src="./assets/app/mgr_report.webp" alt="Last week report with needs attention, top performer and every rep's numbers" width="720" height="1280" decoding="async"><figcaption><b>Reports</b>Any week or month, ready to text, email or save. CSV export too.</figcaption></figure>
     </div>
   </div>
 </section>
@@ -74,207 +225,40 @@
 <section id="scale" class="tint scale-sec">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow rv">Built for teams that are growing</p>
-      <h2 class="rv d1">Growing the team? You cannot ride along with every rep.</h2>
-      <p class="lede rv d2">At 5 reps you can be in the field with each one. At 20 or 30 you cannot, and neither can your trainers. Furthest Step keeps watch where you cannot be.</p>
+      <p class="eyebrow">Built for teams that are growing</p>
+      <h2>You and your trainers cannot be at every door. This puts coaching there anyway.</h2>
+      <p class="lede">At 5 reps you can ride along with each one. At 20 or 30 you cannot. Furthest Step puts eyes, training and help where you simply cannot be all the time.</p>
     </div>
     <div class="scale-grid">
-      <div class="scale-card rv d1"><b>Every rep, every day</b><p>Each conversation gets logged, so you see how every rep is doing, not just the ones you rode with.</p></div>
-      <div class="scale-card rv d2"><b>New hires coached from day one</b><p>Each rep gets one fix for the next <span data-nextword>door</span>, even on days nobody rides with them.</p></div>
-      <div class="scale-card rv d3"><b>Your time goes where it matters</b><p>The board shows who needs help first, so you and your trainers coach the right rep instead of guessing.</p></div>
+      <div class="scale-card"><b>Every rep, every day</b><p>Every conversation gets logged, so you see how every rep is doing, not just the ones you rode with.</p></div>
+      <div class="scale-card"><b>New hires coached from day one</b><p>The board answers the same questions you would, the same way, even on days nobody rides with them.</p></div>
+      <div class="scale-card"><b>Your time goes where it matters</b><p>The leak view shows who needs you first and on what, so you coach the right rep instead of guessing.</p></div>
     </div>
+    <p class="value-note">Example only: if one sale is worth $100 to your office, three extra sales a month across the whole team cover Crew.</p>
   </div>
 </section>
 
-<!-- OWNER BOARD -->
-<section id="board" class="board-sec">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow rv">Try the owner board</p>
-      <h2 class="rv d1">Who would you coach first?</h2>
-      <p class="lede rv d2">Set your standard, switch the period, and tap any rep to see their leak and their one fix.</p>
-    </div>
-    <div class="ob rv">
-      <div class="ob-main">
-        <div class="ob-head">
-          <div><b>Example team</b><span class="ex-tag">Example</span></div>
-          <div class="periods" role="group" aria-label="Report period" id="periods">
-            <button type="button" aria-pressed="true" data-p="today">Today</button>
-            <button type="button" aria-pressed="false" data-p="week">This week</button>
-            <button type="button" aria-pressed="false" data-p="last">Last week</button>
-          </div>
-        </div>
-        <div class="ob-std">
-          <label for="stdMetric" class="ob-std-l">Your standard
-            <select id="stdMetric" aria-label="Which standard to flag on">
-              <option value="p">Presentations per 10 decision makers</option>
-              <option value="s">Sales per 10 closes asked</option>
-            </select>
-          </label>
-          <div class="ob-slider"><input type="range" id="stdVal" min="2" max="9" step="1" value="6" aria-label="Standard value"><output id="stdOut" for="stdVal">6 of 10</output></div>
-        </div>
-        <div class="ob-cols" aria-hidden="true"><span>Rep</span><span class="nums"><i>D</i><i>P</i><i>C</i><i>S</i></span><span class="fun-h">Funnel</span><span>Status</span></div>
-        <div class="ob-rows" id="obRows" role="list"></div>
-        <p class="ob-sum" id="obSum" aria-live="polite"></p>
-      </div>
-      <div class="ob-detail" id="obDetail" aria-live="polite">
-        <p class="ob-empty">Tap a rep to see their funnel, their leak, and the one fix.</p>
-      </div>
-    </div>
-    <div class="scrub rv">
-      <div class="scrub-head">
-        <div><p class="eyebrow">Shift scrubber</p><h3>Drag through one example shift.</h3></div>
-        <span class="ex-tag">Example crew</span>
-      </div>
-      <input type="range" id="scrub" min="0" max="60" step="1" value="16" aria-label="Time of day, 9 AM to 7 PM">
-      <div class="scrub-ticks" aria-hidden="true"><span>9 AM</span><span>11 AM</span><span>1 PM</span><span>3 PM</span><span>5 PM</span><span>7 PM</span></div>
-      <div class="scrub-out">
-        <div class="scrub-time" id="scrubTime">11:40 AM</div>
-        <p id="scrubMsg" aria-live="polite"></p>
-        <div class="scrub-tot" id="scrubTot"></div>
-      </div>
-    </div>
-    <div class="ob-cta rv">
-      <button class="btn btn-primary" type="button" data-start>See this with my team</button>
-      <span class="muted">Reps, numbers and names above are an example, not a customer.</span>
-    </div>
-  </div>
-</section>
-
-<!-- HOW / DEMO -->
-<section id="how" class="tint">
-  <div class="wrap demo">
-    <div class="demo-copy">
-      <p class="eyebrow rv">How it works for the rep</p>
-      <h2 class="rv d1">Tap. Read. Fix.</h2>
-      <div class="demo-steps">
-        <div class="step rv d1"><b>1</b><div><h3>Tap the furthest step reached</h3><p>One tap after each conversation. <span id="step1">Reached a decision maker, presented, asked for the close, or sold.</span> About ten seconds, even with no signal.</p></div></div>
-        <div class="step rv d2"><b>2</b><div><h3>The app reads the pattern</h3><p>It compares each step to the next against the standards you set, and points to where the conversation stops.</p></div></div>
-        <div class="step rv d3"><b>3</b><div><h3>One fix for the next <span data-nextword>door</span></h3><p>The rep gets one thing to change on the very next conversation. Pace, pitch or attitude.</p></div></div>
-      </div>
-    </div>
-    <div class="demo-panel rv d2">
-      <div class="demo-side">
-        <h3>Try it right now</h3>
-        <label class="demo-ind">Show it for<select id="demoInd" aria-label="Industry for the demo"></select></label>
-        <p>Tap the boxes on the phone like you just finished a conversation, or load a shift pattern. Watch the fix change.</p>
-        <div class="demo-btns" role="group" aria-label="Load a shift pattern">
-          <button class="chip" type="button" data-pat="open">Losing them at hello</button>
-          <button class="chip" type="button" data-pat="pitch">Presentation not landing</button>
-          <button class="chip" type="button" data-pat="close">Afraid to ask</button>
-          <button class="chip" type="button" data-pat="good">Strong day</button>
-        </div>
-      </div>
-      <div class="phone" aria-label="Interactive demo phone">
-        <div class="screen">
-          <div class="scr-top"><b>Your shift</b><span class="scr-pill">Demo</span></div>
-          <div class="counters" id="demoCtr"></div>
-          <div class="funnel" id="demoFunnel"></div>
-          <div class="coach" id="demoCoach"><small>Your one fix</small><p id="demoCoachText"></p></div>
-          <div class="scr-foot"><span>Tap any box</span><button type="button" id="demoReset" class="scr-reset">Reset</button></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- LEAK CALCULATOR -->
-<section id="leak">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow rv">Find your team's leak</p>
-      <h2 class="rv d1">Put in last week. See where it stops.</h2>
-      <p class="lede rv d2">Enter last week's team totals. The math finds the weakest step and shows what a small lift there would be worth. These numbers stay on your device.</p>
-    </div>
-    <div class="calc rv">
-      <form class="calc-in" id="calcForm" novalidate onsubmit="return false">
-        <div class="calc-grid">
-          <div class="stp"><label for="cD"><b>D</b> Decision makers reached</label><div class="stepper"><button type="button" data-step="-1" aria-label="Fewer decision makers">&minus;</button><input id="cD" type="number" inputmode="numeric" min="0" value="120"><button type="button" data-step="1" aria-label="More decision makers">+</button></div></div>
-          <div class="stp"><label for="cP"><b>P</b> Presentations</label><div class="stepper"><button type="button" data-step="-1" aria-label="Fewer presentations">&minus;</button><input id="cP" type="number" inputmode="numeric" min="0" value="60"><button type="button" data-step="1" aria-label="More presentations">+</button></div></div>
-          <div class="stp"><label for="cC"><b>C</b> Closes asked</label><div class="stepper"><button type="button" data-step="-1" aria-label="Fewer closes asked">&minus;</button><input id="cC" type="number" inputmode="numeric" min="0" value="40"><button type="button" data-step="1" aria-label="More closes asked">+</button></div></div>
-          <div class="stp"><label for="cS"><b>S</b> Sales</label><div class="stepper"><button type="button" data-step="-1" aria-label="Fewer sales">&minus;</button><input id="cS" type="number" inputmode="numeric" min="0" value="10"><button type="button" data-step="1" aria-label="More sales">+</button></div></div>
-        </div>
-        <div class="calc-row">
-          <label for="cVal">What one sale is worth to the office<small class="calc-help" id="cValHelp">After rep pay and chargebacks</small><span class="dollar"><input id="cVal" type="number" inputmode="numeric" min="0" max="1000000" step="5" value="150" aria-describedby="cValHelp"></span></label>
-          <label for="cReps">Reps on the team<input id="cReps" type="number" inputmode="numeric" min="1" max="500" step="1" value="8"></label>
-          <label for="cLift">Lift at weakest step<span class="pts"><input id="cLift" type="number" inputmode="decimal" min="0" max="50" step="1" value="1"></span></label>
-        </div>
-        <details class="targets">
-          <summary>Example targets you can change</summary>
-          <div class="calc-row">
-            <label for="tP">Decision maker to presentation<span class="pct"><input id="tP" type="number" min="1" max="100" value="60"></span></label>
-            <label for="tC">Presentation to close asked<span class="pct"><input id="tC" type="number" min="1" max="100" value="70"></span></label>
-            <label for="tS">Close asked to sale<span class="pct"><input id="tS" type="number" min="1" max="100" value="30"></span></label>
-          </div>
-        </details>
-        <p class="calc-err" id="calcErr" role="alert"></p>
-      </form>
-      <div class="calc-out" id="calcOut" aria-live="polite">
-        <span class="eyebrow">Your biggest leak</span>
-        <div class="calc-leak" id="cLeak"></div>
-        <div class="calc-rates" id="cRates"></div>
-        <p class="calc-line" id="cGain"></p>
-        <p class="calc-be" id="cBe"></p>
-        <button class="btn btn-primary" type="button" id="calcCta" data-start>Start 14 days free with Crew</button>
-        <p class="fine">These numbers stay on your device. Nothing you type here is sent anywhere.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- INDUSTRIES -->
-<section id="industries" class="tint">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow rv">Your trade</p>
-      <h2 class="rv d1">Set up for how your trade sells.</h2>
-      <p class="lede rv d2">Same four taps in every trade. We load your objections, talk tracks, and standards.</p>
-    </div>
-    <div class="ind-tabs rv" role="tablist" aria-label="Industries" id="indTabs"></div>
-    <div class="ind rv d1">
-      <div class="ind-img"><img id="indImg" src="./assets/door.webp" alt="Door to door sales rep walking up a driveway at sunset" loading="lazy"><span class="tag" id="indTag">Door to door</span></div>
-      <div class="ind-body" id="indBody" role="tabpanel" aria-labelledby="indTitle">
-        <h3 id="indTitle"></h3>
-        <p class="muted" id="indLede"></p>
-        <div class="stages" id="indStages"></div>
-        <div class="objection"><span class="ex-tag">Example objection</span><q id="indObj"></q><p id="indAir"></p></div>
-        <ul class="ind-list" id="indList"></ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- COACHING -->
-<section id="coaching" class="dark">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow rv">Coaching in every pocket</p>
-      <h2 class="rv d1">The tracking finds the leak. The coaching fixes it.</h2>
-    </div>
-    <div class="methods3">
-      <div class="m rv">
-        <span class="tagline">Objections</span>
-        <h3>A.I.R.</h3>
-        <div class="air">
-          <div><b>A</b><span><strong>Agree or acknowledge.</strong> Show them you heard it. Never argue with the first no.</span></div>
-          <div><b>I.R.</b><span><strong>Immediately return.</strong> Bring it back to why you are there, then keep going.</span></div>
-        </div>
-      </div>
-      <div class="m rv d1">
-        <span class="tagline">The longer answer</span>
-        <h3>Feel, Felt, Found</h3>
-        <p>"I understand how you feel. Others felt the same. Here is what they found." About 80 percent empathy, 20 percent solution. It sits next to A.I.R. on the objection board.</p>
-      </div>
-      <div class="m rv d2">
-        <span class="tagline">The three levers</span>
-        <h3>Pace, Pitch, Attitude</h3>
-        <p>Most slumps start with one of three. The app reads the funnel and tells the rep which one, so they stop guessing.</p>
-      </div>
+<!-- TAILORED -->
+<section id="tailored">
+  <div class="wrap split rev">
+    <div class="tail-img"><img src="./assets/retail.webp" alt="Retail sales floor" decoding="async" width="900" height="600"></div>
+    <div class="split-txt">
+      <p class="eyebrow">Not door to door?</p>
+      <h2>Set up for your kind of sales team.</h2>
+      <p class="lede">Every sale has steps, a close and objections. David sets the app up for how your team sells: your steps, your objections and talk tracks, your standards.</p>
+      <ul class="ticks">
+        <li>Door to door: fiber, solar, pest, roofing, home services</li>
+        <li>Retail floors: a retail version already exists</li>
+        <li>In home and appointment sales</li>
+        <li>Callbacks and follow ups for any team that has to come back</li>
+      </ul>
+      <a class="hero-text dark-ink" href="sms:+17048855457" data-sms>Text David how your team sells</a>
     </div>
   </div>
 </section>
 
 <!-- FEATURES -->
+
 <section id="features">
   <div class="wrap">
     <div class="sec-head">
@@ -282,7 +266,7 @@
       <h2 class="rv d1">One app for the rep, the manager and the owner.</h2>
     </div>
     <div class="roles">
-      <article class="role rv"><h3>Reps</h3><ul><li>One tap per conversation, offline</li><li>One fix for the next <span data-nextword>door</span></li><li>A.I.R. and Feel Felt Found prep</li><li>Callback alerts, even with the phone locked</li><li>SMART goals and income pace</li></ul></article>
+      <article class="role rv"><h3>Reps</h3><ul><li>One tap per conversation, offline</li><li>Sees where their own day is breaking down</li><li>Game board search: in bounds or out of bounds</li><li>A.I.R. and Feel Felt Found prep</li><li>Callback alerts, even with the phone locked</li><li>SMART goals and income pace</li></ul></article>
       <article class="role rv d1"><h3>Managers</h3><ul><li>Every rep's funnel, live</li><li>Your standards, your flags</li><li>Reports for any period, text or export</li><li>See who is working on which skill</li><li>A fair record of coaching talks</li></ul></article>
       <article class="role rv d2"><h3>Owners</h3><ul><li>A personal key for every person</li><li>Remove anyone's access with one tap</li><li>Pause a team without losing data</li><li>See who last used the app</li></ul></article>
     </div>
@@ -290,7 +274,7 @@
       <button class="btn btn-ghost" type="button" id="fxBtn" aria-expanded="false" aria-controls="fxAll">See every feature</button>
     </div>
     <div class="fx" id="fxAll" hidden>
-      <div class="fx-col"><h3>For reps</h3><ul><li><b>One tap counters</b><span>Tap the furthest step reached and every earlier step counts too. Undo reverses a tap, and minus fixes a single box.</span></li><li><b>One fix search</b><span>Type a struggle that keeps coming back, like "they keep saying not interested." Get the one thing to try next, plus a quick Yes or Not yet self check that rechecks after ten more conversations.</span></li><li><b>Pace, Pitch, Attitude read</b><span>The app reads the funnel and tells the rep which of the three levers is costing them sales.</span></li><li><b>Objection prep</b><span>A.I.R. and Feel Felt Found answers to practice before the next conversation, not scripts to read in the middle of one. Retail teams also get 15 and 5 and Turn and Return.</span></li><li><b>Training board</b><span>Short, searchable lessons: the ten step sale flow, know your product, and ten work habits like Be Prepared, Know Your Why and Focus on Controllables.</span></li><li><b>SMART goals and goal helper</b><span>Reps start from what they no longer want, turn it into a 30, 60 or 90 day goal, and watch each SMART letter light up as the goal gets sharper.</span></li><li><b>Income pace</b><span>Enter an income target and see the daily conversations, presentations and asks needed to hit it, and how improving one step cuts the work required.</span></li><li><b>Daily routine check ins</b><span>Reps plan their day around their goals and check off what they actually did.</span></li><li><b>Callback alerts</b><span>Save a return address or pinned spot and a time. Alerts arrive ten minutes before and right on time, even with the phone locked.</span></li><li><b>Leave by warning</b><span>Optional. Estimates walking time back to a callback so reps leave in time. It is not location tracking for managers.</span></li><li><b>Followups</b><span>Log a promise with a due time and how to reach them: go back, call or text, with a name and number.</span></li><li><b>Speed test logging</b><span>Fiber reps log observed speeds at the door, with daily counts and averages in reports.</span></li><li><b>Time off requests</b><span>Reps enter a day or a range, and see Seen by your manager when it is acknowledged.</span></li><li><b>Works anywhere</b><span>Offline taps sync when signal returns. No app store, any phone, saved to the home screen. High contrast mode for bright sun.</span></li></ul></div>
+      <div class="fx-col"><h3>For reps</h3><ul><li><b>One tap counters</b><span>Tap the furthest step reached and every earlier step counts too. Undo reverses a tap, and minus fixes a single box.</span></li><li><b>Game board search</b><span>Type a struggle that keeps coming back, like "they keep saying not interested." Get the one thing to try next, plus a quick Yes or Not yet self check that rechecks after ten more conversations.</span></li><li><b>Pace, Pitch, Attitude read</b><span>The app reads the funnel and tells the rep which of the three levers is costing them sales.</span></li><li><b>Objection prep</b><span>A.I.R. and Feel Felt Found answers to practice before the next conversation, not scripts to read in the middle of one. Retail teams also get 15 and 5 and Turn and Return.</span></li><li><b>Training board</b><span>Short, searchable lessons: the ten step sale flow, know your product, and ten work habits like Be Prepared, Know Your Why and Focus on Controllables.</span></li><li><b>SMART goals and goal helper</b><span>Reps start from what they no longer want, turn it into a 30, 60 or 90 day goal, and watch each SMART letter light up as the goal gets sharper.</span></li><li><b>Income pace</b><span>Enter an income target and see the daily conversations, presentations and asks needed to hit it, and how improving one step cuts the work required.</span></li><li><b>Daily routine check ins</b><span>Reps plan their day around their goals and check off what they actually did.</span></li><li><b>Callback alerts</b><span>Save a return address or pinned spot and a time. Alerts arrive ten minutes before and right on time, even with the phone locked.</span></li><li><b>Leave by warning</b><span>Optional. Estimates walking time back to a callback so reps leave in time. It is not location tracking for managers.</span></li><li><b>Followups</b><span>Log a promise with a due time and how to reach them: go back, call or text, with a name and number.</span></li><li><b>Time off requests</b><span>Reps enter a day or a range, and see Seen by your manager when it is acknowledged.</span></li><li><b>Works anywhere</b><span>Offline taps sync when signal returns. No app store, any phone, saved to the home screen. High contrast mode for bright sun.</span></li></ul></div>
       <div class="fx-col"><h3>For managers</h3><ul><li><b>Live team board</b><span>Every rep's numbers and funnel, live, for today, this week or any range.</span></li><li><b>Your standards, your flags</b><span>Set minimum sales per week, contacts per day, contacts per sale and how many weeks before a flag. New teams start blank, so nothing is judged until you decide.</span></li><li><b>Attention flags and alerts</b><span>Reps under standard get flagged. Opt in alerts at 8:30 PM Monday through Saturday and a weekly roundup Sunday at noon.</span></li><li><b>Reports in one tap</b><span>Today, this week so far, last week, last two full weeks, this month or last month. Text it, email it, save a PDF or export a CSV.</span></li><li><b>Who is trying to improve</b><span>See which coaching topics each rep is working on, without reading their private words. Reps who search and practice stand out from reps who do not.</span></li><li><b>Skill or circumstances</b><span>The app separates problems a rep controls from ones they do not, like weather or territory, so you coach the right thing.</span></li><li><b>Fair rep log</b><span>Record wins, complaints and coaching talks with dates. The rep sees each entry and can add their side, and repeated patterns become clear.</span></li><li><b>Goal intake</b><span>Paste a rep's goals or upload a PDF, Word file or photo. The app sorts personal, financial and business goals and lets you correct them before saving.</span></li><li><b>Who needs help first</b><span>Goals and routines put the reps who need you at the top, each with a plain next action.</span></li><li><b>Audited edits</b><span>Fix a rep's numbers when needed, with every manager edit recorded.</span></li></ul></div>
       <div class="fx-col"><h3>For owners</h3><ul><li><b>Personal keys</b><span>Every manager and rep gets their own key. Remove anyone from any phone, and it takes effect even on offline phones when they reconnect.</span></li><li><b>Suspend a team or a person</b><span>Pause a whole team or a single key without losing any data.</span></li><li><b>Activity you can see</b><span>See when each person last used the app, so you know who is actually on board.</span></li><li><b>Your data stays yours</b><span>Licensed to your team only, with owner control over every key.</span></li></ul></div>
     </div>
@@ -310,7 +294,7 @@
         <thead><tr><th scope="col"><span class="sr-only">What you get</span></th><th scope="col" class="us">Furthest Step</th><th scope="col">Paper tally</th><th scope="col">Map or canvassing apps</th></tr></thead>
         <tbody>
           <tr><th scope="row">Which step each rep is losing</th><td class="y">Yes, live</td><td>No</td><td>Not the focus</td></tr>
-          <tr><th scope="row">One fix for the next conversation</th><td class="y">Yes, every rep</td><td>No</td><td>Not the focus</td></tr>
+          <tr><th scope="row">Reps see their own breakdown and how to fix it</th><td class="y">Yes, every rep</td><td>No</td><td>Not the focus</td></tr>
           <tr><th scope="row">About ten seconds per log, no app store, works offline</th><td class="y">Yes</td><td>Paper at the car</td><td>Varies</td></tr>
           <tr><th scope="row">Priced per team, not per rep</th><td class="y">Yes</td><td>Free</td><td>Varies</td></tr>
         </tbody>
@@ -328,7 +312,7 @@
     </div>
     <ol class="days rv">
       <li><b>Day 1</b><h3>One link, one practice log</h3><p>Everyone opens one link on their phone and logs a practice conversation. No download.</p></li>
-      <li><b>Week 1</b><h3>The board is the meeting</h3><p>The morning meeting starts on yesterday's board. One strength and one fix per rep.</p></li>
+      <li><b>Week 1</b><h3>The board is the meeting</h3><p>The morning meeting starts on yesterday's board. One strength and one leak per rep.</p></li>
       <li><b>Day 14</b><h3>Keep it or cancel</h3><p>Compare your own numbers to the weeks before. Keep it, or cancel and pay nothing.</p></li>
     </ol>
     <div class="tips rv">
@@ -365,7 +349,7 @@
     </div>
     <div class="incl rv">
       <h3>Everything included on both</h3>
-      <ul><li>Every rep, manager and owner feature</li><li>Live owner board, reports and exports</li><li>One fix coaching, A.I.R. and Feel Felt Found</li><li>Callbacks, followups and alerts</li><li>Your objections, talk tracks and standards loaded for you</li><li>Works on any phone, no app store</li></ul>
+      <ul><li>Every rep, manager and owner feature</li><li>Live owner board, reports and exports</li><li>Game board coaching, A.I.R. and Feel Felt Found</li><li>Callbacks, followups and alerts</li><li>Your objections, talk tracks and standards loaded for you</li><li>Works on any phone, no app store</li></ul>
     </div>
     <p class="more30 muted">More than 30 reps? <a href="sms:+17048855457" data-sms>Text David</a> and he will set up a plan for your office.</p>
   </div>
@@ -379,10 +363,12 @@
       <h2 class="rv d1">What owners ask before they start.</h2>
     </div>
     <div class="rv d1">
-      <details><summary>My reps will not log. Why would this be different?</summary><p>It asks for one tap, not a form. About ten seconds after a conversation, and the rep gets something back right away: their own one fix. You also see who is logging, so it becomes part of the day.</p></details>
+      <details><summary>My reps will not log. Why would this be different?</summary><p>It asks for one tap, not a form. About ten seconds after a conversation, and the rep gets something back right away: where their own day is breaking down. You also see who is logging, so it becomes part of the day.</p></details>
       <details><summary>We already have a CRM or a map app. Do we need this?</summary><p>Those track addresses, pins and leads. Furthest Step tracks how each conversation went and coaches the rep on it. Keep your map app for where to go, and use this for what happens at the door.</p></details>
       <details><summary>What happens in the 14 days?</summary><p>David sets up your team with your objections and standards. Your reps open one link and start logging. You watch the board for two weeks. Nothing is charged during the 14 days.</p></details>
       <details><summary>What if there is no signal at the door?</summary><p>Taps are saved on the phone and sync on their own when the signal comes back. Saved taps sync when the connection returns.</p></details>
+      <details><summary>Is it only for door to door?</summary><p>No. Every sale has steps, a close and objections. David sets it up for how your team sells, with your steps, objections, talk tracks and standards. A retail floor version already exists.</p></details>
+      <details><summary>Does the game board search use AI?</summary><p>No. It matches what the rep types against the plays on the board, so the answer is the same trusted response every time.</p></details>
       <details><summary>Who sees the numbers?</summary><p>Reps see their own numbers and coaching. Managers see their teams. Owners control every key and can remove access at any time.</p></details>
       <details><summary>What happens after the 14 days?</summary><p>Your plan starts at its regular price: $299 a month for Crew, or $699 a month for Office. That is the whole price, shown here up front. No long term contract.</p></details>
       <details><summary>Can I cancel?</summary><p>Yes. Text or email David to cancel. Cancel during the 14 days and you pay nothing. After that, cancel any month.</p></details>
@@ -465,7 +451,7 @@
   <div class="wrap" id="oBody"></div>
 </div>
 
-<script src="./config.js?v=20"></script>
-<script src="./app.js?v=20"></script>
+<script src="./config.js?v=21"></script>
+<script src="./app.js?v=21"></script>
 </body>
 </html>

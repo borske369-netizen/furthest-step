@@ -14,5 +14,6 @@ window.SITE_CONFIG = {
   // Optional demo video. Set to "./assets/demo_horizontal.mp4" once that file is uploaded to show the Watch button.
   demoVideo: "./assets/demo.mp4",
   demoVideoVertical: "./assets/demo_v.mp4",
-  demoPoster: "./assets/demo_poster.webp"
+  demoPoster: "./assets/demo_poster.webp",
+  demoPosterVertical: "./assets/demo_poster_v.webp"
 };

@@ -126,291 +126,8 @@ addEventListener('scroll', () => {
 }, { passive: true });
 syncMob();
 
-/* ---------- phone engine ---------- */
-let CUR = IND[0];
-function coachFor(v) {
-  const [d, p, c, s] = v, x = CUR;
-  if (d < 3) return 'Get to five conversations, then the app reads your pattern. Keep tapping the furthest step you reach.';
-  if (p / d < 0.5) return `Pace. You are reaching people but losing them before ${x.before}. Slow your first ten seconds and lead with why you are ${x.where}.`;
-  if (c / Math.max(p, 1) < 0.5) return `Attitude. Your presentation is landing but you are not asking. After every presentation, ${x.ask} once, then stop talking.`;
-  if (s / Math.max(c, 1) < 0.3) return `Pitch. You are asking, but they are saying no. When you hear "${x.obj.replace(/\.$/, '')}," use A.I.R. before you ask again.`;
-  return `Strong shift. Your funnel is healthy at every step. Same pace on the next ${x.next} and log every callback.`;
-}
-function buildPhone(ctrEl, funEl, onTap) {
-  ctrEl.innerHTML = ST.map((s, i) => `<button type="button" class="ctr${i === 3 ? ' s' : ''}" data-i="${i}" aria-label="${s[1]}"><div class="k">${s[0]}</div><div class="n">0</div><div class="l">${s[2]}</div></button>`).join('');
-  funEl.innerHTML = ST.map(s => `<div class="frow"><span>${s[2]}</span><div class="fbar"><i></i></div><em>0</em></div>`).join('');
-  if (onTap) $$('.ctr', ctrEl).forEach(b => b.addEventListener('click', () => onTap(+b.dataset.i, b)));
-  else $$('.ctr', ctrEl).forEach(b => { b.tabIndex = -1; b.setAttribute('aria-hidden', 'true'); });
-}
-function paint(ctrEl, funEl, v, flash) {
-  $$('.ctr', ctrEl).forEach((b, i) => { $('.n', b).textContent = v[i]; if (flash === i) { b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit'); } });
-  const max = Math.max(v[0], 1);
-  $$('.frow', funEl).forEach((r, i) => { $('i', r).style.width = (v[i] / max * 100) + '%'; $('em', r).textContent = v[i]; });
-}
-// tapping the furthest step counts all earlier steps too
-const bump = (v, i) => { for (let k = 0; k <= i; k++) v[k]++; };
-
-/* hero phone, autoplay */
-const hc = $('#heroCtr'), hf = $('#heroFunnel');
-buildPhone(hc, hf);
-let hv = [0, 0, 0, 0];
-const script = [0, 0, 1, 0, 2, 0, 0, 1, 3, 0, 1, 0, 0, 2, 0, 1, 0, 0, 3, 1];
-let si = 0;
-function heroStep() {
-  if (si >= script.length) { hv = [0, 0, 0, 0]; si = 0; $('#heroCoach').classList.remove('on'); paint(hc, hf, hv); $('#heroGoal').textContent = 7; $('#heroGoalBar').style.width = (7 / 12 * 100) + '%'; return setTimeout(heroStep, 900); }
-  const i = script[si++]; bump(hv, i); paint(hc, hf, hv, i);
-  $('#heroGoal').textContent = 7 + hv[3]; $('#heroGoalBar').style.width = ((7 + hv[3]) / 12 * 100) + '%';
-  if (hv[0] >= 5) { $('#heroCoachText').textContent = coachFor(hv); $('#heroCoach').classList.add('on'); }
-  setTimeout(heroStep, si === script.length ? 3800 : 750);
-}
-$('#heroGoal').textContent = 7; $('#heroGoalBar').style.width = (7 / 12 * 100) + '%';
-if (reduce) { hv = [14, 9, 6, 2]; paint(hc, hf, hv); $('#heroCoachText').textContent = coachFor(hv); $('#heroCoach').classList.add('on'); }
-else setTimeout(heroStep, 1200);
-
-/* interactive demo */
-const dc = $('#demoCtr'), dfun = $('#demoFunnel');
-let dv = [0, 0, 0, 0], patRaf = 0;
-const stopPat = () => { if (patRaf) cancelAnimationFrame(patRaf); patRaf = 0; };
-const demoUpdate = (flash) => { paint(dc, dfun, dv, flash); const on = dv[0] >= 3; $('#demoCoach').classList.toggle('on', on); $('#demoCoachText').textContent = coachFor(dv); };
-buildPhone(dc, dfun, (i) => { stopPat(); bump(dv, i); $$('[data-pat]').forEach(x => x.setAttribute('aria-pressed', 'false')); demoUpdate(i); });
-const PATS = { open: [22, 7, 5, 2], pitch: [18, 12, 9, 1], close: [16, 12, 4, 2], good: [20, 15, 11, 5] };
-$$('[data-pat]').forEach(b => b.addEventListener('click', () => {
-  $$('[data-pat]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-  stopPat();
-  const target = PATS[b.dataset.pat], start = [...dv], t0 = performance.now();
-  const step = (t) => { const k = Math.min(1, (t - t0) / 600); dv = start.map((s, i) => Math.round(s + (target[i] - s) * k)); demoUpdate(); patRaf = k < 1 ? requestAnimationFrame(step) : 0; };
-  patRaf = requestAnimationFrame(step); track('demo_view');
-}));
-$('#demoReset').addEventListener('click', () => { stopPat(); dv = [0, 0, 0, 0]; $$('[data-pat]').forEach(x => x.setAttribute('aria-pressed', 'false')); demoUpdate(); });
-demoUpdate();
-
-/* industries */
-const tabs = $('#indTabs');
-tabs.innerHTML = IND.map((x, i) => `<button class="tab" role="tab" type="button" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-id="${x.id}">${x.label}</button>`).join('');
-function showInd(id, first) {
-  const x = IND.find(i => i.id === id), body = $('#indBody'), img = $('#indImg');
-  $$('.tab', tabs).forEach(t => { const on = t.dataset.id === id; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; if (on && !first) t.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); });
-  const fill = () => {
-    $('#indTitle').textContent = x.title; $('#indLede').textContent = x.lede; $('#indTag').textContent = x.tag;
-    $('#indStages').innerHTML = ST.map((s, i) => `<div class="stage"><b>${s[0]}</b><small>${s[1]}</small><span>${esc(x.d[i])}</span></div>`).join('');
-    $('#indObj').textContent = x.obj; $('#indAir').textContent = x.air;
-    $('#indList').innerHTML = x.list.map(l => `<li>${l}</li>`).join('');
-    body.classList.remove('swapping');
-  };
-  if (first) { img.src = x.img; img.alt = x.alt || img.alt; return fill(); }
-  body.classList.add('swapping');
-  if (img.getAttribute('src') !== x.img) { img.classList.add('fade'); setTimeout(() => { img.src = x.img; img.alt = x.alt; img.classList.remove('fade'); }, 280); }
-  setTimeout(fill, 260);
-  track('industry', { industry: id });
-}
-tabs.addEventListener('keydown', e => {
-  if (!['ArrowRight', 'ArrowLeft'].includes(e.key)) return;
-  e.preventDefault();
-  const all = $$('.tab', tabs), cur = all.findIndex(t => t.getAttribute('aria-selected') === 'true');
-  const nx = all[(cur + (e.key === 'ArrowRight' ? 1 : all.length - 1)) % all.length]; nx.focus(); setIndustry(nx.dataset.id, 'tab'); showInd(nx.dataset.id);
-});
-showInd('fiber', true);
-
-/* one industry choice flows through the whole page */
-const demoSel = $('#demoInd');
-demoSel.innerHTML = IND.map(x => `<option value="${x.id}">${x.label}</option>`).join('');
-function setIndustry(id, from) {
-  const x = IND.find(i => i.id === id); if (!x) return; CUR = x;
-  demoUpdate();
-  if ($('#heroCoach').classList.contains('on')) $('#heroCoachText').textContent = coachFor(hv);
-  $('#heroUnit').textContent = x.unit; $('#heroCb').textContent = x.cb;
-  $('#step1').textContent = x.steps;
-  $$('[data-nextword]').forEach(el => { el.textContent = x.next === 'door' ? 'door' : 'conversation'; });
-  demoSel.value = id;
-  if (from !== 'tab') showInd(id, from === 'url');
-  $('#bInd').value = id;
-  if (boardReady && picked !== null) renderDetail(picked);
-}
-demoSel.addEventListener('change', () => { setIndustry(demoSel.value, 'demo'); track('industry', { industry: demoSel.value }); });
-$$('.tab', tabs).forEach(t => t.addEventListener('click', () => { setIndustry(t.dataset.id, 'tab'); showInd(t.dataset.id); }));
-if (URL_IND) {
-  if (URL_IND.img !== './assets/door.webp') $('#heroBg').src = URL_IND.img;
-  setIndustry(URL_IND.id, 'url');
-}
-
-/* ---------- owner board ---------- */
-const TEAM = ['Marcus', 'Jada', 'Tyler', 'Ana', 'Devon', 'Priya'];
-const BOARD = {
-  today: [[14, 9, 6, 2], [12, 5, 3, 1], [16, 12, 9, 3], [10, 7, 2, 1], [11, 8, 6, 1], [13, 6, 4, 1]],
-  week: [[62, 41, 30, 9], [55, 26, 17, 3], [70, 52, 40, 12], [48, 35, 14, 3], [51, 36, 27, 5], [58, 34, 24, 6]],
-  last: [[60, 38, 27, 8], [50, 20, 12, 2], [66, 47, 35, 10], [46, 33, 15, 2], [49, 30, 21, 4], [55, 28, 18, 4]]
-};
-const REF = [0.6, 0.7, 0.3]; // example targets: D to P, P to C, C to S
-const STEP_NAMES = ['Decision maker to presentation', 'Presentation to close asked', 'Close asked to sale'];
-let period = 'today', picked = 1, scrubReady = false;
-const metricSel = $('#stdMetric'), stdIn = $('#stdVal');
-const ratio = (a, b) => (b > 0 ? a / b : 0);
-const repMetric = v => (metricSel.value === 'p' ? ratio(v[1], v[0]) : ratio(v[3], v[2])) * 10;
-function leakOf(v) {
-  const r = [ratio(v[1], v[0]), ratio(v[2], v[1]), ratio(v[3], v[2])];
-  const sc = r.map((x, i) => x / REF[i]); const k = sc.indexOf(Math.min(...sc));
-  return { k, r, ok: sc[k] >= 1 };
-}
-function fixFor(k, name) {
-  const x = CUR;
-  return [
-    { leak: v => `Losing people before the presentation. ${v[1]} presentations from ${v[0]} decision makers.`, fix: `Pace. Slow the first ten seconds and lead with why you are ${x.where}.`, text: `Hey ${name}, your board says people are leaving before the presentation. Next ${x.next}, slow your first ten seconds and lead with why you are ${x.where}. Text me after five more.` },
-    { leak: v => `Presenting, but not asking. Asked for the close ${v[2]} times in ${v[1]} presentations.`, fix: `Attitude. After every presentation, ${x.ask} once, then stop talking.`, text: `Hey ${name}, your presentations are landing. Next ${x.next}, ${x.ask} once after every one, then stop talking. Let me know how the next five go.` },
-    { leak: v => `Asking, but hearing no. ${v[3]} sales from ${v[2]} closes asked.`, fix: `Pitch. When you hear "${x.obj.replace(/\.$/, '')}," use A.I.R. before you ask again.`, text: `Hey ${name}, you are asking for the close every time. Keep it up. When they say "${x.obj.replace(/\.$/, '')}," acknowledge it, then bring it right back to why you are there before you ask again.` }
-  ][k];
-}
-function stdLabel() { return metricSel.value === 'p' ? `${stdIn.value} of 10` : `${stdIn.value} of 10`; }
-function renderBoard() {
-  const rows = BOARD[period], std = +stdIn.value;
-  $('#stdOut').textContent = stdLabel();
-  const max = Math.max(...rows.map(v => v[0]));
-  let flagged = [];
-  $('#obRows').innerHTML = rows.map((v, i) => {
-    const m = repMetric(v), need = m < std; if (need) flagged.push(TEAM[i]);
-    const segs = v.map((n, j) => `<i style="width:${((n - (v[j + 1] || 0)) / max * 100).toFixed(1)}%"></i>`).join('');
-    return `<div role="listitem"><button type="button" class="obr${picked === i ? ' sel' : ''}" data-r="${i}" aria-pressed="${picked === i}"><span class="obr-name"><b>${TEAM[i]}</b><small>${m.toFixed(1)} of 10</small></span><span class="nums">${v.map(n => `<i>${n}</i>`).join('')}</span><span class="rbar">${segs}</span><span class="flag ${need ? 'watch' : 'ok'}">${need ? 'Needs you' : 'On pace'}</span></button></div>`;
-  }).join('');
-  $$('#periods button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.p === period)));
-  const what = metricSel.value === 'p' ? 'presentation' : 'closing';
-  $('#obSum').textContent = flagged.length ? `${flagged.length} of 6 under your ${what} standard: ${flagged.join(', ')}.` : `Everyone is at or above your ${what} standard.`;
-  if (picked !== null) renderDetail(picked);
-  if (scrubReady) renderScrub();
-}
-function renderDetail(i) {
-  const v = BOARD[period][i], name = TEAM[i], L = leakOf(v), max = Math.max(v[0], 1);
-  const pl = { today: 'today', week: 'this week', last: 'last week' }[period];
-  // The flag, the leak and the text all follow the standard the owner picked.
-  const isP = metricSel.value === 'p', std = +stdIn.value, m = repMetric(v), need = m < std;
-  const what = isP ? 'presentation' : 'closing', sk = isP ? 0 : 2, mine = `${m.toFixed(1)} of 10 against your standard of ${std} of 10`;
-  let leak, fix, text;
-  if (need) {
-    const f = fixFor(sk, name);
-    leak = isP ? `Under your presentation standard. ${v[1]} presentations from ${v[0]} decision makers, ${mine}.` : `Under your closing standard. ${v[3]} sales from ${v[2]} closes asked, ${mine}.`;
-    fix = f.fix; text = f.text;
-  } else {
-    leak = `At or above your ${what} standard: ${mine}.`;
-    if (L.ok) { fix = `Strong shift. Same pace on the next ${CUR.next} and log every callback.`; }
-    else { fix = `Your standard is met. Next thing to try: ${fixFor(L.k, name).fix}`; }
-    text = `Hey ${name}, you are at or above my ${what} standard ${pl}. Keep the same pace and log every callback.`;
-  }
-  $('#obDetail').innerHTML = `
-    <div class="obd-head"><b>${name}</b><span class="ex-tag">Example rep, ${pl}</span></div>
-    <div class="obd-fun">${ST.map((s, j) => `<div class="frow"><span>${s[2]}</span><div class="fbar"><i style="width:${v[j] / max * 100}%"></i></div><em>${v[j]}</em></div>`).join('')}</div>
-    <div class="obd-block"><small>${need ? 'The leak' : 'Against your standard'}</small><p>${esc(leak)}</p></div>
-    <div class="obd-block dark"><small>The one fix the app gives ${name}</small><p>${esc(fix)}</p></div>
-    <div class="obd-block"><small>Text this rep</small><p class="obd-text" id="obdText">${esc(text)}</p>
-      <button type="button" class="btn btn-ink obd-copy" id="obdCopy">Copy this text</button></div>`;
-  $('#obdCopy').addEventListener('click', async () => {
-    const t = $('#obdText').textContent, b = $('#obdCopy');
-    try { await navigator.clipboard.writeText(t); }
-    catch { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch {} ta.remove(); }
-    b.textContent = 'Copied'; setTimeout(() => { b.textContent = 'Copy this text'; }, 1600);
-  });
-}
-$('#obRows').addEventListener('click', e => {
-  const b = e.target.closest('.obr'); if (!b) return;
-  const hadFocus = document.activeElement === b;
-  picked = +b.dataset.r; renderBoard(); trackBoard();
-  if (hadFocus) $(`#obRows .obr[data-r="${picked}"]`)?.focus({ preventScroll: true });
-  if (innerWidth < 980) $('#obDetail').scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
-});
-$$('#periods button').forEach(b => b.addEventListener('click', () => { period = b.dataset.p; renderBoard(); trackBoard(); }));
-metricSel.addEventListener('change', () => {
-  if (metricSel.value === 'p') { stdIn.min = 2; stdIn.max = 9; stdIn.value = 6; } else { stdIn.min = 1; stdIn.max = 6; stdIn.value = 3; }
-  renderBoard(); trackBoard();
-});
-stdIn.addEventListener('input', () => { renderBoard(); trackBoard(); });
-
-/* shift scrubber */
-const MOMENTS = [
-  [0, '9:00 AM: Shift starts. Six reps open one link. The board is empty, and nothing is judged yet.'],
-  [90, '10:30 AM: the first conversations are on the board. Nobody had to text in numbers.'],
-  [160, () => { const n = BOARD.today.filter(v => repMetric(v) < +stdIn.value).length, w = ['no reps', 'one rep', 'two reps', 'three reps', 'four reps', 'five reps', 'all six reps'][n]; return `11:40 AM: ${w} under your ${metricSel.value === 'p' ? 'presentation' : 'closing'} standard. You would see this now, not at roll call.`; }],
-  [255, '1:15 PM: Ana has presented 7 times and asked for the close twice. Her phone already told her: ask once after every presentation, then stop talking.'],
-  [390, '3:30 PM: Tyler is on pace for his weekly goal. Nothing for you to do there.'],
-  [540, '6:00 PM: callback at 1418 Elm. Alert already sent.'],
-  [600, '7:00 PM: shift over. The report is already built. Text it or export it.']
-];
-const CREW = BOARD.today.reduce((a, v) => a.map((n, i) => n + v[i]), [0, 0, 0, 0]);
-const fmtTime = m => { const h = 9 + Math.floor(m / 60), mm = m % 60, h12 = ((h + 11) % 12) + 1; return `${h12}:${String(mm).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`; };
-function renderScrub() {
-  const m = +$('#scrub').value * 10, frac = m / 600;
-  const mo = MOMENTS.filter(x => x[0] <= m).pop();
-  $('#scrubTime').textContent = fmtTime(m);
-  $('#scrubMsg').textContent = (t => t.charAt(0).toUpperCase() + t.slice(1))((typeof mo[1] === 'function' ? mo[1]() : mo[1]).replace(/^\d{1,2}:\d{2} [AP]M: /, ''));
-  $('#scrub').setAttribute('aria-valuetext', fmtTime(m));
-  const live = CREW.map(n => Math.round(n * Math.min(1, frac * 1.05)));
-  $('#scrubTot').innerHTML = `<span>Crew so far</span>` + ST.map((s, i) => `<b><i>${s[0]}</i>${live[i]}</b>`).join('');
-}
-$('#scrub').addEventListener('input', () => { renderScrub(); trackBoard(); });
-scrubReady = true; boardReady = true; renderBoard();
-
-/* ---------- leak calculator ---------- */
-const cIds = ['cD', 'cP', 'cC', 'cS'];
-const num = id => { const v = $('#' + id).value.trim(); return v === '' ? NaN : Number(v); };
-const MAX_COUNT = 100000, MAX_VAL = 1000000;
-$$('.stepper button').forEach(b => b.addEventListener('click', () => {
-  const inp = b.parentElement.querySelector('input'); const v = Math.min(MAX_COUNT, Math.max(0, Math.round(Number(inp.value) || 0) + +b.dataset.step));
-  inp.value = v; inp.dispatchEvent(new Event('input', { bubbles: true }));
-}));
-const calcCta = $('#calcCta');
-function calcUnavailable(msg) {
-  $('#cLeak').innerHTML = `<b>Not available yet</b><span>${esc(msg)}</span>`;
-  $('#cRates').innerHTML = '';
-  $('#cGain').textContent = 'Fix the number above and the example math comes back.';
-  $('#cBe').textContent = '';
-  calcCta.textContent = 'Start 14 days free';
-  delete calcCta.dataset.plan;
-  $('#calcOut').classList.add('unavail');
-}
-function calc() {
-  const err = $('#calcErr');
-  const v = cIds.map(id => parseIntStrict($('#' + id).value, 0, MAX_COUNT));
-  const val = num('cVal'), reps = parseIntStrict($('#cReps').value, 1, 500), lift = num('cLift');
-  const tRaw = ['tP', 'tC', 'tS'].map(id => parseIntStrict($('#' + id).value, 1, 100)), t = tRaw.map(x => x / 100);
-  const names = ['decision makers reached', 'presentations', 'closes asked', 'sales'];
-  let msg = '', bad = [];
-  const badStep = v.findIndex(x => !Number.isFinite(x));
-  if (badStep >= 0) { msg = `Use a whole number from 0 to ${MAX_COUNT.toLocaleString('en-US')} for each step.`; bad = [cIds[badStep]]; }
-  else if (v[0] === 0) { msg = 'Add at least one decision maker reached to see the math.'; bad = ['cD']; }
-  else for (let i = 1; i < 4; i++) if (v[i] > v[i - 1]) { msg = `Your ${names[i]} (${v[i]}) are more than your ${names[i - 1]} (${v[i - 1]}). Each step counts people who also reached the step before it, so it cannot be higher. Check that number.`; bad = [cIds[i]]; break; }
-  if (!msg && (!Number.isFinite(val) || val < 0 || val > MAX_VAL)) { msg = `Add what one sale is worth to the office, from $0 to ${money(MAX_VAL)}.`; bad = ['cVal']; }
-  if (!msg && !Number.isFinite(reps)) { msg = 'Add how many reps are on the team, as a whole number from 1 to 500.'; bad = ['cReps']; }
-  if (!msg && (!Number.isFinite(lift) || lift < 0 || lift > 50)) { msg = 'Use a lift between 0 and 50 points.'; bad = ['cLift']; }
-  if (!msg) { const bt = tRaw.findIndex(x => !Number.isFinite(x)); if (bt >= 0) { msg = 'Example targets need to be whole numbers from 1 to 100 percent.'; bad = [['tP', 'tC', 'tS'][bt]]; } }
-  [...cIds, 'cVal', 'cReps', 'cLift', 'tP', 'tC', 'tS'].forEach(id => $('#' + id).setAttribute('aria-invalid', String(bad.includes(id))));
-  if (Number.isFinite(reps)) noteReps(reps);
-  err.textContent = msg;
-  if (msg) return calcUnavailable(msg);
-  const r = [ratio(v[1], v[0]), ratio(v[2], v[1]), ratio(v[3], v[2])];
-  const sc = r.map((x, i) => x / t[i]), k = sc.indexOf(Math.min(...sc));
-  const pct = x => Math.round(x * 100) + '%';
-  // a lift can never push a step past 100 percent
-  const room = Math.max(0, Math.floor((1 - r[k]) * 1000) / 10), used = Math.min(lift, room), capped = used < lift;
-  const L = used / 100;
-  const weekly = k === 0 ? v[0] * L * r[1] * r[2] : k === 1 ? v[1] * L * r[2] : v[2] * L;
-  const monthly = weekly * 52 / 12, worth = monthly * val;
-  if (![weekly, monthly, worth].every(Number.isFinite)) return calcUnavailable('These numbers are too large for the example math. Try smaller numbers.');
-  $('#calcOut').classList.remove('unavail');
-  $('#cLeak').innerHTML = `<b>${STEP_NAMES[k]}</b><span>${pct(r[k])} against an example target of ${pct(t[k])}${sc[k] >= 1 ? '. Every step meets the example targets, so this is just your lowest one.' : '.'}</span>`;
-  $('#cRates').innerHTML = r.map((x, i) => `<div class="${i === k ? 'hit' : ''}"><small>${['D to P', 'P to C', 'C to S'][i]}</small><b>${pct(x)}</b><span>target ${pct(t[i])}</span></div>`).join('');
-  const m1 = monthly < 10 ? monthly.toFixed(1) : Math.round(monthly).toLocaleString('en-US');
-  const fmtPts = x => { const n = Math.floor(x * 10) / 10; return Number.isInteger(n) ? String(n) : n.toFixed(1); };
-  const ptsWord = n => (n === '1' ? 'point' : 'points');
-  if (room === 0) $('#cGain').innerHTML = `Example math: ${STEP_NAMES[k].toLowerCase()} is already at ${pct(r[k])}, so there is no room for a lift there. The 14 days are free, so you can check this against your own board.`;
-  else if (lift === 0) $('#cGain').innerHTML = `Example math: with no lift the math adds 0 sales a month. That is a fair place to start. The 14 days are free, so you can check this against your own board.`;
-  else { const u = fmtPts(used); $('#cGain').innerHTML = `Example math: ${u} more ${ptsWord(u)} at ${STEP_NAMES[k].toLowerCase()}, with every other step held the same, is about <b>${m1} more sales a month</b> across the team, worth about <b>${money(worth)}</b> to the office.${capped ? ` The lift is capped at ${u} ${ptsWord(u)} because that step cannot go past 100%.` : ''}`; }
-  const pk = planFor(reps), P = PLANS[pk];
-  if (val > 0) {
-    const n = Math.ceil(P.price / val);
-    $('#cBe').textContent = `Example only. At these numbers, ${P.short} at ${money(P.price)} needs ${n} extra ${n === 1 ? 'sale' : 'sales'} a month across the whole team, not per rep.`;
-  } else $('#cBe').textContent = 'Example only. Add what one sale is worth to see how many extra sales would cover the plan.';
-  if (reps > 30) $('#cBe').textContent += ' More than 30 reps needs a custom Office setup. Text David.';
-  calcCta.textContent = `Start 14 days free with ${P.short}`;
-  calcCta.dataset.plan = pk;
-}
-$('#calcForm').addEventListener('input', calc);
-calc();
+/* ---------- industry for leads ---------- */
+const CUR = IND[0];
 
 /* ---------- contact ways ---------- */
 const fmtPhone = n => { const d = String(n).replace(/\D/g, '').slice(-10); return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)} ${d.slice(6)}` : n; };
@@ -477,8 +194,7 @@ function openBuy(plan) {
   lastFocus = document.activeElement;
   buyBody.innerHTML = BUY_HTML; $('#bInd').value = CUR.id;
   const repsIn = $('#buyForm [name=team_size]');
-  const calcReps = parseReps($('#cReps').value); if (Number.isFinite(calcReps)) repsIn.value = calcReps;
-  requestedPlan = plan || null;
+    requestedPlan = plan || null;
   if (requestedPlan === 'crew' && parseReps(repsIn.value) > PLANS.crew.reps) repsIn.value = 10;
   curPlan = planForReps(parseReps(repsIn.value));
   paintPlan();
@@ -538,16 +254,20 @@ fxBtn.addEventListener('click', () => {
   fxBtn.textContent = open ? 'Hide the full list' : 'See every feature';
 });
 
-/* ---------- optional demo video ---------- */
-if (C.demoVideo) {
-  const vb = $('#videoBtn'); vb.hidden = false;
-  vb.addEventListener('click', () => {
-    lastFocus = vb;
-    $('#vidSlot').innerHTML = `<video controls autoplay playsinline preload="metadata" ${C.demoPoster && !(C.demoVideoVertical && matchMedia('(max-width: 700px)').matches) ? `poster="${esc(C.demoPoster)}"` : ''} src="${esc(C.demoVideoVertical && matchMedia('(max-width: 700px)').matches ? C.demoVideoVertical : C.demoVideo)}"></video>`;
-    openDialog($('#vid'));
-    setTimeout(() => $('#vid [data-close]')?.focus(), 50);
-    track('demo_view');
-  });
+/* ---------- demo video, inline ---------- */
+const dv = $('#demoVid');
+if (dv) {
+  const pick = () => (matchMedia('(max-width: 700px)').matches && C.demoVideoVertical) ? C.demoVideoVertical : C.demoVideo;
+  dv.src = pick() + '?v=21';
+  if (!matchMedia('(max-width: 700px)').matches && C.demoPoster) dv.poster = C.demoPoster + '?v=21';
+  else if (C.demoPosterVertical) dv.poster = C.demoPosterVertical + '?v=21';
+  let played = false;
+  dv.addEventListener('play', () => { if (!played) { played = true; track('demo_view'); } });
+  $$('[data-watch]').forEach(b => b.addEventListener('click', e => {
+    e.preventDefault();
+    $('#demo').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    setTimeout(() => { dv.play().catch(() => {}); }, reduce ? 0 : 650);
+  }));
 }
 
 track('view');
