@@ -722,3 +722,15 @@ footer a{min-height:44px;display:inline-flex;align-items:center}
 .tail-img img{display:block;width:100%;height:auto}
 .dark-ink{color:var(--color-text);margin-top:1.2rem}
 @media (max-width:600px){.bcard .shot,.split .shot-solo{max-width:270px}.mshot img{max-width:250px}.pair{max-width:400px}}
+.callout .rule{margin:.6rem 0 0;padding-left:1.1rem;display:grid;gap:.35rem}
+.callout .rule li{line-height:1.45}
+
+.bill{display:inline-flex;gap:.25rem;margin-top:1.1rem;padding:.25rem;border-radius:999px;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.08)}
+.bill button{border:0;background:transparent;font:inherit;font-size:var(--text-sm);font-weight:600;padding:.5rem 1rem;border-radius:999px;cursor:pointer;color:inherit;min-height:40px}
+.bill button small{font-weight:600;color:var(--color-primary);margin-left:.3rem}
+.bill button.on{background:var(--color-ink,#14120F);color:#fff}
+.bill button.on small{color:#fff;opacity:.85}
+.bill-sm{margin:.2rem 0 .9rem}
+.plans.plans4{grid-template-columns:repeat(4,1fr);max-width:1180px}.plans4 .plan{padding:1.6rem}
+@media (max-width:1100px){.plans.plans4{grid-template-columns:1fr 1fr;max-width:860px}}
+@media (max-width:640px){.plans.plans4{grid-template-columns:1fr}}

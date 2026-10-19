@@ -30,10 +30,13 @@ const trackBoard = () => { if (!boardTracked) { boardTracked = true; track('demo
 
 /* ---------- data ---------- */
 const PLANS = {
-  crew: { name: 'Crew plan', short: 'Crew', price: 299, reps: 10 },
-  office: { name: 'Office plan', short: 'Office', price: 699, reps: 30 }
+  starter: { name: 'Starter plan', short: 'Starter', price: 199, year: 1990, reps: 5 },
+  crew: { name: 'Crew plan', short: 'Crew', price: 349, year: 3490, reps: 10 },
+  team: { name: 'Team plan', short: 'Team', price: 599, year: 5990, reps: 20 },
+  office: { name: 'Office plan', short: 'Office', price: 849, year: 8490, reps: 30 }
 };
-const planFor = reps => (reps <= 10 ? 'crew' : 'office');
+const PLAN_ORDER = ['starter', 'crew', 'team', 'office'];
+const planFor = reps => PLAN_ORDER.find(k => reps <= PLANS[k].reps) || 'office';
 // The app records the same four steps everywhere. Only the meaning of each step changes by trade.
 const ST = [['D', 'Decision maker reached', 'Reached'], ['P', 'Presentation', 'Pitched'], ['C', 'Close asked', 'Asked'], ['S', 'Sale', 'Sold']];
 const IND = [
@@ -113,7 +116,7 @@ $$('#nav a, #nav button').forEach(a => a.addEventListener('click', () => setMenu
 addEventListener('keydown', e => { if (e.key === 'Escape' && hdr.classList.contains('menu-open')) { setMenu(false); menuBtn.focus(); } });
 addEventListener('resize', () => { if (innerWidth > 900) setMenu(false); });
 function syncMob() { mob.classList.toggle('show', !document.querySelector('.modal.open')); }
-function paintMob() { const off = enteredReps > 10; $('#mobPrice').innerHTML = off ? 'Office <b>$699</b> a month' : 'Crew <b>$299</b> a month'; }
+function paintMob() { const k = planFor(enteredReps), P = PLANS[k]; $('#mobPrice').innerHTML = Number.isFinite(enteredReps) ? `${P.short} <b>${money(P.price)}</b> a month` : 'From <b>$199</b> a month'; }
 const noteReps = raw => { const n = parseReps(raw); if (Number.isFinite(n)) { enteredReps = n; paintMob(); } };
 addEventListener('scroll', () => {
   const y = scrollY;
@@ -156,19 +159,30 @@ $('#qForm').addEventListener('submit', async e => {
 
 /* ---------- trial modal ---------- */
 const modal = $('#buy'), buyBody = $('#buyBody'), BUY_HTML = buyBody.innerHTML;
-let curPlan = 'crew', requestedPlan = null, lastFocus = null;
-const hasLink = p => !!((C.checkout || {})[p]);
-// more than 10 reps always needs Office; otherwise go back to the plan the visitor asked for
-const planForReps = reps => (Number.isFinite(reps) && reps > 10 ? 'office' : (requestedPlan || 'crew'));
+let curPlan = 'crew', requestedPlan = null, lastFocus = null, bill = 'm';
+const linkKey = p => (bill === 'y' ? p + '_y' : p);
+const hasLink = p => !!((C.checkout || {})[linkKey(p)]);
+function paintBill() {
+  $$('[data-bill]').forEach(b => { const on = b.dataset.bill === bill; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+  $$('[data-pm]').forEach(el => { el.textContent = bill === 'y' ? el.dataset.py : el.dataset.pm; });
+  if ($('#buyPlan')) paintPlan();
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-bill]'); if (b) { bill = b.dataset.bill; paintBill(); } });
+// the plan must fit the rep count; a bigger plan the visitor picked is kept
+const planForReps = reps => {
+  if (!Number.isFinite(reps)) return requestedPlan || 'crew';
+  const need = planFor(reps);
+  return requestedPlan && PLAN_ORDER.indexOf(requestedPlan) >= PLAN_ORDER.indexOf(need) ? requestedPlan : need;
+};
 function paintPlan() {
   const P = PLANS[curPlan], reps = parseReps($('#buyForm [name=team_size]')?.value);
   $('#buyPlan').textContent = `${P.name}, up to ${P.reps} reps`;
-  $('#buyPrice').textContent = `${money(P.price)} a month after 14 days free`;
+  $('#buyPrice').textContent = bill === 'y' ? `${money(P.year)} a year after 14 days free` : `${money(P.price)} a month after 14 days free`;
   $('#buyBtn').textContent = hasLink(curPlan) ? 'Continue to checkout' : 'Start my 14 days free';
   let note = '';
   if (reps > 30) note = 'More than 30 reps? Send this and David will set up a plan for your office.';
-  else if (requestedPlan === 'crew' && curPlan === 'office') note = 'Crew covers up to 10 reps, so more than 10 uses Office.';
-  else if (!requestedPlan) note = 'Plan picked from your rep count: 10 or fewer is Crew, more is Office.';
+  else if (requestedPlan && curPlan !== requestedPlan) note = `${PLANS[requestedPlan].short} covers up to ${PLANS[requestedPlan].reps} reps, so ${reps} reps uses ${P.short}.`;
+  else if (!requestedPlan) note = 'Plan picked from your rep count: up to 5 is Starter, 10 is Crew, 20 is Team, 30 is Office.';
   $('#planNote').textContent = note;
 }
 /* dialogs: trap focus and make the rest of the page inert */
@@ -195,9 +209,9 @@ function openBuy(plan) {
   buyBody.innerHTML = BUY_HTML; $('#bInd').value = CUR.id;
   const repsIn = $('#buyForm [name=team_size]');
     requestedPlan = plan || null;
-  if (requestedPlan === 'crew' && parseReps(repsIn.value) > PLANS.crew.reps) repsIn.value = 10;
+  if (requestedPlan && parseReps(repsIn.value) > PLANS[requestedPlan].reps) repsIn.value = PLANS[requestedPlan].reps;
   curPlan = planForReps(parseReps(repsIn.value));
-  paintPlan();
+  paintBill();
   openDialog(modal);
   setTimeout(() => modal.querySelector('input')?.focus(), 50);
   track('plan_click', { plan: curPlan });
@@ -228,9 +242,9 @@ modal.addEventListener('submit', async e => {
   if (email && !/^\S+@\S+\.\S+$/.test(email)) { m.className = 'msg err'; m.textContent = 'That email does not look right. Fix it or leave it blank.'; return; }
   m.className = 'msg'; m.textContent = 'One moment...'; $('#buyBtn').disabled = true;
   try {
-    const r = await rpc('growth_submit_lead', { p_name: name, p_company: company, p_email: email, p_phone: phone, p_industry: val(f, 'industry') || CUR.id, p_team_size: String(reps), p_message: 'Started trial: ' + PLANS[curPlan].name, p_source: 'checkout_' + curPlan });
+    const r = await rpc('growth_submit_lead', { p_name: name, p_company: company, p_email: email, p_phone: phone, p_industry: val(f, 'industry') || CUR.id, p_team_size: String(reps), p_message: 'Started trial: ' + PLANS[curPlan].name + (bill === 'y' ? ', yearly' : ', monthly'), p_source: 'checkout_' + linkKey(curPlan) });
     if (!r?.ok) throw 0;
-    const link = (C.checkout || {})[curPlan];
+    const link = (C.checkout || {})[linkKey(curPlan)];
     if (link) { location.href = email ? link + (link.includes('?') ? '&' : '?') + 'prefilled_email=' + encodeURIComponent(email) : link; return; }
     const first = name.split(/\s+/)[0];
     const body = `This is ${name} at ${company}. ${reps} reps. I want to start the 14 day trial.`;
@@ -258,9 +272,9 @@ fxBtn.addEventListener('click', () => {
 const dv = $('#demoVid');
 if (dv) {
   const pick = () => (matchMedia('(max-width: 700px)').matches && C.demoVideoVertical) ? C.demoVideoVertical : C.demoVideo;
-  dv.src = pick() + '?v=22';
-  if (!matchMedia('(max-width: 700px)').matches && C.demoPoster) dv.poster = C.demoPoster + '?v=22';
-  else if (C.demoPosterVertical) dv.poster = C.demoPosterVertical + '?v=22';
+  dv.src = pick() + '?v=24';
+  if (!matchMedia('(max-width: 700px)').matches && C.demoPoster) dv.poster = C.demoPoster + '?v=24';
+  else if (C.demoPosterVertical) dv.poster = C.demoPosterVertical + '?v=24';
   let played = false;
   dv.addEventListener('play', () => { if (!played) { played = true; track('demo_view'); } });
   $$('[data-watch]').forEach(b => b.addEventListener('click', e => {

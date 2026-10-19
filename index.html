@@ -10,8 +10,8 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./base.css?v=22">
-<link rel="stylesheet" href="./style.css?v=22">
+<link rel="stylesheet" href="./base.css?v=25">
+<link rel="stylesheet" href="./style.css?v=25">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317150F'/%3E%3Cpath d='M9 8v16M14 8v16M19 8v16' stroke='%23F3EFE6' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M6 21L25 11' stroke='%23F26A1B' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -49,7 +49,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         <a class="btn btn-ghost" href="#demo" data-watch><span class="play" aria-hidden="true"></span>Watch the 3 minute demo</a>
       </div>
-      <p class="hero-price">Crew, up to 10 reps: <b>$299 a month</b>. Office, up to 30 reps: <b>$699 a month</b>. 14 days free.</p>
+      <p class="hero-price">From <b>$199 a month</b> for up to 5 reps. Up to 10 reps is <b>$349</b>. Every upgrade included. 14 days free.</p>
       <div class="hero-trust">
         <p>Built by David Borske, field sales trainer, Charlotte NC. In use today with a fiber door to door team.</p>
         <a class="hero-text" href="sms:+17048855457" data-sms>Text David a question</a>
@@ -75,7 +75,7 @@
       <div class="vid-frame"><video id="demoVid" controls playsinline preload="metadata" aria-label="Furthest Step demo video"></video></div>
       <ol class="chapters">
         <li><b>0:00</b>One tap per conversation</li>
-        <li><b>0:10</b>What D P C S means, and why the Close is the ask</li>
+        <li><b>0:10</b>What D P C S means, and how to read it</li>
         <li><b>0:41</b>The rep sees where today is breaking down</li>
         <li><b>0:53</b>The game board: in bounds and out of bounds</li>
         <li><b>1:40</b>Callbacks that alert her when to head back</li>
@@ -97,10 +97,16 @@
       <ul class="dpcs">
         <li><b>D</b><span><strong>Door.</strong> They reached the decision maker.</span></li>
         <li><b>P</b><span><strong>Presentation.</strong> They gave the pitch.</span></li>
-        <li class="hl"><b>C</b><span><strong>Close.</strong> They asked for the business.</span></li>
-        <li><b>S</b><span><strong>Sale.</strong> They got it.</span></li>
+        <li class="hl"><b>C</b><span><strong>Close.</strong> They asked for the business. Close does not mean they got the deal.</span></li>
+        <li><b>S</b><span><strong>Sale.</strong> They said yes.</span></li>
       </ul>
-      <div class="callout"><b>Why the Close matters.</b> If a rep asks and does not get the sale, that is a breakdown in that part of the process. If they never ask, that is a different breakdown. The app tells the two apart, so nobody has to guess.</div>
+      <div class="callout"><b>How to read it: fix the step right before the drop.</b>
+        <ul class="rule">
+          <li>Talking to decision makers, but not getting to present? <strong>Fix the door.</strong></li>
+          <li>Presenting, but not asking for the business? <strong>Fix the presentation.</strong></li>
+          <li>Asking, but not getting the sale? <strong>Fix how you ask.</strong></li>
+        </ul>
+      </div>
     </div>
     <figure class="shot shot-solo"><img src="./assets/app/rep_today.webp" alt="Rep counters for today: 18 made contact, 11 presentations, 4 closes asked, 1 sale" width="720" height="1280" decoding="async"></figure>
   </div>
@@ -113,9 +119,10 @@
     <div class="split-txt">
       <p class="eyebrow">Where the app really shines</p>
       <h2>Reps see where they are breaking down, and correct it themselves.</h2>
-      <p class="lede">Right on their phone, each rep sees where today is breaking down. In the example, Tasha asked on 4 of 11 presentations. The leak is the ask, and nobody had to tell her.</p>
+      <p class="lede">Right on their phone, each rep sees where today is breaking down. In the example, Tasha asked on 4 of 11 presentations. Presenting, but not asking, so her fix is the presentation. Nobody had to tell her.</p>
       <ul class="ticks">
         <li>Each bar is the share that made it from the step before</li>
+        <li>When a bar is low, it tells her which step to fix</li>
         <li>This week so far, with ask rate, ask to sale and D per sale</li>
         <li>Her own numbers, not a team average</li>
       </ul>
@@ -209,7 +216,7 @@
     <div class="sec-head">
       <p class="eyebrow">For managers and owners</p>
       <h2>Know exactly who to coach, and on what.</h2>
-      <p class="lede">The whole team funnel, everyone ranked, and where each person is leaking against your team median. In the example, Diego loses it after the ask, Tasha is not asking and Priya is not getting in the door.</p>
+      <p class="lede">The whole team funnel, everyone ranked, and where each person is leaking against your team median. In the example, Diego is asking but not getting the sale, so you coach how he asks. Tasha is presenting but not asking, so you coach her presentation. Priya is not getting to present, so you coach her door.</p>
     </div>
     <div class="mgr-grid">
       <figure class="mshot"><img src="./assets/app/mgr_funnel.webp" alt="Team funnel with active reps, D, P, C, S and D per sale" width="720" height="1280" decoding="async"><figcaption><b>Team funnel</b>Every step for the whole team, with D per sale.</figcaption></figure>
@@ -235,7 +242,7 @@
       <div class="scale-card"><b>New hires coached from day one</b><p>The board answers the same questions you would, the same way, even on days nobody rides with them.</p></div>
       <div class="scale-card"><b>Your time goes where it matters</b><p>The leak view shows who needs you first and on what, so you coach the right rep instead of guessing.</p></div>
     </div>
-    <p class="value-note">Example only: if one sale is worth $100 to your office, three extra sales a month across the whole team cover Crew.</p>
+    <p class="value-note">Example only: if one sale is worth $100 to your office, four extra sales a month across the whole team cover Crew.</p>
   </div>
 </section>
 
@@ -330,27 +337,42 @@
     <div class="sec-head center">
       <p class="eyebrow rv">Pricing</p>
       <h2 class="rv d1">Priced per team, not per rep.</h2>
-      <p class="lede rv d2">Everything included on both. 14 days free, nothing charged during the trial. Cancel anytime.</p>
+      <p class="lede rv d2">Every plan includes everything, plus every upgrade as it ships. Pick the plan that fits your team size. 14 days free, nothing charged during the trial. Your price is locked for 12 months. Cancel anytime.</p>
+      <div class="bill rv d2" role="group" aria-label="Billing"><button type="button" class="on" data-bill="m" aria-pressed="true">Monthly</button><button type="button" data-bill="y" aria-pressed="false">Yearly <small>2 months free</small></button></div>
     </div>
-    <div class="plans">
+    <div class="plans plans4">
       <div class="plan rv">
-        <div class="plan-top"><h3>Crew</h3><span class="fits">Fits 10 reps or fewer</span></div>
-        <div class="price"><b>$299</b><span>a month</span></div>
-        <p class="intro">After 14 days free</p>
-        <p class="per">Up to 10 reps, unlimited managers</p>
-        <button class="btn btn-ink" type="button" data-plan="crew">Start 14 days free</button>
+        <div class="plan-top"><h3>Starter</h3><span class="fits">Up to 5 reps</span></div>
+        <div class="price"><b data-pm="$199" data-py="$1,990">$199</b><span data-pm="a month" data-py="a year">a month</span></div>
+        <p class="intro" data-pm="After 14 days free" data-py="After 14 days free. 12 months for the price of 10">After 14 days free</p>
+        <p class="per">Up to 5 reps, unlimited managers</p>
+        <button class="btn btn-ink" type="button" data-plan="starter">Start 14 days free</button>
       </div>
       <div class="plan feat rv d1">
-        <div class="plan-top"><h3>Office</h3><span class="fits">Fits up to 30 reps</span></div>
-        <div class="price"><b>$699</b><span>a month</span></div>
-        <p class="intro">After 14 days free</p>
+        <div class="plan-top"><h3>Crew</h3><span class="fits">Up to 10 reps</span></div>
+        <div class="price"><b data-pm="$349" data-py="$3,490">$349</b><span data-pm="a month" data-py="a year">a month</span></div>
+        <p class="intro" data-pm="After 14 days free" data-py="After 14 days free. 12 months for the price of 10">After 14 days free</p>
+        <p class="per">Up to 10 reps, unlimited managers</p>
+        <button class="btn btn-primary" type="button" data-plan="crew">Start 14 days free</button>
+      </div>
+      <div class="plan rv d2">
+        <div class="plan-top"><h3>Team</h3><span class="fits">Up to 20 reps</span></div>
+        <div class="price"><b data-pm="$599" data-py="$5,990">$599</b><span data-pm="a month" data-py="a year">a month</span></div>
+        <p class="intro" data-pm="After 14 days free" data-py="After 14 days free. 12 months for the price of 10">After 14 days free</p>
+        <p class="per">Up to 20 reps, unlimited managers</p>
+        <button class="btn btn-ink" type="button" data-plan="team">Start 14 days free</button>
+      </div>
+      <div class="plan rv d3">
+        <div class="plan-top"><h3>Office</h3><span class="fits">Up to 30 reps</span></div>
+        <div class="price"><b data-pm="$849" data-py="$8,490">$849</b><span data-pm="a month" data-py="a year">a month</span></div>
+        <p class="intro" data-pm="After 14 days free" data-py="After 14 days free. 12 months for the price of 10">After 14 days free</p>
         <p class="per">Up to 30 reps, unlimited managers</p>
-        <button class="btn btn-primary" type="button" data-plan="office">Start 14 days free</button>
+        <button class="btn btn-ink" type="button" data-plan="office">Start 14 days free</button>
       </div>
     </div>
     <div class="incl rv">
-      <h3>Everything included on both</h3>
-      <ul><li>Every rep, manager and owner feature</li><li>Live owner board, reports and exports</li><li>Game board coaching, A.I.R. and Feel Felt Found</li><li>Callbacks, followups and alerts</li><li>Your objections, talk tracks and standards loaded for you</li><li>Works on any phone, no app store</li></ul>
+      <h3>Everything included on every plan</h3>
+      <ul><li>Every rep, manager and owner feature</li><li>Live owner board, reports and exports</li><li>Game board coaching, A.I.R. and Feel Felt Found</li><li>Callbacks, followups and alerts</li><li>Your objections, talk tracks and standards loaded for you</li><li>Works on any phone, no app store</li><li>Every upgrade included, at no extra cost</li></ul>
     </div>
     <p class="more30 muted">More than 30 reps? <a href="sms:+17048855457" data-sms>Text David</a> and he will set up a plan for your office.</p>
   </div>
@@ -371,7 +393,9 @@
       <details><summary>Is it only for door to door?</summary><p>No. Every sale has steps, a close and objections. David sets it up for how your team sells, with your steps, objections, talk tracks and standards. A retail floor version already exists.</p></details>
       <details><summary>Does the game board search use AI?</summary><p>No. It matches what the rep types against the plays on the board, so the answer is the same trusted response every time.</p></details>
       <details><summary>Who sees the numbers?</summary><p>Reps see their own numbers and coaching. Managers see their teams. Owners control every key and can remove access at any time.</p></details>
-      <details><summary>What happens after the 14 days?</summary><p>Your plan starts at its regular price: $299 a month for Crew, or $699 a month for Office. That is the whole price, shown here up front. No long term contract.</p></details>
+      <details><summary>What happens after the 14 days?</summary><p>Your plan starts at its regular price: $199 a month for Starter (up to 5 reps), $349 for Crew (up to 10), $599 for Team (up to 20) or $849 for Office (up to 30). Pay yearly and you get 12 months for the price of 10. That is the whole price, shown here up front, and every upgrade is included. No long term contract on monthly.</p></details>
+      <details><summary>Will my price go up?</summary><p>Your price is locked for 12 months from the day you start. Prices for new customers may change over time. If yours ever changes after your 12 months, you will hear from David at least 30 days ahead, and you can cancel before it takes effect.</p></details>
+      <details><summary>What if my team grows?</summary><p>Text David and he moves you to the plan that fits your team.</p></details>
       <details><summary>Can I cancel?</summary><p>Yes. Text or email David to cancel. Cancel during the 14 days and you pay nothing. After that, cancel any month.</p></details>
     </div>
   </div>
@@ -407,7 +431,7 @@
 </footer>
 
 <div class="mobile-cta" id="mobileCta">
-  <span id="mobPrice">Crew <b>$299</b> a month</span>
+  <span id="mobPrice">From <b>$199</b> a month</span>
   <button class="btn btn-primary" type="button" data-start>Start free</button>
 </div>
 
@@ -417,7 +441,8 @@
     <button class="modal-x" type="button" aria-label="Close" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <div id="buyBody">
       <h3 id="buyTitle">Start your 14 days free</h3>
-      <div class="sum"><span id="buyPlan">Crew plan, up to 10 reps</span><span id="buyPrice">$299 a month after 14 days free</span></div>
+      <div class="sum"><span id="buyPlan">Crew plan, up to 10 reps</span><span id="buyPrice">$349 a month after 14 days free</span></div>
+      <div class="bill bill-sm" role="group" aria-label="Billing"><button type="button" class="on" data-bill="m" aria-pressed="true">Monthly</button><button type="button" data-bill="y" aria-pressed="false">Yearly <small>2 months free</small></button></div>
       <form id="buyForm" novalidate>
         <div class="row">
           <label>Your name<input name="name" autocomplete="name" required></label>
@@ -452,7 +477,7 @@
   <div class="wrap" id="oBody"></div>
 </div>
 
-<script src="./config.js?v=22"></script>
-<script src="./app.js?v=22"></script>
+<script src="./config.js?v=25"></script>
+<script src="./app.js?v=25"></script>
 </body>
 </html>
