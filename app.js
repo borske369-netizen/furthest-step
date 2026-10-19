@@ -258,9 +258,9 @@ fxBtn.addEventListener('click', () => {
 const dv = $('#demoVid');
 if (dv) {
   const pick = () => (matchMedia('(max-width: 700px)').matches && C.demoVideoVertical) ? C.demoVideoVertical : C.demoVideo;
-  dv.src = pick() + '?v=21';
-  if (!matchMedia('(max-width: 700px)').matches && C.demoPoster) dv.poster = C.demoPoster + '?v=21';
-  else if (C.demoPosterVertical) dv.poster = C.demoPosterVertical + '?v=21';
+  dv.src = pick() + '?v=22';
+  if (!matchMedia('(max-width: 700px)').matches && C.demoPoster) dv.poster = C.demoPoster + '?v=22';
+  else if (C.demoPosterVertical) dv.poster = C.demoPosterVertical + '?v=22';
   let played = false;
   dv.addEventListener('play', () => { if (!played) { played = true; track('demo_view'); } });
   $$('[data-watch]').forEach(b => b.addEventListener('click', e => {
