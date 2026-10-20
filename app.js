@@ -268,13 +268,13 @@ fxBtn.addEventListener('click', () => {
   fxBtn.textContent = open ? 'Hide the full list' : 'See every feature';
 });
 
-/* ---------- demo video, inline ---------- */
+/* ---------- demo videos, inline ---------- */
 const dv = $('#demoVid');
+const isNarrow = () => matchMedia('(max-width: 700px)').matches;
 if (dv) {
-  const pick = () => (matchMedia('(max-width: 700px)').matches && C.demoVideoVertical) ? C.demoVideoVertical : C.demoVideo;
-  dv.src = pick() + '?v=30';
-  if (!matchMedia('(max-width: 700px)').matches && C.demoPoster) dv.poster = C.demoPoster + '?v=30';
-  else if (C.demoPosterVertical) dv.poster = C.demoPosterVertical + '?v=30';
+  dv.src = (isNarrow() && C.demoVideoVertical ? C.demoVideoVertical : C.demoVideo) + '?v=31';
+  if (!isNarrow() && C.demoPoster) dv.poster = C.demoPoster + '?v=31';
+  else if (C.demoPosterVertical) dv.poster = C.demoPosterVertical + '?v=31';
   let played = false;
   dv.addEventListener('play', () => { if (!played) { played = true; track('demo_view'); } });
   $$('[data-watch]').forEach(b => b.addEventListener('click', e => {
@@ -283,6 +283,13 @@ if (dv) {
     setTimeout(() => { dv.play().catch(() => {}); }, reduce ? 0 : 650);
   }));
 }
+$$('video[data-demo]').forEach(v => {
+  const n = v.dataset.demo;
+  v.src = './assets/demo' + n + (isNarrow() ? '_v' : '') + '.mp4?v=31';
+  v.poster = './assets/demo' + n + '_poster' + (isNarrow() ? '_v' : '') + '.webp?v=31';
+  let played = false;
+  v.addEventListener('play', () => { if (!played) { played = true; track('demo_view'); } });
+});
 
 track('view');
 

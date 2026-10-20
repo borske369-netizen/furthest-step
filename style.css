@@ -682,6 +682,8 @@ footer a{min-height:44px;display:inline-flex;align-items:center}
 .chapters{list-style:none;padding:0;margin:0;display:grid;gap:.15rem}
 .chapters li{display:grid;grid-template-columns:3.2rem 1fr;gap:.6rem;padding:.7rem 0;border-bottom:1px solid rgba(243,239,230,.12);color:#D6CFBF;font-size:var(--text-sm)}
 .chapters b{color:var(--color-primary);font-variant-numeric:tabular-nums}
+.demo-more{margin-top:clamp(2.5rem,6vw,4.5rem)}
+.demo-more h3{font-size:var(--text-xl);line-height:1.2;margin:.4rem 0 .6rem}
 @media (max-width:900px){.demo-grid{grid-template-columns:1fr}}
 @media (max-width:700px){.vid-frame{max-width:420px;margin-inline:auto}.vid-frame video{aspect-ratio:9/16}}
 .split{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,6vw,5rem);align-items:center}
