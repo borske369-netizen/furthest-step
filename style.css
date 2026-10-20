@@ -676,7 +676,7 @@ footer a{min-height:44px;display:inline-flex;align-items:center}
 .hero-shots .shot-back figcaption{top:auto;bottom:auto;top:58px;left:auto;right:12px;transform:none}
 .hero-note{position:relative;z-index:1;margin-top:1.4rem;font-size:var(--text-xs);color:#9d9686}
 @media (max-width:900px){.hero-shots{height:min(118vw,560px);max-width:420px;margin-top:1rem}}
-.demo-grid{display:grid;grid-template-columns:1fr 300px;gap:clamp(1.5rem,3vw,2.5rem);align-items:start}
+.demo-grid{display:grid;grid-template-columns:1fr;max-width:960px}
 .vid-frame{border-radius:20px;overflow:hidden;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .vid-frame video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000}
 .chapters{list-style:none;padding:0;margin:0;display:grid;gap:.15rem}
