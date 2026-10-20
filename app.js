@@ -272,9 +272,9 @@ fxBtn.addEventListener('click', () => {
 const dv = $('#demoVid');
 const isNarrow = () => matchMedia('(max-width: 700px)').matches;
 if (dv) {
-  dv.src = (isNarrow() && C.demoVideoVertical ? C.demoVideoVertical : C.demoVideo) + '?v=31';
-  if (!isNarrow() && C.demoPoster) dv.poster = C.demoPoster + '?v=31';
-  else if (C.demoPosterVertical) dv.poster = C.demoPosterVertical + '?v=31';
+  dv.src = (isNarrow() && C.demoVideoVertical ? C.demoVideoVertical : C.demoVideo) + '?v=32';
+  if (!isNarrow() && C.demoPoster) dv.poster = C.demoPoster + '?v=32';
+  else if (C.demoPosterVertical) dv.poster = C.demoPosterVertical + '?v=32';
   let played = false;
   dv.addEventListener('play', () => { if (!played) { played = true; track('demo_view'); } });
   $$('[data-watch]').forEach(b => b.addEventListener('click', e => {
@@ -285,8 +285,8 @@ if (dv) {
 }
 $$('video[data-demo]').forEach(v => {
   const n = v.dataset.demo;
-  v.src = './assets/demo' + n + (isNarrow() ? '_v' : '') + '.mp4?v=31';
-  v.poster = './assets/demo' + n + '_poster' + (isNarrow() ? '_v' : '') + '.webp?v=31';
+  v.src = './assets/demo' + n + (isNarrow() ? '_v' : '') + '.mp4?v=32';
+  v.poster = './assets/demo' + n + '_poster' + (isNarrow() ? '_v' : '') + '.webp?v=32';
   let played = false;
   v.addEventListener('play', () => { if (!played) { played = true; track('demo_view'); } });
 });
