@@ -736,3 +736,16 @@ footer a{min-height:44px;display:inline-flex;align-items:center}
 .plans.plans4{grid-template-columns:repeat(4,1fr);max-width:1180px}.plans4 .plan{padding:1.6rem}
 @media (max-width:1100px){.plans.plans4{grid-template-columns:1fr 1fr;max-width:860px}}
 @media (max-width:640px){.plans.plans4{grid-template-columns:1fr}}
+
+/* Why it was built */
+.why-sec .sec-head{max-width:880px}
+.why-grid .scale-card b{font-family:var(--font-display);font-weight:800;font-size:1.45rem;letter-spacing:.02em;text-transform:uppercase;color:var(--color-primary-deep)}
+.why-grid .scale-card p{font-size:var(--text-base)}
+.why-close{margin-top:clamp(1.8rem,4vw,2.6rem);display:grid;gap:1.2rem;max-width:68ch}
+.why-close p{font-size:var(--text-lg);margin:0}
+.why-sign{border-left:3px solid var(--color-primary);padding-left:1rem;color:var(--color-muted)}
+.why-sign span{display:block;margin-top:.45rem;font-size:var(--text-sm);font-weight:700;color:var(--color-text)}
+.tint .fine-note{color:var(--color-muted)}
+.nav a,.hdr .brand{white-space:nowrap}
+@media (max-width:1180px){.nav{gap:1.1rem}}
+@media (min-width:901px) and (max-width:1100px){.nav .nav-x{display:none}}
