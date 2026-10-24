@@ -746,6 +746,8 @@ footer a{min-height:44px;display:inline-flex;align-items:center}
 .why-sign{border-left:3px solid var(--color-primary);padding-left:1rem;color:var(--color-muted)}
 .why-sign span{display:block;margin-top:.45rem;font-size:var(--text-sm);font-weight:700;color:var(--color-text)}
 .tint .fine-note{color:var(--color-muted)}
+section:not(.dark) .fine-note{color:var(--color-muted)}
+.fine-note a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .nav a,.hdr .brand{white-space:nowrap}
 @media (max-width:1180px){.nav{gap:1.1rem}}
 @media (min-width:901px) and (max-width:1100px){.nav .nav-x{display:none}}
